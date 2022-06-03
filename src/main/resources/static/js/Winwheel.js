@@ -615,94 +615,106 @@ Winwheel.prototype.drawSegmentImages = function()
 Winwheel.prototype.drawSegments = function()
 {
     // Again check have context in case this function was called directly and not via draw function.
-    if (this.ctx) {
+    if (this.ctx)
+    {
         // Draw the segments if there is at least one in the segments array.
-        if (this.segments) {
-            // Get scaled centerX and centerY and also scaled inner and outer radius.
-            let centerX = (this.centerX * this.scaleFactor);
-            let centerY = (this.centerY * this.scaleFactor);
-            let innerRadius = (this.innerRadius * this.scaleFactor);
-            let outerRadius = (this.outerRadius * this.scaleFactor);
-
+        if (this.segments)
+        {
             // Loop though and output all segments - position 0 of the array is not used, so start loop from index 1
             // this is to avoid confusion when talking about the first segment.
-            for (let x = 1; x <= this.numSegments; x ++) {
+            for (x = 1; x <= this.numSegments; x ++)
+            {
                 // Get the segment object as we need it to read options from.
-                let seg = this.segments[x];
+                seg = this.segments[x];
 
-                let fillStyle;
-                let lineWidth;
-                let strokeStyle;
+                var fillStyle;
+                var lineWidth;
+                var strokeStyle;
 
                 // Set the variables that defined in the segment, or use the default options.
-                if (seg.fillStyle !== null) {
+                if (seg.fillStyle !== null)
                     fillStyle = seg.fillStyle;
-                } else {
+                else
                     fillStyle = this.fillStyle;
-                }
 
                 this.ctx.fillStyle = fillStyle;
 
-                if (seg.lineWidth !== null) {
+                if (seg.lineWidth !== null)
                     lineWidth = seg.lineWidth;
-                } else {
+                else
                     lineWidth = this.lineWidth;
-                }
 
                 this.ctx.lineWidth = lineWidth;
 
-                if (seg.strokeStyle !== null) {
+                if (seg.strokeStyle !== null)
                     strokeStyle = seg.strokeStyle;
-                } else {
+                else
                     strokeStyle = this.strokeStyle;
-                }
 
                 this.ctx.strokeStyle = strokeStyle;
 
 
-                // Check there is a strokeStyle or fillStyle, if not the segment is invisible so should not try to draw it otherwise a path is began but not ended.
-                if ((strokeStyle) || (fillStyle)) {
+                // Check there is a strokeStyle or fillStyle, if either the the segment is invisible so should not
+                // try to draw it otherwise a path is began but not ended.
+                if ((strokeStyle) || (fillStyle))
+                {
+                    // ----------------------------------
                     // Begin a path as the segment consists of an arc and 2 lines.
                     this.ctx.beginPath();
 
                     // If don't have an inner radius then move to the center of the wheel as we want a line out from the center
                     // to the start of the arc for the outside of the wheel when we arc. Canvas will draw the connecting line for us.
-                    if (!this.innerRadius) {
-                        this.ctx.moveTo(centerX, centerY);
-                    } else {
-                        // Work out the x and y values for the starting point of the segment which is at its starting angle
-                        // but out from the center point of the wheel by the value of the innerRadius. Some correction for line width is needed.
-                        let iX = Math.cos(this.degToRad(seg.startAngle + this.rotationAngle - 90)) * (innerRadius - lineWidth / 2);
-                        let iY = Math.sin(this.degToRad(seg.startAngle + this.rotationAngle - 90)) * (innerRadius - lineWidth / 2);
-
-                        // Now move here relative to the center point of the wheel.
-                        this.ctx.moveTo(centerX + iX, centerY + iY);
+                    if (!this.innerRadius)
+                    {
+                        this.ctx.moveTo(this.centerX, this.centerY);
+                    }
+                    else
+                    {
+                       //++ do need to draw the starting line in the correct x + y based on the start angle
+                       //++ otherwise as seen when the wheel does not use up 360 the starting segment is missing the stroked side,
                     }
 
                     // Draw the outer arc of the segment clockwise in direction -->
-                    this.ctx.arc(centerX, centerY, outerRadius, this.degToRad(seg.startAngle + this.rotationAngle - 90), this.degToRad(seg.endAngle + this.rotationAngle - 90), false);
+                    this.ctx.arc(this.centerX, this.centerY, this.outerRadius, this.degToRad(seg.startAngle + this.rotationAngle - 90), this.degToRad(seg.endAngle + this.rotationAngle - 90), false);
 
-                    if (this.innerRadius) {
+                    if (this.innerRadius)
+                    {
                         // Draw another arc, this time anticlockwise <-- at the innerRadius between the end angle and the start angle.
                         // Canvas will draw a connecting line from the end of the outer arc to the beginning of the inner arc completing the shape.
-                        this.ctx.arc(centerX, centerY, innerRadius, this.degToRad(seg.endAngle + this.rotationAngle - 90), this.degToRad(seg.startAngle + this.rotationAngle - 90), true);
-                    } else {
+
+                        //++ Think the reason the lines are thinner for 2 of the segments is because the thing auto chops part of it
+                        //++ when doing the next one. Again think that actually drawing the lines will help.
+                        //this.ctx.fillStyle = "#c82124"; //red
+                        this.ctx.arc(this.centerX, this.centerY, this.innerRadius, this.degToRad(seg.endAngle + this.rotationAngle - 90), this.degToRad(seg.startAngle + this.rotationAngle - 90), true);
+                    }
+                    else
+                    {
                         // If no inner radius then we draw a line back to the center of the wheel.
-                        this.ctx.lineTo(centerX, centerY);
+                        this.ctx.lineTo(this.centerX, this.centerY);
                     }
 
                     // Fill and stroke the segment. Only do either if a style was specified, if the style is null then
                     // we assume the developer did not want that particular thing.
                     // For example no stroke style so no lines to be drawn.
-                    if (fillStyle) {
+                    if (fillStyle){
                         this.ctx.fill();
                     }
 
-                    if (strokeStyle) {
+                    if (strokeStyle)
                         this.ctx.stroke();
-                    }
                 }
             }
+            //drawing arc
+            this.ctx.beginPath();
+            this.ctx.fillStyle = "#E000FF"; //red
+            this.ctx.arc(this.centerX, this.centerY, this.innerRadius, 0, Math.PI * 2, true);
+            this.ctx.fill();
+
+            this.ctx.beginPath();
+                this.ctx.moveTo(25, 25);
+                this.ctx.lineTo(105, 25);
+                this.ctx.lineTo(25, 105);
+                this.ctx.fill();
         }
     }
 }

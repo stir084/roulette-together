@@ -116,7 +116,7 @@
         <div align="center">
             <table ce  llpadding="0" cellspacing="0" border="0">
                 <tr>
-                    <td>
+                    <td style="display:none">
                         <div class="power_controls">
                             <br />
                             <br />
@@ -141,7 +141,7 @@
                         </div>
                     </td>
                     <td width="438" height="500" class="" align="center" valign="center">
-                        <canvas id="canvas" width="434" height="434" style="width: calc(100% - 30px);">
+                        <canvas id="canvas" onclick="showColor(event)" width="434" height="434" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
                     </td>
@@ -720,11 +720,22 @@
 
 
 <script>
+function showColor() {
+  var canvas = document.querySelector('canvas');
+  var ctx = canvas.getContext('2d');
+
+  var x = event.offsetX;
+  var y = event.offsetY;
+  var color = ctx.getImageData(x, y, 1, 1).data;
+  alert(color);
+}
             // Create new wheel object specifying the parameters at creation time.
             let theWheel = new Winwheel({
-                'numSegments'  : 7,     // Specify number of segments.
-                'outerRadius'  : 212,   // Set outer radius so wheel fits inside the background.
+                'numSegments'  : 8,     // Specify number of segments.
+                <!--'outerRadius'  : 212,   // Set outer radius so wheel fits inside the background.-->
                 'textFontSize' : 28,    // Set font size as desired.
+                'innerRadius'     : 40,         // Make wheel hollow so segments don't go all way to center.
+                'textAlignment'   : 'outer',    // Align text to outside of wheel.
                 'segments'     :        // Define segments including colour and text.
                 [
                    {'fillStyle' : '#007BFF', 'text' : 'Prize 1'},
