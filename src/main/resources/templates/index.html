@@ -12,6 +12,10 @@
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
     <script type="text/javascript" src="/js/Winwheel.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 
@@ -116,7 +120,7 @@
         <div align="center">
             <table ce  llpadding="0" cellspacing="0" border="0">
                 <tr>
-                    <td style="display:none">
+                    <!--<td style="">
                         <div class="power_controls">
                             <br />
                             <br />
@@ -139,7 +143,7 @@
                             <br /><br />
                             &nbsp;&nbsp;<a href="#" onClick="resetWheel(); return false;">Play Again</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset)
                         </div>
-                    </td>
+                    </td>-->
                     <td width="438" height="500" class="" align="center" valign="center">
                         <canvas id="canvas" onclick="showColor(event)" width="434" height="434" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
@@ -720,15 +724,20 @@
 
 
 <script>
-function showColor() {
-  var canvas = document.querySelector('canvas');
-  var ctx = canvas.getContext('2d');
+    function showColor() {
+      var canvas = document.querySelector('canvas');
+      var ctx = canvas.getContext('2d');
 
-  var x = event.offsetX;
-  var y = event.offsetY;
-  var color = ctx.getImageData(x, y, 1, 1).data;
-  alert("색깔은 "+color);
-}
+      var x = event.offsetX;
+      var y = event.offsetY;
+
+      if(x>=163 && y>=163 && x<=239 && x<=239)  startSpin();
+
+
+
+      var color = ctx.getImageData(x, y, 1, 1).data;
+      //alert("색깔은 "+color);
+    }
             // Create new wheel object specifying the parameters at creation time.
             let theWheel = new Winwheel({
                 'numSegments'  : 8,     // Specify number of segments.
@@ -736,7 +745,9 @@ function showColor() {
                 'textFontSize' : 28,    // Set font size as desired.
                 'innerRadius'     : 40,         // Make wheel hollow so segments don't go all way to center.
                 'textAlignment'   : 'outer',    // Align text to outside of wheel.
+                'lineWidth'   : 4,
                 'segments'     :        // Define segments including colour and text.
+
                 [
                    {'fillStyle' : '#007BFF', 'text' : 'Prize 1'},
                    {'fillStyle' : '#DC3545', 'text' : 'Prize 2'},
