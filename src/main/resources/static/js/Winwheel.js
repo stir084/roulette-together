@@ -29,7 +29,7 @@
 // The constructor for the WinWheel object, a JSON-like array of options can be passed in.
 // By default the wheel is drawn if canvas object exists on the page, but can pass false as second parameter if don't want this to happen.
 // ====================================================================================================================
-function Winwheel(options, drawWheel)
+function Winwheel(options, drawWheel, img)
 {
     defaultOptions = {
         'canvasId'          : 'canvas',     // Id of the canvas which the wheel is to draw on to.
@@ -61,6 +61,7 @@ function Winwheel(options, drawWheel)
         'imageDirection'    : 'N',          // Used when drawMode is segmentImage. Default is north, can also be (E)ast, (S)outh, (W)est.
         'responsive'        : false,        // If set to true the wheel will resize when the window first loads and also onResize.
         'scaleFactor'       : 1,            // Set by the responsive function. Used in many calculations to scale the wheel.
+        'innerImage'        : img,
     };
 
     // -----------------------------------------
@@ -349,13 +350,49 @@ Winwheel.prototype.draw = function(clearTheCanvas)
                 this.drawSegments();
             }
         } else {
-            // The default operation is to draw the segments using code via the canvas arc() method.
+
+            this.ctx.beginPath();
+            this.ctx.arc(this.centerX, this.centerY, this.innerRadius, 0, Math.PI * 2, true);
+            this.ctx.closePath();
+            this.ctx.drawImage(this.innerImage, this.centerX-this.innerRadius-5, this.centerY-this.innerRadius-5, this.innerRadius * 2+10, this.innerRadius * 2+10)
+
+
             this.drawSegments();
 
-            // The text is drawn on top.
             if (this.drawText == true) {
                 this.drawSegmentText();
             }
+
+           /* var grd = this.ctx.createLinearGradient(canvas.width  / 5, triangleY, canvas.width / 5, triangleY + triangleHeight);
+            grd.addColorStop(0, "#8ED6FF"); // light blue
+            grd.addColorStop(1, "#004CB3"); // dark blue*/
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.centerX-15, 20);
+            this.ctx.lineTo(this.centerX+15,20);
+            this.ctx.lineTo(this.centerX,60);
+            this.ctx.closePath();
+
+            var brush = this.ctx.createLinearGradient(this.centerX-15,20, this.centerX-15, 60);
+
+            brush.addColorStop(0, "black");
+
+            brush.addColorStop(1, "white");
+            this.ctx.fillStyle="black"; //brush
+            this.ctx.fill();
+
+
+
+
+           /* this.ctx.fillStyle = brush;
+
+            this.ctx.fillRect(10,10,140,140);*/
+
+            // The default operation is to draw the segments using code via the canvas arc() method.
+
+
+            // The text is drawn on top.
+
         }
 
         // If this class has pins.
@@ -626,18 +663,7 @@ Winwheel.prototype.drawSegments = function()
 
             // Loop though and output all segments - position 0 of the array is not used, so start loop from index 1
             // this is to avoid confusion when talking about the first segment.
-            var img = new Image();
-            img.src = "css/roulette-start.png";
-            var tempCtx = this.ctx;
-            var tempInnerRadius = this.innerRadius;
-            var tempCenterX = this.centerX;
-            var tempCenterY = this.centerY;
-            img.onload = function() {
-                tempCtx.beginPath();
-                tempCtx.arc(tempCenterX, tempCenterX, tempInnerRadius, 0, Math.PI * 2, true);
-                tempCtx.closePath();
-                tempCtx.drawImage(img, tempCenterX-tempInnerRadius-5, tempCenterY-tempInnerRadius-5, tempInnerRadius * 2+10, tempInnerRadius * 2+10)
-             }
+
             for (let x = 1; x <= this.numSegments; x ++) {
                 // Get the segment object as we need it to read options from.
                 let seg = this.segments[x];
@@ -1363,22 +1389,13 @@ Winwheel.prototype.drawSegmentText = function()
             // Restore so all text options are reset ready for the next text.
             this.ctx.restore();
         }
-        /* var img = new Image();
-        img.src = "css/roulette-start.png";
-        var tempCtx = this.ctx;
-        /!* img.onload = function() {
-             //(20,20)을 중심으로 100*100의 사이즈로 이미지를 그림
-             // this.ctx.drawImage(img,20,20,100,100)
-             //alert(this.centerX);
-             //tempCtx.drawImage(img, 50, 50);
-             //tempCtx.clip();
-         }*!/
-
-
-        this.ctx.beginPath();
-        this.ctx.arc(this.centerX, this.centerY, this.innerRadius, 0, Math.PI * 2, true);
+        /*this.ctx.beginPath();
+        this.ctx.moveTo(10,10);
+        this.ctx.lineTo(10,100);
+        this.ctx.lineTo(100,100);
         this.ctx.closePath();
-        this.ctx.drawImage(img, this.centerX-this.innerRadius-5, this.centerY-this.innerRadius-5, this.innerRadius * 2+10, this.innerRadius * 2+10);*/
+        this.ctx.fillStyle="hotpink";
+        this.ctx.fill();*/
     }
 }
 

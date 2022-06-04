@@ -120,7 +120,7 @@
         <div align="center">
             <table ce  llpadding="0" cellspacing="0" border="0">
                 <tr>
-                    <!--<td style="">
+                    <td style="display:none">
                         <div class="power_controls">
                             <br />
                             <br />
@@ -143,9 +143,9 @@
                             <br /><br />
                             &nbsp;&nbsp;<a href="#" onClick="resetWheel(); return false;">Play Again</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(reset)
                         </div>
-                    </td>-->
+                    </td>
                     <td width="438" height="500" class="" align="center" valign="center">
-                        <canvas id="canvas" onclick="showColor(event)" width="434" height="434" style="width: calc(100% - 30px);">
+                        <canvas id="canvas" onclick="showColor(event)" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
                     </td>
@@ -738,35 +738,50 @@
       var color = ctx.getImageData(x, y, 1, 1).data;
       //alert("색깔은 "+color);
     }
-            // Create new wheel object specifying the parameters at creation time.
-            let theWheel = new Winwheel({
-                'numSegments'  : 8,     // Specify number of segments.
-                'outerRadius'  : 212,   // Set outer radius so wheel fits inside the background.
-                'textFontSize' : 28,    // Set font size as desired.
-                'innerRadius'     : 40,         // Make wheel hollow so segments don't go all way to center.
-                'textAlignment'   : 'outer',    // Align text to outside of wheel.
-                'lineWidth'   : 4,
-                'segments'     :        // Define segments including colour and text.
+    let img;
+    function preloading (imageArray) {
+        let n = imageArray.length;
+        for (let i = 0; i < n; i++) {
+            img = new Image();
+            img.src = imageArray[i];
+        }
+    }
+    preloading([
+        'css/roulette-start.png'
+    ])
+    let theWheel;
+    img.onload = function() {
+        // Create new wheel object specifying the parameters at creation time.
+        theWheel = new Winwheel({
+            'numSegments': 8,     // Specify number of segments.
+            'outerRadius': 212,   // Set outer radius so wheel fits inside the background.
+            'textFontSize': 28,    // Set font size as desired.
+            'innerRadius': 40,         // Make wheel hollow so segments don't go all way to center.
+            'textAlignment': 'outer',    // Align text to outside of wheel.
+            'innerImage': img, // 이미지가 로드되고 나서 실행
+            'textFillStyle' : "white",
+            'lineWidth': 3,
+            'segments':        // Define segments including colour and text.
 
                 [
-                   {'fillStyle' : '#007BFF', 'text' : 'Prize 1'},
-                   {'fillStyle' : '#DC3545', 'text' : 'Prize 2'},
-                   {'fillStyle' : '#28A745', 'text' : 'Prize 3'},
-                   {'fillStyle' : '#FFC107', 'text' : 'Prize 4'},
-                   {'fillStyle' : '#007BFF', 'text' : 'Prize 5'},
-                   {'fillStyle' : '#DC3545', 'text' : 'Prize 6'},
-                   {'fillStyle' : '#28A745', 'text' : 'Prize 7'},
-                   {'fillStyle' : '#FFC107', 'text' : 'Prize 8'}
+                    {'fillStyle': '#007BFF', 'text': 'Prize 1'},
+                    {'fillStyle': '#DC3545', 'text': 'Prize 2'},
+                    {'fillStyle': '#28A745', 'text': 'Prize 3'},
+                    {'fillStyle': '#FFC107', 'text': 'Prize 4'},
+                    {'fillStyle': '#007BFF', 'text': 'Prize 5'},
+                    {'fillStyle': '#DC3545', 'text': 'Prize 6'},
+                    {'fillStyle': '#28A745', 'text': 'Prize 7'},
+                    {'fillStyle': '#FFC107', 'text': 'Prize 8'}
                 ],
-                'animation' :           // Specify the animation to use.
+            'animation':           // Specify the animation to use.
                 {
-                    'type'     : 'spinToStop',
-                    'duration' : 5,     // Duration in seconds.
-                    'spins'    : 8,     // Number of complete spins.
-                    'callbackFinished' : alertPrize
+                    'type': 'spinToStop',
+                    'duration': 5,     // Duration in seconds.
+                    'spins': 8,     // Number of complete spins.
+                    'callbackFinished': alertPrize
                 }
-            });
-
+        });
+    }
             // Vars used by the code in this page to do power controls.
             let wheelPower    = 0;
             let wheelSpinning = false;
