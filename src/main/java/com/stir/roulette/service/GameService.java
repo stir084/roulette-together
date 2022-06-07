@@ -1,5 +1,7 @@
 package com.stir.roulette.service;
 
+import com.stir.roulette.domain.Game;
+import com.stir.roulette.domain.GameRepository;
 import com.stir.roulette.domain.User;
 import com.stir.roulette.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +16,12 @@ import java.util.Optional;
 @Service
 public class GameService {
     private final UserRepository userRepository;
+    private final GameRepository gameRepository;
 
     @Transactional(readOnly = true)
     public String findMyGame() {
 
 
-        User user2 = new User();
 
         InetAddress local;
         String ip = "";
@@ -29,37 +31,28 @@ public class GameService {
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         }
-        user2 = user2.builder().userIp(ip).build();
+
+        Optional<User> user = userRepository.findByUserIp(ip);
+        if(!user.isPresent()){
+            userRepository.save(new User().builder().userIp(ip).build());
+        }
+
+        User user2 = userRepository.findByUserIp(ip)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. ip="));
+
+        //user만드는건 다른 함수로 만들기..
+        //다시 get해오기는 어떻게하는게 좋을까..
+
+        Game game = gameRepository.findByIdentifiedGameCode("dd")
+                .orElseThrow(() -> new IllegalArgumentException("해당 게임이 없습니다."));
+        user2.getUserIp()
+       // user2 = user2.builder().userIp(ip).build();
        // System.out.println(userRepository.findByUserIp(user.getUserIp())+"ttttttttttttttt");
 
 
-       /* Optional<User> user = userRepository.findByUserIp(ip);
-        user.ifPresent(selectUser->{
-            userRepository.delete(selectUser);
-        });
 
-        if(!user.isPresent()){
-            userRepository.save(user2.builder().userIp(ip).build());
-        }
-        String name2 = Optional.of("baeldung").orElseGet(() -> "test");
-
-        user.orElseGet(() -> userRepository.save(user2.builder().userIp(ip).build()));
-
-        user = user.orElseGet(() -> user2);
-
-
-        User result1;
-        result1 = Optional.ofNullable(user).orElseGet("dd");
-
-
-        User entity = userRepository.findById(ip)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. ip=" );
-        User user2 = userRepository.findById(ip)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. ip=" );
-
-
-        User user2 = userRepository.getByUserIp(user.getUserIp()).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));;
-        System.out.println("하하"+user2);*/
         return "dddd";
     }
+
+
 }
