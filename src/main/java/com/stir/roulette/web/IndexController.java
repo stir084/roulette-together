@@ -1,5 +1,6 @@
 package com.stir.roulette.web;
 
+import com.stir.roulette.service.GameService;
 import com.stir.roulette.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,11 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    private final UserService userService;
+    private final GameService gameService;
+
     @GetMapping("/")
     public String index(ModelMap model) {
 
-        model.addAttribute("posts", userService.findByidentifiedGame());
+        model.addAttribute("posts", gameService.findMyGame());
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("msg", 11);
         return "index";

@@ -3,23 +3,22 @@ package com.stir.roulette.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class User {
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String userIp;
+    private String identifiedGameCode;
 
     @Builder
-    public User(String userIp) {
-        this.userIp = userIp;
+    public Game(String ip) {
+        this.identifiedGameCode = identifiedGameCode;
     }
 }

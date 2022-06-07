@@ -15,22 +15,5 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
-    public String findByidentifiedGame() {
-        User user = new User();
 
-        InetAddress local;
-        String ip = "";
-        try {
-            local = InetAddress.getLocalHost();
-            ip = local.getHostAddress();
-        } catch (UnknownHostException e1) {
-            e1.printStackTrace();
-        }
-
-
-        System.out.println(userRepository.save(user.builder().ip(ip).build()).getId());
-
-        return "dddd";
-    }
 }

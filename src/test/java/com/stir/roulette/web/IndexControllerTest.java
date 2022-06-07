@@ -51,4 +51,20 @@ public class IndexControllerTest {
 
         System.out.println(generatedString);
     }
+
+    @Test
+    public void TTTT(){
+
+
+        String name1 = Optional.of("baeldung").orElse(getName());
+        String name2 = Optional.of("baeldung").orElseGet(() -> getName());
+
+        System.out.println("name1 = " + name1);
+        System.out.println("name2 = " + name2);
+    }
+
+    public String getName() {
+        System.out.println("getName 실행");
+        return "";
+    }
 }
