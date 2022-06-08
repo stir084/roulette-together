@@ -15,10 +15,14 @@ public class Game {
     private Long id;
 
     @Column(nullable = false)
-    private String identifiedGameCode;
+    private String gameCode;
+
+    @Column(nullable = false)
+    private String userIp;
 
     @Builder
-    public Game(String ip) {
-        this.identifiedGameCode = identifiedGameCode;
+    public Game(String gameCode, String userIp) {
+        this.gameCode = gameCode;
+        this.userIp = userIp;
     }
 }
