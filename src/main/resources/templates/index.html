@@ -23,25 +23,23 @@
 <body class="sb-nav-fixed">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+    <a class="navbar-brand ps-3" href="index.html">룰렛 투게더</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        <div class="input-group">
+        <!--<div class="input-group">
             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-        </div>
+        </div>-->
     </form>
     <!-- Navbar-->np
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
-                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li><a class="dropdown-item" href="#!">로그아웃</a></li>
             </ul>
         </li>
     </ul>
@@ -51,7 +49,7 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
-                    <div class="sb-sidenav-menu-heading">Core</div>
+                    <!--<div class="sb-sidenav-menu-heading">Core</div>
                     <a class="nav-link" href="index.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
@@ -98,22 +96,21 @@
                                 </nav>
                             </div>
                         </nav>
-                    </div>
-                    <div class="sb-sidenav-menu-heading">Addons</div>
+                    </div>-->
                     <a class="nav-link" href="charts.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                        Charts
+                        현재 등록된 아이템
                     </a>
                     <a class="nav-link" href="tables.html">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Tables
+                        지난 게임
                     </a>
                 </div>
             </div>
-            <div class="sb-sidenav-footer">
+           <!-- <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
                 Start Bootstrap
-            </div>
+            </div>-->
         </nav>
     </div>
     <div id="layoutSidenav_content">
@@ -145,18 +142,34 @@
                         </div>
                     </td>
                     <td width="438" height="500" class="" align="center" valign="center">
+                        <div> <h3 class="mt-4">3회차 게임</h3><span class="input-group-text" id="basic-addon1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
+</svg>
+              </span>
+                        </div>
+                        <div>
+                        <div style="width : 100px;
+  height : 100px;
+  background-color: red;
+  margin: auto;">안녕</div>
+                            <span class="input-group-text" id="basic-addon1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+  <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"></path>
+</svg>
+              </span>
+                        </div>
+
                         <canvas id="canvas" onclick="showColor(event)" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
+                        <div class="input-group">
+                            <input class="form-control" value="http://116.37.136.233:8080" style="width: 150px;" type="text">
+                            <button class="btn btn-primary" type="button">수정하기 </button>
+                        </div>
                         <div class="d-flex align-items-center justify-content-around mt-4 mb-0">
-                            <a class="btn btn-primary" href="javascript:test();">공유하기</a>
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">공유하기</a>
                             <a class="btn btn-primary" href="javascript:resetWheel();">다시</a>
-                            <a id="create-kakaotalk-sharing-btn" href="javascript:;">
-                                <img
-                                        src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-                                        alt="카카오톡 공유 보내기 버튼"
-                                />
-                            </a>
                         </div>
                     </td>
 
@@ -165,7 +178,44 @@
 
         </div>
 
-        <footer class="py-4 bg-light mt-auto">
+        <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+            Open modal
+        </button>
+-->
+        <!-- Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h6 class="modal-title" style="font-weight:bold">공유하기</h6>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body" style="text-align: center;">
+                        <a id="create-kakaotalk-sharing-btn" href="javascript:;">
+                            <img
+                                    src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+                                    alt="카카오톡 공유 보내기 버튼"
+                            />
+                        </a>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <div class="input-group">
+                            <input class="form-control" value="http://116.37.136.233:8080" style="width: 150px;" type="text" readonly>
+                            <button class="btn btn-primary" type="button">링크 복사</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--<footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
                     <div class="text-muted">Copyright &copy; Your Website 2022</div>
@@ -176,10 +226,30 @@
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer>-->
     </div>
 </div>
 
+<style>
+    .modal {
+        text-align: center;
+    }
+
+    @media screen and (min-width: 768px) {
+        .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
+        }
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+</style>
 
 
 <script>
@@ -193,7 +263,8 @@
         content: {
             title: '36회차 게임',
             description: '원하는 메뉴를 등록 해주세요~',
-            imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
+            //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
+            imageUrl: '../../webapp/uploadfile/20220612_124137_testimg2.png',
             link: {
                 mobileWebUrl: 'https://developers.kakao.com',
                 webUrl: 'https://developers.kakao.com',
