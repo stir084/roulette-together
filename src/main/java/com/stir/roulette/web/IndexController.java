@@ -34,6 +34,14 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/gameSetting")
+    public String gameSetting(ModelMap model) {
+        System.out.println("dfdfdf");
+        model.addAttribute("data", "Hello Spring!");
+        model.addAttribute("msg", 11);
+        return "gameSetting";
+    }
+
     @PostMapping("/ajax_canvasUpload_proc")
     @ResponseBody
     public String ajax_canvasUpload_proc(HttpServletRequest request, String strImg) throws Throwable{
