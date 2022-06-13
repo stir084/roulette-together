@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface GameRepository extends JpaRepository<Game, Long> {
-    Optional<Game> findTopByUserIpOrderByGameCodeDesc(String ip);
+    Optional<Game> findTopByUserIpOrderByIdDesc(String ip);
 }

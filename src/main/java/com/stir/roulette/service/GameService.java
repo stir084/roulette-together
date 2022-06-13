@@ -44,7 +44,7 @@ public class GameService {
         //user만드는건 다른 함수로 만들기..
         //다시 get해오기는 어떻게하는게 좋을까..
 
-        Optional<Game> game = gameRepository.findTopByUserIpOrderByGameCodeDesc(ip);
+        Optional<Game> game = gameRepository.findTopByUserIpOrderByIdDesc(ip);
         if(!game.isPresent()){
             int leftLimit = 97; // letter 'a'
             int rightLimit = 122; // letter 'z'
@@ -59,7 +59,7 @@ public class GameService {
             String generatedString = buffer.toString();
             gameRepository.save(new Game().builder().gameCode(generatedString).userIp(ip).build());
         }
-        Game game2 = gameRepository.findTopByUserIpOrderByGameCodeDesc(ip)
+        Game game2 = gameRepository.findTopByUserIpOrderByIdDesc(ip)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게임 없습니다."));
         System.out.println(game2.getGameCode());
 
