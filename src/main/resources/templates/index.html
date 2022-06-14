@@ -45,32 +45,8 @@
     </ul>
 </nav>
 <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-                <div class="nav">
-                    <a class="nav-link" href="/">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie" style="color:white"></i></div>
-                        내 게임
-                    </a>
-                    <a class="nav-link" href="/gameSetting">
-                        <div class="sb-nav-link-icon"><i class="fas fa-edit" style="color:white"></i></div>
-                        게임 설정
-                    </a>
-                    <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-book" style="color:white"></i></div>
-                        지난 게임
-                    </a>
-                    <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-star" style="color:yellow"></i></div>
-                        즐겨찾기
-                    </a>
-
-                </div>
-            </div>
-
-        </nav>
-    </div>
+       <div th:replace="~{layout/left}"></div>
+       <!-- <div th:replace="layout/left.html :: head"></div>-->
     <div id="layoutSidenav_content">
         <div align="center">
             <table ce  llpadding="0" cellspacing="0" border="0">
