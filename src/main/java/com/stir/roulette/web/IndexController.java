@@ -29,7 +29,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(ModelMap model) {
 
-        model.addAttribute("posts", gameService.findMyGame());
+        model.addAttribute("game", gameService.findMyGame());
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("msg", 11);
         return "index";
@@ -42,14 +42,14 @@ public class IndexController {
         return "gameSetting";
     }
 
-    @GetMapping("/rt/game/v1/games/{id}")
-    public Long findByGameCode(@PathVariable Long gameCode) {
-        return gameService.findByGameCode(gameCode);
-    }
+//    @GetMapping("/rt/game/v1/games/{id}")
+//    public Long findByGameCode(@PathVariable Long gameCode) {
+//        return gameService.findByGameCode(gameCode);
+//    }
 
     @PostMapping("/ajax_canvasUpload_proc")
     @ResponseBody
-    public String ajax_canvasUpload_proc(HttpServletRequest request, String strImg) throws Throwable{
+    public String ajax_canvasUpload_proc(HttpServletRequest request, String strImg, String gameCode) throws Throwable{
         String uploadpath="uploadImage\\";
         //String folder=request.getServletContext().getRealPath("/") +uploadpath;
         String folder = "C:\\" + uploadpath;
@@ -57,7 +57,8 @@ public class IndexController {
         String[] strParts=strImg.split(",");
         String rstStrImg=strParts[1];  //,로 구분하여 뒷 부분 이미지 데이터를 임시저장
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_hhmmss");
-        String filenm=sdf.format(new Date()).toString()+"_testimg2.png";
+       // String filenm=sdf.format(new Date()).toString()+"_testimg2.png";
+        String filenm = gameCode + ".png";
         BufferedImage image=null;
         byte[] byteImg;
         BASE64Decoder decoder = new BASE64Decoder();
@@ -78,22 +79,36 @@ public class IndexController {
     }
 
     @RequestMapping(value="/loadImage.do")
-    public String displayPhoto(@RequestParam(value="fileId") String fileId, HttpServletResponse response)throws Exception{
-
-        //DB에 저장된 파일 정보를 불러오기
-        //Map<String, String> map = new Map<String, String>();
-        //map.put("fileId", fileId);
-        //Map<String, String> result = 첨부파일검색서비스.첨부파일검색(map);
+    public String displayPhoto(@RequestParam(value="fileId") String fileId, @RequestParam(value="gameCode") String gameCode, HttpServletResponse response)throws Exception{
 
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
         //파일의 경로
-        String imgpath = "C:\\uploadImage"+File.separator+"test.png";
+        String imgpath = "C:\\uploadImage"+File.separator+gameCode+".png";
         FileInputStream f = new FileInputStream(imgpath);
         int length;
         byte[] buffer = new byte[10];
         while((length=f.read(buffer)) != -1){
             bout.write(buffer,0,length);
+        }
+        f.close();
+        return null;
+    }
+
+    @RequestMapping(value="/deleteImg.do")
+    @ResponseBody
+    public String deleteImg(@RequestParam(value="gameCode") String gameCode) throws Exception{
+        System.out.println(gameCode+"ㅇ랑ㄹ");
+
+        File file = new File("C:\\uploadImage/" + gameCode +".png");
+        if( file.exists() ){
+            if(file.delete()){
+                System.out.println("파일삭제 성공");
+            } else {
+                System.out.println("파일삭제 실패");
+            }
+        }else{
+            System.out.println("파일이 존재하지 않습니다.");
         }
         return null;
     }

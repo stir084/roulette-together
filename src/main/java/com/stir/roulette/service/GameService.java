@@ -4,6 +4,7 @@ import com.stir.roulette.domain.Game;
 import com.stir.roulette.domain.GameRepository;
 import com.stir.roulette.domain.User;
 import com.stir.roulette.domain.UserRepository;
+import com.stir.roulette.web.dto.GamesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,7 @@ public class GameService {
     private final GameRepository gameRepository;
 
     @Transactional(readOnly = true)
-    public String findMyGame() {
-
-
-
+    public GamesResponseDto findMyGame() {
         InetAddress local;
         String ip = "";
         try {
@@ -63,12 +61,10 @@ public class GameService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게임 없습니다."));
         System.out.println(game2.getGameCode());
 
-       // user2 = user2.builder().userIp(ip).build();
-       // System.out.println(userRepository.findByUserIp(user.getUserIp())+"ttttttttttttttt");
 
 
 
-        return "dddd";
+        return new GamesResponseDto(game2);
     }
 
     @Transactional(readOnly = true)
