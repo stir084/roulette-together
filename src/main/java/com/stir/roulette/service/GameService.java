@@ -71,5 +71,15 @@ public class GameService {
         return "dddd";
     }
 
+    @Transactional(readOnly = true)
+    public String findByGameCode(Long gameCode) {
+
+
+
+
+
+        return "dddd";
+    }
+
 
 }

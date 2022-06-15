@@ -42,6 +42,11 @@ public class IndexController {
         return "gameSetting";
     }
 
+    @GetMapping("/rt/game/v1/games/{id}")
+    public Long findByGameCode(@PathVariable Long gameCode) {
+        return gameService.findByGameCode(gameCode);
+    }
+
     @PostMapping("/ajax_canvasUpload_proc")
     @ResponseBody
     public String ajax_canvasUpload_proc(HttpServletRequest request, String strImg) throws Throwable{
@@ -76,8 +81,8 @@ public class IndexController {
     public String displayPhoto(@RequestParam(value="fileId") String fileId, HttpServletResponse response)throws Exception{
 
         //DB에 저장된 파일 정보를 불러오기
-      //  Map<String, String> map = new Map<String, String>();
-       // map.put("fileId", fileId);
+        //Map<String, String> map = new Map<String, String>();
+        //map.put("fileId", fileId);
         //Map<String, String> result = 첨부파일검색서비스.첨부파일검색(map);
 
         response.setContentType("image/jpg");
