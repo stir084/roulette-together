@@ -108,7 +108,7 @@
                     </div>
 
                     <!-- Modal body -->
-                    <div class="modal-body" id="shareingBody" style="text-align: center;">
+                    <div class="modal-body" style="text-align: center;">
                         <a id="create-kakaotalk-sharing-btn" href="javascript:;">
                             <img
                                     src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
@@ -188,6 +188,7 @@
             type : 'POST',
             success : function(json) {
                 createSharingBtn();
+                $("#create-kakaotalk-sharing-btn").click()
             },
             error : function(a, b, c){
                 alert('ng:'+ a+'//'+b+'//'+c);
@@ -197,7 +198,7 @@
     }
     function createSharingBtn(){
         Kakao.Link.createDefaultButton({
-            container: '#shareingBody',
+            container: '#create-kakaotalk-sharing-btn',
             objectType: 'feed',
             content: {
                 title: '36회차 게임' + (sharingNum++),
@@ -228,9 +229,7 @@
                                 },
                             },*/
             ],
-            serverCallbackArgs: { // 사용자 정의 파라미터 설정
-                key: 'value'
-            }
+            serverCallbackArgs: '{"key":"value"}'
         })
 
 
