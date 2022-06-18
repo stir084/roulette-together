@@ -54,9 +54,9 @@ public class IndexController {
 //        return gameService.findByGameCode(gameCode);
 //    }
 
-    @PostMapping("/ajax_canvasUpload_proc")
     @ResponseBody
-    public String ajax_canvasUpload_proc(HttpServletRequest request, String strImg, String gameCode) throws Throwable{
+    @PostMapping("/saveRouletteImg")
+    public String saveRouletteImg(HttpServletRequest request, String strImg, String gameCode) throws Throwable{
         String uploadpath="uploadImage\\";
         //String folder=request.getServletContext().getRealPath("/") +uploadpath;
         String folder = "C:\\" + uploadpath;
