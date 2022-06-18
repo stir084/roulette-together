@@ -35,6 +35,13 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/FncUserData")
+    public String FncUserData(ModelMap model, @RequestParam(value="key") String key) {
+
+        System.out.println("하하하하하" + key);
+        return "index";
+    }
+
     @GetMapping("/gameSetting")
     public String gameSetting(ModelMap model) {
         model.addAttribute("data", "Hello Spring!");
@@ -92,13 +99,8 @@ public class IndexController {
             bout.write(buffer,0,length);
         }
         f.close();
-        return null;
-    }
 
-    @RequestMapping(value="/deleteImg.do")
-    @ResponseBody
-    public String deleteImg(@RequestParam(value="gameCode") String gameCode) throws Exception{
-        System.out.println(gameCode+"ㅇ랑ㄹ");
+        System.out.println("여기서 지우자");
 
         File file = new File("C:\\uploadImage/" + gameCode +".png");
         if( file.exists() ){
@@ -110,6 +112,24 @@ public class IndexController {
         }else{
             System.out.println("파일이 존재하지 않습니다.");
         }
+        return null;
+    }
+
+    @RequestMapping(value="/deleteImg.do")
+    @ResponseBody
+    public String deleteImg(@RequestParam(value="gameCode") String gameCode) throws Exception{
+        System.out.println(gameCode+"ㅇ랑ㄹ");
+
+     /*   File file = new File("C:\\uploadImage/" + gameCode +".png");
+        if( file.exists() ){
+            if(file.delete()){
+                System.out.println("파일삭제 성공");
+            } else {
+                System.out.println("파일삭제 실패");
+            }
+        }else{
+            System.out.println("파일이 존재하지 않습니다.");
+        }*/
         return null;
     }
 

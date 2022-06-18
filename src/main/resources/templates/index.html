@@ -109,13 +109,14 @@
 
                     <!-- Modal body -->
                     <div class="modal-body" style="text-align: center;">
-                        <a id="create-kakaotalk-sharing-btn" href="javascript:;">
+                        <a href="javascript:;" onclick="goSharing()">
                             <img
                                     src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
                                     alt="카카오톡 공유 보내기 버튼"
-                                    onClick="goSharing()"
+
                             />
                         </a>
+                        <input type="hidden" id="create-kakaotalk-sharing-btn" style="display:block"></input>
                     </div>
 
                     <!-- Modal footer -->
@@ -188,7 +189,6 @@
             type : 'POST',
             success : function(json) {
                 createSharingBtn();
-                $("#create-kakaotalk-sharing-btn").click()
             },
             error : function(a, b, c){
                 alert('ng:'+ a+'//'+b+'//'+c);
@@ -204,7 +204,7 @@
                 title: '36회차 게임' + (sharingNum++),
                 description: '원하는 메뉴를 등록 해주세요~',
                 //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
-                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + [[ ${game.getGameCode()} ]],
+                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + [[ ${game.getGameCode()} ]] + '&blockCache=' + generateRandomString(10),
                 link: {
                     mobileWebUrl: 'https://developers.kakao.com',
                     webUrl: 'https://developers.kakao.com',
@@ -232,9 +232,9 @@
             serverCallbackArgs: '{"key":"value"}'
         })
 
+        $("#create-kakaotalk-sharing-btn").click()
 
-        //     .then(function(res){ // button 생성전에 이미지 삭제되는 것 방지
-        //     $.ajax({
+        // $.ajax({
         //         url : '/deleteImg.do',
         //         data : { gameCode: [[ ${game.getGameCode()} ]] },
         //         type : 'POST',
@@ -247,7 +247,6 @@
         //             alert('ng:'+ a+'//'+b+'//'+c);
         //         }
         //     })
-        // });
 
 
 
@@ -260,6 +259,17 @@ $("#layoutSidenav_content").on("click", function(){
     /*Kakao.Link.sendCustom({
         templateId: 78096
     });*/
+
+    const generateRandomString = (num) => {
+        const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        let result = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < num; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+
+        return result;
+    }
 
     var url;
     function test(){
