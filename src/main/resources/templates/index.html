@@ -14,8 +14,8 @@
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
                         <div class="input-group">
-                            <input class="form-control" value="http://116.37.136.233:8080" style="width: 150px;" type="text">
-                            <button class="btn btn-primary" type="button">수정하기 </button>
+                            <input id="rouletteItem" class="form-control" value="" placeholder="등록할 아이템을 입력" style="width: 150px;" type="text">
+                            <button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>
                         </div>
                         <div class="d-flex align-items-center justify-content-around mt-4 mb-0">
                             <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">공유하기</a>
@@ -122,10 +122,10 @@
 
     let theWheel;
     let img = new Image();
+    let wheelObject;
     img.src = 'assets/img/roulette-start.png'; // 이미지가 로드되고 나서 룰렛 생성
     img.onload = function() {
-        // Create new wheel object specifying the parameters at creation time.
-        theWheel = new Winwheel({
+        wheelObject = {
             'numSegments': 8,     // Specify number of segments.
             'outerRadius': 212,   // Set outer radius so wheel fits inside the background.
             'textFontSize': 28,    // Set font size as desired.
@@ -152,14 +152,24 @@
                     'spins': 8,     // Number of complete spins.
                     'callbackFinished': alertPrize
                 }
-        });
+        }
+        // Create new wheel object specifying the parameters at creation time.
+        theWheel = new Winwheel(wheelObject);
     }
     // Vars used by the code in this page to do power controls.
     let wheelPower    = 0;
     let wheelSpinning = false;
 
 
-
+    function saveRouletteItem(){
+        //현재 색깔 설정 타입
+        //
+        wheelObject.segments.push({'fillStyle': '#FFC107', 'text': $("#rouletteItem").val()});
+        wheelObject.numSegments = wheelObject.numSegments + 1;
+        theWheel = new Winwheel(wheelObject);
+        $("#rouletteItem").val("");
+        //실제 데이터 저장
+    }
     // -------------------------------------------------------
     // Click handler for spin button.
     // -------------------------------------------------------
