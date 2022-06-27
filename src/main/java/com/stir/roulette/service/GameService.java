@@ -22,6 +22,12 @@ public class GameService {
 
     @Transactional(readOnly = true)
     public GamesResponseDto findMyGame() {
+        //고객 아이피를 가져온다 getMemberIp();
+        //해당 아이피로 유저 조회한다. //findByUserIp
+        //없으면 가입시킨다. //save
+        //가입된 회원 정보로 게임을 조회한다. findByUser 1:N 구조는 DB에 어케 저장되나..
+        //없으면 save한다.
+
         InetAddress local;
         String ip = "";
         try {
