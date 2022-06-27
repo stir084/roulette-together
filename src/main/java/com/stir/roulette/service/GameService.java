@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -21,23 +22,30 @@ public class GameService {
     private final GameRepository gameRepository;
 
     @Transactional(readOnly = true)
-    public GamesResponseDto findMyGame() {
-        //고객 아이피를 가져온다 getMemberIp();
-        //해당 아이피로 유저 조회한다. //findByUserIp
-        //없으면 가입시킨다. //save
-        //가입된 회원 정보로 게임을 조회한다. findByUser 1:N 구조는 DB에 어케 저장되나..
-        //없으면 save한다.
+    public GamesResponseDto findMyGame(User user) {
 
-        InetAddress local;
-        String ip = "";
-        try {
-            local = InetAddress.getLocalHost();
-            ip = local.getHostAddress();
-        } catch (UnknownHostException e1) {
-            e1.printStackTrace();
+        // ip로 회원을 조회한다.
+        List<User> findUsers = userRepository.findByUserIp(user.getUserIp());
+        if (findUsers.isEmpty()) {
+            userRepository.save(user);    //throw new IllegalStateException("이미 존재하는 회원일 경우");
         }
 
-        Optional<User> user = userRepository.findByUserIp(ip);
+
+      /*  public void addOrderItem(OrderItem orderItem) {
+            orderItems.add(orderItem);
+            orderItem.setOrder(this);
+        }*/
+        // 회원 ip로 게임을 조회한다. findByUser 1:N 구조는 DB에 어케 저장되나..
+        gameRepository.findTopByUserIpOrderByIdDesc(user.getUserIp()); //쿼리로 바꾸기... 1:N 구조로 만들기. findUsers로 부터 game 조회하기.
+
+
+        //없으면 save한다.
+
+        //user
+
+
+
+      /*  Optional<User> user = userRepository.findByUserIp(ip);
         if(!user.isPresent()){
             userRepository.save(new User().builder().userIp(ip).build());
         }
@@ -65,12 +73,12 @@ public class GameService {
         }
         Game game2 = gameRepository.findTopByUserIpOrderByIdDesc(ip)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게임 없습니다."));
-        System.out.println(game2.getGameCode());
+        System.out.println(game2.getGameCode());*/
 
 
 
 
-        return new GamesResponseDto(game2);
+        return new GamesResponseDto(new Game());
     }
 
     @Transactional(readOnly = true)

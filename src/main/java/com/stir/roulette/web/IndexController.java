@@ -1,5 +1,6 @@
 package com.stir.roulette.web;
 
+import com.stir.roulette.domain.User;
 import com.stir.roulette.service.GameService;
 import com.stir.roulette.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +30,20 @@ import java.util.Map;
 public class IndexController {
 
     private final GameService gameService;
-
+    private final UserService userService;
     @GetMapping("/")
     public String index(ModelMap model, HttpServletRequest request) {
+
+        User user = new User();
+        user.builder().userIp(getUserIp(request));
+
+        model.addAttribute("game", gameService.findMyGame(user));
+        model.addAttribute("data", "Hello Spring!");
+        model.addAttribute("msg", 11);
+        return "index";
+    }
+
+    public String getUserIp(HttpServletRequest request){
         String ip = request.getHeader("X-Forwarded-For");
         System.out.println("> X-FORWARDED-FOR : " + ip);
 
@@ -53,16 +65,10 @@ public class IndexController {
         }
         if (ip == null) {
             ip = request.getRemoteAddr();
-            System.out.println("> getRemoteAddr : "+ip);
+            System.out.println("> getRemoteAddr : " + ip);
         }
-        System.out.println("> Result : IP Address : "+ip);
-
-        model.addAttribute("game", gameService.findMyGame());
-        model.addAttribute("data", "Hello Spring!");
-        model.addAttribute("msg", 11);
-        return "index";
+        return ip;
     }
-
     @GetMapping("/FncUserData")
     public String FncUserData(ModelMap model, @RequestParam(value="key") String key) {
 
