@@ -31,13 +31,21 @@ public class GameService {
         }
 
 
-      /*  public void addOrderItem(OrderItem orderItem) {
+        /*public void addOrderItem(OrderItem orderItem) {
             orderItems.add(orderItem);
             orderItem.setOrder(this);
         }*/
-        // 회원 ip로 게임을 조회한다. findByUser 1:N 구조는 DB에 어케 저장되나..
-        gameRepository.findTopByUserIpOrderByIdDesc(user.getUserIp()); //쿼리로 바꾸기... 1:N 구조로 만들기. findUsers로 부터 game 조회하기.
 
+        // 회원 ip로 게임을 조회한다. findByUser 1:N 구조는 DB에 어케 저장되나..
+        //gameRepository.findTopByUserIpOrderByIdDesc(user.getUserIp()); //쿼리로 바꾸기... 1:N 구조로 만들기. findUsers로 부터 game 조회하기.
+
+        //주문상품 생성
+        Game game = findUsers.get(0).getGames().get(0).getGame();
+        if(game.getGameCode().equals("")){
+            game.builder().userIp(game.getRandomGameCode());
+            gameRepository.save(game);
+        }
+        //System.out.println(game);
 
         //없으면 save한다.
 
@@ -78,7 +86,7 @@ public class GameService {
 
 
 
-        return new GamesResponseDto(new Game());
+        return new GamesResponseDto(game);
     }
 
     @Transactional(readOnly = true)

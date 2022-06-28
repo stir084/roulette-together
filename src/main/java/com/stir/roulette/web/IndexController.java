@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.BASE64Decoder;
 
+
+import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -102,8 +103,10 @@ public class IndexController {
         String filenm = gameCode + ".png";
         BufferedImage image=null;
         byte[] byteImg;
-        BASE64Decoder decoder = new BASE64Decoder();
-        byteImg = decoder.decodeBuffer(rstStrImg);  //base64 디코더를 이용하여 byte 코드로 변환
+        //BASE64Decoder decoder = new BASE64Decoder();
+       // Base64.Encoder decoder = Base64.getDecoder();
+
+        byteImg = Base64.getDecoder().decode(rstStrImg);//decoder.decode(rstStrImg);  //base64 디코더를 이용하여 byte 코드로 변환
         ByteArrayInputStream bis= new ByteArrayInputStream(byteImg);
         image= ImageIO.read(bis);   //BufferedImage형식으로 변환후 저장
         bis.close();

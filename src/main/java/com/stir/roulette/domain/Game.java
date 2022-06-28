@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.Random;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -32,6 +34,9 @@ public class Game {
         this.userIp = userIp;
     }
 
+    public Game getGame() {
+        return this;
+    }
     //==생성 메서드==//
     /*public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
@@ -42,4 +47,19 @@ public class Game {
         item.removeStock(count);
         return orderItem;
     }*/
+
+    public String getRandomGameCode(){
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String generatedString = buffer.toString();
+        return generatedString;
+    }
 }
