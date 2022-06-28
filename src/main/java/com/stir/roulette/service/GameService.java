@@ -45,6 +45,7 @@ public class GameService {
             game.builder().userIp(game.getRandomGameCode());
             gameRepository.save(game);
         }
+        System.out.println("하하하");
         //System.out.println(game);
 
         //없으면 save한다.
