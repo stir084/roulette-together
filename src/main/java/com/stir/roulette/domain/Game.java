@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static javax.persistence.FetchType.LAZY;
@@ -16,6 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "game_id")
     private Long id;
 
     @Column(nullable = false)
@@ -27,6 +30,9 @@ public class Game {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+/*
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<GameInfo> gameInfos = new ArrayList<>();*/
 
     @Builder
     public Game(String gameCode, String userIp) {
@@ -34,32 +40,9 @@ public class Game {
         this.userIp = userIp;
     }
 
-    public Game getGame() {
-        return this;
-    }
-    //==생성 메서드==//
-    /*public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item);
-        orderItem.setOrderPrice(orderPrice);
-        orderItem.setCount(count);
-
-        item.removeStock(count);
-        return orderItem;
-    }*/
-
-    public String getRandomGameCode(){
-        int leftLimit = 97; // letter 'a'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
-        Random random = new Random();
-        StringBuilder buffer = new StringBuilder(targetStringLength);
-        for (int i = 0; i < targetStringLength; i++) {
-            int randomLimitedInt = leftLimit + (int)
-                    (random.nextFloat() * (rightLimit - leftLimit + 1));
-            buffer.append((char) randomLimitedInt);
-        }
-        String generatedString = buffer.toString();
-        return generatedString;
+    //==연관관계 메서드==//
+    public void setUser(User user) {
+        this.user = user;
+        user.getGames().add(this);
     }
 }

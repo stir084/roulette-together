@@ -1,16 +1,16 @@
 package com.stir.roulette.service;
 
-import com.stir.roulette.domain.Game;
-import com.stir.roulette.domain.GameRepository;
-import com.stir.roulette.domain.User;
-import com.stir.roulette.domain.UserRepository;
+import com.stir.roulette.config.ConfigBean;
+import com.stir.roulette.domain.*;
 import com.stir.roulette.web.dto.GamesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -20,85 +20,68 @@ import java.util.Random;
 public class GameService {
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
+    private final ConfigBean configBean;
 
     @Transactional(readOnly = true)
-    public GamesResponseDto findMyGame(User user) {
+    public GamesResponseDto findMyGame(String MyIp) {
 
-        // ip로 회원을 조회한다.
-        List<User> findUsers = userRepository.findByUserIp(user.getUserIp());
+        // 회원 조회
+        List<User> findUsers = userRepository.findByUserIp(MyIp);
+
+        // 회원 없을 시 저장
+        /*User user = new User().builder()
+                .userIp();*/
+        User user;
+        Game game = new Game();
         if (findUsers.isEmpty()) {
-            userRepository.save(user);    //throw new IllegalStateException("이미 존재하는 회원일 경우");
+            createUser(MyIp);
+
+        } else {
+            user = findUsers.get(0);
         }
-
-
-        /*public void addOrderItem(OrderItem orderItem) {
-            orderItems.add(orderItem);
-            orderItem.setOrder(this);
-        }*/
-
-        // 회원 ip로 게임을 조회한다. findByUser 1:N 구조는 DB에 어케 저장되나..
-        //gameRepository.findTopByUserIpOrderByIdDesc(user.getUserIp()); //쿼리로 바꾸기... 1:N 구조로 만들기. findUsers로 부터 game 조회하기.
-
-        //주문상품 생성
-        Game game = findUsers.get(0).getGames().get(0).getGame();
-        if(game.getGameCode().equals("")){
-            game.builder().userIp(game.getRandomGameCode());
-            gameRepository.save(game);
-        }
-        System.out.println("하하하");
-        //System.out.println(game);
-
-        //없으면 save한다.
-
-        //user
-
-
-
-      /*  Optional<User> user = userRepository.findByUserIp(ip);
-        if(!user.isPresent()){
-            userRepository.save(new User().builder().userIp(ip).build());
-        }
-
-        User user2 = userRepository.findByUserIp(ip)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. ip="));
-
-        //user만드는건 다른 함수로 만들기..
-        //다시 get해오기는 어떻게하는게 좋을까..
-
-        Optional<Game> game = gameRepository.findTopByUserIpOrderByIdDesc(ip);
-        if(!game.isPresent()){
-            int leftLimit = 97; // letter 'a'
-            int rightLimit = 122; // letter 'z'
-            int targetStringLength = 10;
-            Random random = new Random();
-            StringBuilder buffer = new StringBuilder(targetStringLength);
-            for (int i = 0; i < targetStringLength; i++) {
-                int randomLimitedInt = leftLimit + (int)
-                        (random.nextFloat() * (rightLimit - leftLimit + 1));
-                buffer.append((char) randomLimitedInt);
-            }
-            String generatedString = buffer.toString();
-            gameRepository.save(new Game().builder().gameCode(generatedString).userIp(ip).build());
-        }
-        Game game2 = gameRepository.findTopByUserIpOrderByIdDesc(ip)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게임 없습니다."));
-        System.out.println(game2.getGameCode());*/
-
-
 
 
         return new GamesResponseDto(game);
     }
 
     @Transactional(readOnly = true)
-    public String findByGameCode(Long gameCode) {
+    public void createUser(String MyIp) {
+        String gameRandomCode = configBean.getGameRandomCode();
+        User user = new User().builder()
+                .userIp(MyIp)
+                .build();
 
+        Game game = new Game().builder()
+                .gameCode(gameRandomCode)
+                .userIp(MyIp)
+                .build();
+        game.setUser(user);
+        System.out.println("하하");
+        userRepository.save(user);
+       // List<Game> gameList = gameRepository.findByUser(user);
 
+       /* Game game;
+        if (gameList.isEmpty()) {
+            List<GameInfo> gameInfoList = new ArrayList<GameInfo>();
+            for(int i=0; i<8;i++){
+                GameInfo gameInfos = new GameInfo().builder()
+                        .gameCode(configBean.getGameRandomCode())
+                        .element("짜라라")
+                        .build();
+                gameInfoList.add(gameInfos);
+            }
 
-
-
-        return "dddd";
+            game = new Game().builder()
+                    .gameCode(configBean.getGameRandomCode())
+                    .userIp(MyIp)
+                    .gameInfos(gameInfoList)
+                    .build();
+            System.out.println(game.getId()+"하하");
+            gameRepository.save(game);
+        } else {
+            game = gameList.get(0);
+        }*/
+        //userRepository.save(user);
     }
-
-
 }
+

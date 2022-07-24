@@ -1,5 +1,6 @@
 package com.stir.roulette.web;
 
+import com.stir.roulette.config.ConfigBean;
 import com.stir.roulette.domain.User;
 import com.stir.roulette.service.GameService;
 import com.stir.roulette.service.UserService;
@@ -18,13 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -32,44 +27,17 @@ public class IndexController {
 
     private final GameService gameService;
     private final UserService userService;
+    private final ConfigBean configBean;
+
+
     @GetMapping("/")
     public String index(ModelMap model, HttpServletRequest request) {
-
-        User user = new User();
-        user.builder().userIp(getUserIp(request));
-
-        model.addAttribute("game", gameService.findMyGame(user));
+        model.addAttribute("game", gameService.findMyGame(configBean.getMyIp(request)));
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("msg", 11);
         return "index";
     }
 
-    public String getUserIp(HttpServletRequest request){
-        String ip = request.getHeader("X-Forwarded-For");
-        System.out.println("> X-FORWARDED-FOR : " + ip);
-
-        if (ip == null) {
-            ip = request.getHeader("Proxy-Client-IP");
-            System.out.println("> Proxy-Client-IP : " + ip);
-        }
-        if (ip == null) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-            System.out.println(">  WL-Proxy-Client-IP : " + ip);
-        }
-        if (ip == null) {
-            ip = request.getHeader("HTTP_CLIENT_IP");
-            System.out.println("> HTTP_CLIENT_IP : " + ip);
-        }
-        if (ip == null) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-            System.out.println("> HTTP_X_FORWARDED_FOR : " + ip);
-        }
-        if (ip == null) {
-            ip = request.getRemoteAddr();
-            System.out.println("> getRemoteAddr : " + ip);
-        }
-        return ip;
-    }
     @GetMapping("/FncUserData")
     public String FncUserData(ModelMap model, @RequestParam(value="key") String key) {
 
