@@ -8,6 +8,7 @@
                 <tr>
                     <td width="438" height="500" class="" align="center" valign="center">
                         <div>
+                            <span th:text="${game.getGameInfo().get(0).getElement()}"></span>
                             <h3 class="mt-4">3회차 게임</h3>
                         </div>
                         <canvas id="canvas" onclick="startSpin(event)" width="456" height="500" style="width: calc(100% - 30px);">
@@ -66,7 +67,6 @@
 <div th:replace="~{layout/footer}"></div>
 
 <script th:inline="javascript">
-
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
     function openKakaoLink(){

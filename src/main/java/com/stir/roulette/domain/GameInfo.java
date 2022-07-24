@@ -17,9 +17,6 @@ public class GameInfo {
     private Long id;
 
     @Column(nullable = false)
-    private String gameCode;
-
-    @Column(nullable = false)
     private String element;
 
     @ManyToOne(fetch = LAZY)
@@ -27,8 +24,19 @@ public class GameInfo {
     private Game game;
 
     @Builder
-    public GameInfo(String gameCode, String element) {
-        this.gameCode = gameCode;
+    public GameInfo(String element) {
         this.element = element;
     }
+
+    //==연관관계 메서드==//
+    public void setGame(Game game) {
+        this.game = game;
+        game.getGameInfos().add(this);
+    }
+
+    public void updateGame(Game game){
+        this.game = game;
+    }
+
+
 }

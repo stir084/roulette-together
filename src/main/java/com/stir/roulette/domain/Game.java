@@ -24,25 +24,29 @@ public class Game {
     @Column(nullable = false)
     private String gameCode;
 
-    @Column(nullable = false)
-    private String userIp;
+
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-/*
+
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
-    private List<GameInfo> gameInfos = new ArrayList<>();*/
+    private List<GameInfo> gameInfos = new ArrayList<>();
 
     @Builder
-    public Game(String gameCode, String userIp) {
+    public Game(String gameCode) {
         this.gameCode = gameCode;
-        this.userIp = userIp;
     }
 
-    //==연관관계 메서드==//
+    // N쪽에 써주는 연관관계 메소드 //
     public void setUser(User user) {
         this.user = user;
         user.getGames().add(this);
+    }
+
+    // 1쪽에 써주는 연관관계 메소드(updateGame같이 메소드가 하나 더 필요하다) //
+    public void addGameInfo(GameInfo gameInfo){
+        this.getGameInfos().add(gameInfo);
+        gameInfo.updateGame(this);
     }
 }

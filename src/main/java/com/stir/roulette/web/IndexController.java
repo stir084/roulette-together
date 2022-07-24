@@ -32,6 +32,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(ModelMap model, HttpServletRequest request) {
+
         model.addAttribute("game", gameService.findMyGame(configBean.getMyIp(request)));
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("msg", 11);

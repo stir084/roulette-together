@@ -4,6 +4,8 @@ import com.stir.roulette.config.ConfigBean;
 import com.stir.roulette.domain.*;
 import com.stir.roulette.web.dto.GamesResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,18 +36,17 @@ public class GameService {
         User user;
         Game game = new Game();
         if (findUsers.isEmpty()) {
-            createUser(MyIp);
-
+            user = createUser(MyIp);
         } else {
             user = findUsers.get(0);
         }
-
+        game = gameRepository.findByTopGame(PageRequest.of(0,1)).get(0);
 
         return new GamesResponseDto(game);
     }
 
     @Transactional(readOnly = true)
-    public void createUser(String MyIp) {
+    public User createUser(String MyIp) {
         String gameRandomCode = configBean.getGameRandomCode();
         User user = new User().builder()
                 .userIp(MyIp)
@@ -53,35 +54,19 @@ public class GameService {
 
         Game game = new Game().builder()
                 .gameCode(gameRandomCode)
-                .userIp(MyIp)
                 .build();
         game.setUser(user);
-        System.out.println("하하");
+
+        game.addGameInfo(new GameInfo().builder().element("짜장면").build());
+        game.addGameInfo(new GameInfo().builder().element("짬뽕").build());
+        game.addGameInfo(new GameInfo().builder().element("볶음밥").build());
+        game.addGameInfo(new GameInfo().builder().element("탕수육").build());
+
         userRepository.save(user);
-       // List<Game> gameList = gameRepository.findByUser(user);
+        //game.setUser로 연관관계 메소드 세팅을 해주더라도 gameRepository save는 안된다.
+        //무조건 1:N중 1만 세이브하도록
 
-       /* Game game;
-        if (gameList.isEmpty()) {
-            List<GameInfo> gameInfoList = new ArrayList<GameInfo>();
-            for(int i=0; i<8;i++){
-                GameInfo gameInfos = new GameInfo().builder()
-                        .gameCode(configBean.getGameRandomCode())
-                        .element("짜라라")
-                        .build();
-                gameInfoList.add(gameInfos);
-            }
-
-            game = new Game().builder()
-                    .gameCode(configBean.getGameRandomCode())
-                    .userIp(MyIp)
-                    .gameInfos(gameInfoList)
-                    .build();
-            System.out.println(game.getId()+"하하");
-            gameRepository.save(game);
-        } else {
-            game = gameList.get(0);
-        }*/
-        //userRepository.save(user);
+        return user;
     }
 }
 

@@ -25,8 +25,6 @@ public class ConfigBean {
         if (ip == null) {
             ip = request.getRemoteAddr();
         }
-        ip = request.getRemoteAddr();
-        System.out.println("myIp" + ip);
         return ip;
     }
 
