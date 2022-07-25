@@ -25,7 +25,7 @@ public class GameService {
     private final ConfigBean configBean;
 
     @Transactional(readOnly = true)
-    public GamesResponseDto findMyGame(String MyIp) {
+    public Game findMyGame(String MyIp) {
 
         // 회원 조회
         List<User> findUsers = userRepository.findByUserIp(MyIp);
@@ -42,7 +42,8 @@ public class GameService {
         }
         game = gameRepository.findByTopGame(PageRequest.of(0,1)).get(0);
 
-        return new GamesResponseDto(game);
+        //return new GamesResponseDto(game);
+        return game;
     }
 
     @Transactional(readOnly = true)

@@ -1,6 +1,8 @@
 package com.stir.roulette.web;
 
 import com.stir.roulette.config.ConfigBean;
+import com.stir.roulette.domain.Game;
+import com.stir.roulette.domain.GameInfo;
 import com.stir.roulette.domain.User;
 import com.stir.roulette.service.GameService;
 import com.stir.roulette.service.UserService;
@@ -20,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -32,8 +35,10 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(ModelMap model, HttpServletRequest request) {
-
-        model.addAttribute("game", gameService.findMyGame(configBean.getMyIp(request)));
+        Game game = gameService.findMyGame(configBean.getMyIp(request));
+        List<GameInfo> gameInfoList = game.getGameInfos();
+        model.addAttribute("game", game);
+       // model.addAttribute("gameInfoList", gameInfoList);
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("msg", 11);
         return "index";

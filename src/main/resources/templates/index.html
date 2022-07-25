@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<form>
+    <input id="game" type="hidden" th:name="game" th:value="${game}"/>
+</form>
     <div th:replace="~{layout/header}"></div>
 
     <div id="layoutSidenav_content">
@@ -8,7 +11,7 @@
                 <tr>
                     <td width="438" height="500" class="" align="center" valign="center">
                         <div>
-                            <span th:text="${game.getGameInfo().get(0).getElement()}"></span>
+                          <!-- <span th:text="${gameInfoList}"></span>-->
                             <h3 class="mt-4">3회차 게임</h3>
                         </div>
                         <canvas id="canvas" onclick="startSpin(event)" width="456" height="500" style="width: calc(100% - 30px);">
@@ -68,6 +71,15 @@
 
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
+
+    /*<![CDATA[*/
+    DTO엔 List<Entity>를 넣으면 타임리프에서는 html 태그에서는 each 읽히긴하지만
+    스크립트 단에서는 읽질 못하니 최대한 DTO에선 Entity를 제거해야하나?
+
+    //console.log(game);
+
+    /*]]>*/
+
 
     function openKakaoLink(){
         saveRouletteImg();
