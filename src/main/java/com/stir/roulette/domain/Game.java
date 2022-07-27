@@ -1,5 +1,6 @@
 package com.stir.roulette.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Game {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<GameInfo> gameInfos = new ArrayList<>();
 

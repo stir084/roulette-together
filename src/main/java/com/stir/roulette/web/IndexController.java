@@ -38,10 +38,16 @@ public class IndexController {
         Game game = gameService.findMyGame(configBean.getMyIp(request));
         List<GameInfo> gameInfoList = game.getGameInfos();
         model.addAttribute("game", game);
-       // model.addAttribute("gameInfoList", gameInfoList);
+        model.addAttribute("gameInfoList", gameInfoList);
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("msg", 11);
         return "index";
+    }
+
+    @GetMapping("/GameData")
+    @ResponseBody
+    public Game GameData(ModelMap model, HttpServletRequest request) {
+        return gameService.findMyGame(configBean.getMyIp(request));
     }
 
     @GetMapping("/FncUserData")

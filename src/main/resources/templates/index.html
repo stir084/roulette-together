@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<form>
-    <input id="game" type="hidden" th:name="game" th:value="${game}"/>
+<form id="ajaxForm" name="ajaxForm">
+    <input type="hidden" id="game" th:name="game" th:value="${game}"/>
 </form>
     <div th:replace="~{layout/header}"></div>
 
@@ -72,13 +72,17 @@
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
+
     /*<![CDATA[*/
-    DTO엔 List<Entity>를 넣으면 타임리프에서는 html 태그에서는 each 읽히긴하지만
-    스크립트 단에서는 읽질 못하니 최대한 DTO에선 Entity를 제거해야하나?
-
-    //console.log(game);
-
+    var game = [[${game}]];
+    var gameInfoList = [[${gameInfoList}]];
     /*]]>*/
+
+   <!-- var ajaxForm = document.all.ajaxForm;
+	ajaxForm.action = "/GameData";
+	fn_ajaxSubmit("#ajaxForm", ajaxForm.action, "GET", function(objRespJson) {
+	    alert(3);
+	});-->
 
 
     function openKakaoLink(){
