@@ -6,12 +6,15 @@ import com.stir.roulette.domain.GameInfo;
 import com.stir.roulette.domain.User;
 import com.stir.roulette.service.GameService;
 import com.stir.roulette.service.UserService;
+import com.stir.roulette.web.dto.GamesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -41,13 +44,39 @@ public class IndexController {
         model.addAttribute("gameInfoList", gameInfoList);
         model.addAttribute("data", "Hello Spring!");
         model.addAttribute("msg", 11);
+
         return "index";
     }
 
     @GetMapping("/GameData")
     @ResponseBody
-    public Game GameData(ModelMap model, HttpServletRequest request) {
-        return gameService.findMyGame(configBean.getMyIp(request));
+    public String dataSend(Model model, MessageDTO dto){
+        model.addAttribute("msg",dto.getResult()+"/ this is the value sent by the server ");
+        return "index :: #resultDiv";
+    }
+
+    @ResponseBody
+    public List<String> GameData(ModelMap model, HttpServletRequest request) {
+        Game game = gameService.findMyGame(configBean.getMyIp(request));
+
+
+        List<String> test = new ArrayList();
+        test.add("하이");
+        List<GameInfo> gameInfoList = game.getGameInfos();
+
+       // model.addAttribute("gameInfoList", gameInfoList);
+
+      /*  BookForm form = new BookForm();
+        form.setId(item.getId());
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+        form.setAuthor(item.getAuthor());
+        form.setIsbn(item.getIsbn());*/
+
+        //model.addAttribute("game",  new GamesResponseDto(game));
+
+        return test;
     }
 
     @GetMapping("/FncUserData")

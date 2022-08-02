@@ -75,7 +75,7 @@ fn_ajaxSubmit = function (p_formId, p_url, httpMethod, p_callback, progressYn) {
    	    url: p_url, type: httpMethod,
    	    success	: function(data) {
    	    	var obj = {};
-   	    	try {
+/*   	    	try {
    	    		obj = JSON.parse(data);
    	    		if (obj.throwException) obj = obj.throwException;
    	    	} catch(e) {
@@ -84,7 +84,7 @@ fn_ajaxSubmit = function (p_formId, p_url, httpMethod, p_callback, progressYn) {
    	    		} catch(e) {
    	    			obj = "알수없는 오류가 발생하였습니다.";
    	    		}
-   	    	}
+   	    	}*/
             //hideLoadingBar();
             $('#container').loading('stop');
 
@@ -95,7 +95,8 @@ fn_ajaxSubmit = function (p_formId, p_url, httpMethod, p_callback, progressYn) {
    	    		p_callback(obj);
    	    	}
    	    }, error : function(request, textStatus, errorThrown) {
-   			location.href = "/html/error.html";
+   	        alert(JSON.stringify(request)+"-"+textStatus+"-"+errorThrown);
+   			//location.href = "/html/error.html";
    		}
    	};
 

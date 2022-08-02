@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<form id="ajaxForm" name="ajaxForm">
-    <input type="hidden" id="game" th:name="game" th:value="${game}"/>
-</form>
     <div th:replace="~{layout/header}"></div>
-
+    <form id="mainForm">
     <div id="layoutSidenav_content">
         <div align="center">
             <table cellpadding="0" cellspacing="0" border="0">
@@ -33,7 +30,7 @@
         </div>
 
     </div>
-</div>
+    </form>
 <!-- Modal -->
 <div class="modal" id="myModal">
     <div class="modal-dialog">
@@ -73,16 +70,12 @@
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
 
-    /*<![CDATA[*/
-    var game = [[${game}]];
-    var gameInfoList = [[${gameInfoList}]];
-    /*]]>*/
+    var mainForm = document.all.mainForm;
+    mainForm.action = "/GameData";
+    fn_ajaxSubmit("#mainForm", mainForm.action, "GET", function(objRespJson) {
+        alert(3);
+    });
 
-   <!-- var ajaxForm = document.all.ajaxForm;
-	ajaxForm.action = "/GameData";
-	fn_ajaxSubmit("#ajaxForm", ajaxForm.action, "GET", function(objRespJson) {
-	    alert(3);
-	});-->
 
 
     function openKakaoLink(){

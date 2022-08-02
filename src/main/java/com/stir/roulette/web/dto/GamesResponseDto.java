@@ -11,10 +11,8 @@ public class GamesResponseDto {
 
     private Long id;
     private String gameCode;
-    private List<GameInfo> gameInfo;
     public GamesResponseDto(Game entity) {
         this.id = entity.getId();
         this.gameCode = entity.getGameCode();
-        this.gameInfo = entity.getGameInfos();
     }
 }
