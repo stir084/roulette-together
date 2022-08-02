@@ -14,7 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.ArrayList;
 import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -25,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -48,20 +48,16 @@ public class IndexController {
         return "index";
     }
 
+
     @GetMapping("/GameData")
     @ResponseBody
-    public String dataSend(Model model, MessageDTO dto){
-        model.addAttribute("msg",dto.getResult()+"/ this is the value sent by the server ");
-        return "index :: #resultDiv";
-    }
-
-    @ResponseBody
-    public List<String> GameData(ModelMap model, HttpServletRequest request) {
+    public HashMap<String, String> GameData(ModelMap model, HttpServletRequest request) {
         Game game = gameService.findMyGame(configBean.getMyIp(request));
 
+            HashMap<String, String> test = new HashMap<>();
+            test.put("ttt", "dsd");
 
-        List<String> test = new ArrayList();
-        test.add("하이");
+        model.addAttribute("members", "ㅗㅗ");
         List<GameInfo> gameInfoList = game.getGameInfos();
 
        // model.addAttribute("gameInfoList", gameInfoList);
