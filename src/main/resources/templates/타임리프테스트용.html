@@ -13,3 +13,21 @@
 
 </body>
 </html>
+
+1. 엔티티는 Service레이어에서만 처리하고 Controller로는 DTO만 보낸다.
+영속성 컨텍스트는 Service레이어까지만 유지되기때문이다.
+view와 ctrl 영역은 준영속상태에 속한다.
+OSIV를 키면 View Template까지 영속성 컨텍스트가 유지되지만
+성능상 문제로 안키는 것이 좋다.
+MVC의 경우 View에 랜더링되는 시점까지 영속성 컨텍스트가유지된다.
+
+2. 그러므로 List<Entity>는 postsRepository.findAllDesc().stream()
+    .map(PostsListResponseDto::new)
+    .collect(Collectors.toList());
+    형태로 넘기는 것이 좋다.
+
+    기존 OSIV는 프레젠테이션 계층에서 Entity를 수정할 수 있는 단점이 존재했따.
+
+    * 엔터티를 응답으로 내보내려 하면 Jackson의 ObjectMapper는 객체를 Json으로 변환하는데, 이 때 영속성 컨텍스트가 살아있기 때문에 Team 엔터티가 영속성 컨텍스트에 있다면 객체 그래프를 탐색 할 것이고, 영속성 컨텍스트에 없다면 지연 로딩으로 설정된 프록시를 초기화하여 직렬화합니다.
+
+    @JsonIgnore를 사용하거나 응답으로 DTO를 사용하자. 
