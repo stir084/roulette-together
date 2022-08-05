@@ -42,8 +42,8 @@ public class IndexController {
         List<GameInfo> gameInfoList = game.getGameInfos();
         model.addAttribute("game", game);
         model.addAttribute("gameInfoList", gameInfoList);
-        model.addAttribute("data", "Hello Spring!");
-        model.addAttribute("msg", 11);
+       // model.addAttribute("data", "Hello Spring!");
+       // model.addAttribute("msg", 11);
 
         return "index";
     }

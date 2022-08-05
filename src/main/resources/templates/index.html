@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div th:replace="~{layout/header}"></div>
+
+<div th:replace="~{layout/header}"></div>
+<body class="sb-nav-fixed">
     <form id="mainForm">
+    <div th:replace="~{layout/navbar}"></div>
+
     <div id="layoutSidenav_content">
         <div align="center">
             <table cellpadding="0" cellspacing="0" border="0">
@@ -30,9 +34,9 @@
         </div>
 
     </div>
-    </form>
+
 <!-- Modal -->
-<div class="modal" id="myModal">
+    <div class="modal" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -64,17 +68,19 @@
         </div>
     </div>
 </div>
+    </form>
+</body>
 <div th:replace="~{layout/footer}"></div>
 
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
 
-    var mainForm = document.all.mainForm;
+  /*  var mainForm = document.all.mainForm;
     mainForm.action = "/GameData";
     fn_ajaxSubmit("#mainForm", mainForm.action, "GET", function(objRespJson) {
         alert(3);
-    });
+    });*/
 
 
 

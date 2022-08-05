@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +30,9 @@ public class GameService {
 
         // 회원 조회
         List<User> findUsers = userRepository.findByUserIp(MyIp);
+
+        System.out.println(findUsers.stream().collect(Collectors.toList()));
+                //.map(PostsListResponseDto::new)
 
         // 회원 없을 시 저장
         /*User user = new User().builder()
