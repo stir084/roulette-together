@@ -29,7 +29,7 @@ public class RouletteApiController {
 
     @GetMapping("/api/v1/roulette/{rouletteUID}")
     public RouletteResponseDto getSharedRoulette(@PathVariable UUID rouletteUID, HttpServletRequest request) {
-        RouletteResponseDto rouletteResponseDto = rouletteService.findSharedRoulette(rouletteUID);
+        RouletteResponseDto rouletteResponseDto = rouletteService.getSpecificRoulette(rouletteUID);
         return rouletteResponseDto;
     }
 
@@ -47,6 +47,7 @@ public class RouletteApiController {
 
     @PutMapping("/api/v1/roulette")
     public UUID updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
+        System.out.println("머야"+rouletteRequestDto.getRouletteSegmentList().get(0).getSegmentUID());
         rouletteService.updateRoulette(rouletteRequestDto);
         return rouletteRequestDto.getRouletteUID();
     }

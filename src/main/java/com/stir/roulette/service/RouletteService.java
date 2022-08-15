@@ -137,7 +137,7 @@ public class RouletteService {
     }
 
     @Transactional
-    public RouletteResponseDto findSharedRoulette(UUID rouletteUID) {
+    public RouletteResponseDto getSpecificRoulette(UUID rouletteUID) {
         // 룰렛 조회
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
@@ -165,13 +165,13 @@ public class RouletteService {
 
 
         // DB값 미리 넣기
-        Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedPayment = new LinkedHashMap<>();
+        Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedRequestRoulette = new LinkedHashMap<>();
         List<RouletteSegment> rouletteSegmentList = roulette.getRouletteSegments(); // 지연로딩 List 하나라 1개만 가져옴 띠용 그럼 N+1인 언제 생기는거였지?
         for (RouletteSegment rouletteSegment : rouletteSegmentList) {
             RouletteSegmentSettingRequestDto rouletteSegmentSettingRequestDto = new RouletteSegmentSettingRequestDto(rouletteSegment);
 
             SegmentUpdateChkVO segmentUpdateChkVO = new SegmentUpdateChkVO(rouletteSegmentSettingRequestDto);
-            classifiedPayment.put(segmentUpdateChkVO, Collections.singletonList(segmentUpdateChkVO));
+            classifiedRequestRoulette.put(segmentUpdateChkVO, Collections.singletonList(segmentUpdateChkVO));
         }
 
         //수정된거 있는지 출력하기
@@ -182,11 +182,17 @@ public class RouletteService {
 
         //수정된게 있는지 체크
         // 가져온 Segment 데이터 중 수정된 내역이 있으면 Save
-        HashMap<UUID, String> hhh = SegmentUpdateChkVO.classify(rouletteRequestDto.getRouletteSegmentList(), classifiedPayment);
+        HashMap<UUID, String> hhh = SegmentUpdateChkVO.classify(rouletteRequestDto.getRouletteSegmentList(), classifiedRequestRoulette);
+        for (SegmentUpdateChkVO segmentUpdateChkVO : classifiedRequestRoulette.keySet()) {
+            System.out.println("케케케"+segmentUpdateChkVO);
+        }
+
+        System.out.println("머지"+hhh.toString());
         for (UUID aLong : hhh.keySet()) {
            /* RouletteSegment byId = rouletteSegmentRepository.findById(aLong)
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));;
             byId.setElement(hhh.get(aLong));*/
+            System.out.println("하하"+aLong);
             RouletteSegment byId = rouletteSegmentRepository.findBySegmentUID(aLong)
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
             byId.setElement(hhh.get(aLong));
@@ -248,7 +254,6 @@ public class RouletteService {
         return rouletteResponseDtoList;
     }
 
-
     @Data
     @EqualsAndHashCode
     static class SegmentUpdateChkVO{
@@ -260,15 +265,15 @@ public class RouletteService {
             this.element = rouletteSegment.getElement();
         }
         public static HashMap<UUID, String> classify(List<RouletteSegmentSettingRequestDto> rouletteSegmentList
-                , Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> testPayment){
-            Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedPayment = testPayment;//new LinkedHashMap<>();
+                , Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedRequest){
+            Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedRequestRoulette = classifiedRequest;//new LinkedHashMap<>();
 
 
             HashMap<UUID, String> test = new HashMap<>();
 
             for(RouletteSegmentSettingRequestDto rouletteSegment : rouletteSegmentList){
                 SegmentUpdateChkVO dto = new SegmentUpdateChkVO(rouletteSegment);
-                List<SegmentUpdateChkVO> list = classifiedPayment.get(dto);
+                List<SegmentUpdateChkVO> list = classifiedRequestRoulette.get(dto);
 
                 if(list == null){ // 비교 값이 없으면
                     test.put(dto.getSegmentUID(), dto.getElement());

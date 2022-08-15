@@ -12,6 +12,8 @@ window.mobileCheck = function() {
 $(document).ready(function() {
     if(window.mobileCheck()==false){
         $("#sidebarToggle").hide();
+    }else{
+        $(".navbar-brand").css("padding-left", "0.5rem");
     }
 })
 /**
