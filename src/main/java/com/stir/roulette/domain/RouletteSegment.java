@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor
 @Entity
-public class GameInfo {
+public class RouletteSegment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,21 +21,21 @@ public class GameInfo {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "game_id")
-    private Game game;
+    private Roulette roulette;
 
     @Builder
-    public GameInfo(String element) {
+    public RouletteSegment(String element) {
         this.element = element;
     }
 
     //==연관관계 메서드==//
-    public void setGame(Game game) {
-        this.game = game;
-        game.getGameInfos().add(this);
+    public void setRoulette(Roulette roulette) {
+        this.roulette = roulette;
+        roulette.getRouletteSegments().add(this);
     }
 
-    public void updateGame(Game game){
-        this.game = game;
+    public void updateGame(Roulette roulette){
+        this.roulette = roulette;
     }
 
 

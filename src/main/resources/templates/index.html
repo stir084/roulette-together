@@ -15,7 +15,7 @@
                           <!-- <span th:text="${gameInfoList}"></span>-->
                             <h3 class="mt-4">3회차 게임</h3>
                         </div>
-                        <canvas id="canvas" onclick="startSpin(event)" width="456" height="500" style="width: calc(100% - 30px);">
+                        <canvas id="canvas" onclick="startSpin()" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
                         <div class="input-group">
@@ -74,15 +74,6 @@
 
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
-
-
-  /*  var mainForm = document.all.mainForm;
-    mainForm.action = "/GameData";
-    fn_ajaxSubmit("#mainForm", mainForm.action, "GET", function(objRespJson) {
-        alert(3);
-    });*/
-
-
 
     function openKakaoLink(){
         saveRouletteImg();
@@ -186,10 +177,22 @@
         //실제 데이터 저장
     }
     // -------------------------------------------------------
-    // Click handler for spin button.
+    // 회전 시작
     // -------------------------------------------------------
     function startSpin()
     {
+        $.ajax({
+            url : '/saveRouletteImg',
+            data : { strImg: canvImgStr, gameCode: [[ ${game.getGameCode()} ]] },
+            type : 'POST',
+            success : function(json) {
+                createSharingBtn();
+            },
+            error : function(request, textStatus, errorThrown) {
+                location.href = "/html/error.html";
+            }
+        });
+
         var canvas = document.querySelector('canvas');
         var ctx = canvas.getContext('2d');
 

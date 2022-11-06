@@ -1,15 +1,12 @@
 package com.stir.roulette.web;
 
 import com.stir.roulette.config.ConfigBean;
-import com.stir.roulette.domain.Game;
-import com.stir.roulette.domain.GameInfo;
-import com.stir.roulette.domain.User;
-import com.stir.roulette.service.GameService;
+import com.stir.roulette.domain.Roulette;
+import com.stir.roulette.domain.RouletteSegment;
+import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.service.UserService;
-import com.stir.roulette.web.dto.GamesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,19 +28,18 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    private final GameService gameService;
+    private final RouletteService rouletteService;
     private final UserService userService;
     private final ConfigBean configBean;
 
-
     @GetMapping("/")
     public String index(ModelMap model, HttpServletRequest request) {
-        Game game = gameService.findMyGame(configBean.getMyIp(request));
-        List<GameInfo> gameInfoList = game.getGameInfos();
-        model.addAttribute("game", game);
-        model.addAttribute("gameInfoList", gameInfoList);
-       // model.addAttribute("data", "Hello Spring!");
-       // model.addAttribute("msg", 11);
+        String userIp = configBean.getUserIp(request);
+       // Roulette roulette = rouletteService.findUserGame(userIp);
+
+       /* List<RouletteSegment> rouletteSegmentList = roulette.getRouletteSegments();
+        model.addAttribute("game", roulette);
+        model.addAttribute("gameInfoList", rouletteSegmentList);*/
 
         return "index";
     }
@@ -52,13 +48,13 @@ public class IndexController {
     @GetMapping("/GameData")
     @ResponseBody
     public HashMap<String, String> GameData(ModelMap model, HttpServletRequest request) {
-        Game game = gameService.findMyGame(configBean.getMyIp(request));
+        //Roulette roulette = rouletteService.findMyGame(configBean.getMyIp(request));
 
             HashMap<String, String> test = new HashMap<>();
             test.put("ttt", "dsd");
 
         model.addAttribute("members", "ㅗㅗ");
-        List<GameInfo> gameInfoList = game.getGameInfos();
+        //List<RouletteSegment> rouletteSegmentList = roulette.getRouletteSegments();
 
        // model.addAttribute("gameInfoList", gameInfoList);
 

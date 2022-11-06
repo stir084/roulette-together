@@ -7,7 +7,7 @@ import java.util.Random;
 
 @Component
 public class ConfigBean {
-    public String getMyIp(HttpServletRequest request) {
+    public String getUserIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
 
         if (ip == null) {

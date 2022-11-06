@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class User {
@@ -22,14 +24,26 @@ public class User {
     @Column
     private String userIp;
 
-    @Builder
-    public User(String userIp) {
-        this.userIp = userIp;
-    }
-
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Game> games = new ArrayList<>();
+    private List<Roulette> roulettes = new ArrayList<>();
 
 
+  /*  @Builder
+    public User(String userIp) {
+        this.userIp = userIp;
+    }*/
+
+    public void addRoulette(Roulette roulette) {
+        this.roulettes.add(roulette);
+        roulette.setUser(this);
+    }
+
+    public static User createUser(String userIp, Roulette roulette){
+        User user = new User();
+        user.setUserIp(userIp);
+        user.addRoulette(roulette);
+
+        return user;
+    }
 }
