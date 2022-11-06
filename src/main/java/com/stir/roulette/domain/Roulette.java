@@ -20,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Roulette {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "game_id")
+    @Column(name = "roulette_id")
     private Long id;
 
     private String rouletteCode;
@@ -30,7 +30,7 @@ public class Roulette {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "roulette", cascade = CascadeType.ALL)
     private List<RouletteSegment> rouletteSegments = new ArrayList<>();
 
 
@@ -41,19 +41,24 @@ public class Roulette {
     }
 
     // 1쪽에 써주는 연관관계 메소드(updateGame같이 메소드가 하나 더 필요하다) //
-    public void addGameInfo(RouletteSegment rouletteSegment){
+    /*public void addGameInfo(RouletteSegment rouletteSegment){
         this.getRouletteSegments().add(rouletteSegment);
         rouletteSegment.updateGame(this);
-    }
+    }*/
 
     public static Roulette createRoulette(String rouletteCode){
         Roulette roulette = new Roulette();
 
         roulette.setRouletteCode(rouletteCode);
-        roulette.addGameInfo(new RouletteSegment().builder().element("짜장면").build());
-        roulette.addGameInfo(new RouletteSegment().builder().element("짬뽕").build());
-        roulette.addGameInfo(new RouletteSegment().builder().element("볶음밥").build());
-        roulette.addGameInfo(new RouletteSegment().builder().element("탕수육").build());
+
+
+        List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
+
+        roulette.setRouletteSegments(rouletteSegmentList);
 
         return roulette;
     }

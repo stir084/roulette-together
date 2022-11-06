@@ -5,6 +5,8 @@ import com.stir.roulette.domain.Roulette;
 import com.stir.roulette.domain.RouletteSegment;
 import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.service.UserService;
+import com.stir.roulette.web.dto.RouletteResponseDto;
+import com.stir.roulette.web.dto.RouletteSegmentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,13 +36,10 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(ModelMap model, HttpServletRequest request) {
+
         String userIp = configBean.getUserIp(request);
-       // Roulette roulette = rouletteService.findUserGame(userIp);
-
-       /* List<RouletteSegment> rouletteSegmentList = roulette.getRouletteSegments();
-        model.addAttribute("game", roulette);
-        model.addAttribute("gameInfoList", rouletteSegmentList);*/
-
+        model.addAttribute("roulette", rouletteService.findLastGame(userIp));
+        model.addAttribute("tttt","ttttsdbd");
         return "index";
     }
 

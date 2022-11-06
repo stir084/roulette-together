@@ -4,6 +4,7 @@
 <div th:replace="~{layout/header}"></div>
 <body class="sb-nav-fixed">
     <form id="mainForm">
+
     <div th:replace="~{layout/navbar}"></div>
 
     <div id="layoutSidenav_content">
@@ -70,6 +71,7 @@
 </div>
     </form>
 </body>
+
 <div th:replace="~{layout/footer}"></div>
 
 <script th:inline="javascript">
@@ -80,11 +82,11 @@
         $("#create-kakaotalk-sharing-btn").click()
     }
     function saveRouletteImg(){
-        var canvas=document.getElementById('canvas');
-        var canvImgStr = canvas.toDataURL('image/png', 1.0);  // canvas.toDataURL()을 이용하여 base64 img string 으로 변경
+        let canvas = document.getElementById('canvas');
+        let canvImgStr = canvas.toDataURL('image/png', 1.0);  // canvas.toDataURL()을 이용하여 base64 img string 으로 변경
         $.ajax({
             url : '/saveRouletteImg',
-            data : { strImg: canvImgStr, gameCode: [[ ${game.getGameCode()} ]] },
+            data : { strImg: canvImgStr, gameCode: [[ ${roulette.getRouletteCode()} ]] },
             type : 'POST',
             success : function(json) {
                 createSharingBtn();
@@ -103,7 +105,7 @@
                 title: '36회차 게임',
                 description: '원하는 메뉴를 등록 해주세요~',
                 //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
-                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + [[ ${game.getGameCode()} ]] + '&blockCache=' + generateRandomString(10),
+                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + [[ ${roulette.getRouletteCode()} ]] + '&blockCache=' + generateRandomString(10),
                 link: {
                     mobileWebUrl: 'https://developers.kakao.com',
                     webUrl: 'https://developers.kakao.com',
@@ -142,7 +144,7 @@
             'lineWidth': 3,
             'segments':        // Define segments including colour and text.
                 [
-                    {'fillStyle': '#007BFF', 'text': 'Prize 1'},
+                    {'fillStyle': '#007BFF', 'text': 'Prize 2'},
                     {'fillStyle': '#DC3545', 'text': 'Prize 2'},
                     {'fillStyle': '#28A745', 'text': 'Prize 3'},
                     {'fillStyle': '#FFC107', 'text': 'Prize 4'},
@@ -181,9 +183,9 @@
     // -------------------------------------------------------
     function startSpin()
     {
-        $.ajax({
+        /*$.ajax({
             url : '/saveRouletteImg',
-            data : { strImg: canvImgStr, gameCode: [[ ${game.getGameCode()} ]] },
+            data : { strImg: canvImgStr, gameCode: [[ ${roulette.getRouletteCode()} ]] },
             type : 'POST',
             success : function(json) {
                 createSharingBtn();
@@ -191,7 +193,7 @@
             error : function(request, textStatus, errorThrown) {
                 location.href = "/html/error.html";
             }
-        });
+        });*/
 
         var canvas = document.querySelector('canvas');
         var ctx = canvas.getContext('2d');

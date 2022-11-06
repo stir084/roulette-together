@@ -9,10 +9,11 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    # driver-class-name: com.mysql.cj.jdbc.Driver 이걸로 해야함
     url: jdbc:mysql://localhost:3306/roulette?serverTimezone=Asia/Seoul
     username: root
     password: 1234
+    driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
