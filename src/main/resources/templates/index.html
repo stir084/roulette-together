@@ -13,12 +13,18 @@
                 <tr>
                     <td width="438" height="500" class="" align="center" valign="center">
                         <div>
-                          <!-- <span th:text="${gameInfoList}"></span>-->
                             <h3 class="mt-4">3회차 게임</h3>
                         </div>
-                        <canvas id="canvas" onclick="startSpin()" width="456" height="500" style="width: calc(100% - 30px);">
+                        <canvas id="canvas" onclick="startSpin(event)" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
+
+                        <div>
+                            <h3 class="mt-4" id="result" ></h3>
+
+                      <!--          th:if="${roulette.getRouletteStatus().name() == 'FINISH'}" th:text="'결과 : '+${roulette.getRouletteSegmentResponseDtos().get(roulette.getPrize()).getElement()}">My Roulette</h3>-->
+                        </div>
+
                         <div class="input-group">
                             <input id="rouletteItem" class="form-control" value="" placeholder="등록할 아이템을 입력" style="width: 150px;" type="text">
                             <button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>
@@ -71,11 +77,38 @@
 </div>
     </form>
 </body>
-
 <div th:replace="~{layout/footer}"></div>
 
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
+
+/*    2. 게임 이름 보여주는 텍스트 상자 Entity에 추가
+
+    4. 등록버튼 누르면 FormObject 연결
+    5. 새 게임 누르면 Alert 띄우고 새 게임 만들기
+    6. 게임 설정은 id 값 기준으로 저장하기*/
+
+
+    let rotationAngle = 0;
+    $(document).ready(function(){
+        let roulette = [[${roulette}]];
+        if(roulette.rouletteStatus == "FINISH"){
+            rouletteSegment = roulette.rouletteSegmentResponseDtos;
+
+            $("#result").text("결과 : " + rouletteSegment[roulette.prize - 1].element);
+            $("#canvas").removeAttr("onclick");
+
+
+            let angle = 360 / roulette.rouletteSegmentResponseDtos.length;
+
+            // 결과 세팅
+            rotationAngle = (((roulette.prize) * angle) - ((roulette.prize - 1) * angle)) / 2 * -1 % 360;
+
+
+            //270 % 360
+        }
+
+    });
 
     function openKakaoLink(){
         saveRouletteImg();
@@ -127,6 +160,21 @@
         })
     }
 
+    let rouletteSegmentColorArray = new Array('#007BFF', '#DC3545', '#28A745', '#FFC107');
+
+    let rouletteSegmentDto = [[${roulette.getRouletteSegmentResponseDtos()}]];
+    let rouletteSegmentArray = new Array();
+
+
+    rouletteSegmentDto.forEach(function(item, index){
+        if(rouletteSegmentDto.length < index){
+            index = index % rouletteSegmentDto.length;
+        }
+        let rouletteSegmentObj = new Object();
+        rouletteSegmentObj.fillStyle = rouletteSegmentColorArray[index];
+        rouletteSegmentObj.text = item.element;
+        rouletteSegmentArray.push(rouletteSegmentObj);
+    })
 
     let theWheel;
     let img = new Image();
@@ -134,16 +182,17 @@
     img.src = 'assets/img/roulette-start.png'; // 이미지가 로드되고 나서 룰렛 생성
     img.onload = function() {
         wheelObject = {
-            'numSegments': 8,     // Specify number of segments.
+            'numSegments': rouletteSegmentArray.length, //8,     // Specify number of segments.
             'outerRadius': 212,   // Set outer radius so wheel fits inside the background.
             'textFontSize': 28,    // Set font size as desired.
             'innerRadius': 40,         // Make wheel hollow so segments don't go all way to center.
+            'rotationAngle': rotationAngle,
             'textAlignment': 'outer',    // Align text to outside of wheel.
             'innerImage': img,
             'textFillStyle' : "white",
             'lineWidth': 3,
-            'segments':        // Define segments including colour and text.
-                [
+            'segments':   rouletteSegmentArray,     // Define segments including colour and text.
+                /*[
                     {'fillStyle': '#007BFF', 'text': 'Prize 2'},
                     {'fillStyle': '#DC3545', 'text': 'Prize 2'},
                     {'fillStyle': '#28A745', 'text': 'Prize 3'},
@@ -152,7 +201,7 @@
                     {'fillStyle': '#DC3545', 'text': 'Prize 6'},
                     {'fillStyle': '#28A745', 'text': 'Prize 7'},
                     {'fillStyle': '#FFC107', 'text': 'Prize 8'}
-                ],
+                ],*/
             'animation':           // Specify the animation to use.
                 {
                     'type': 'spinToStop',
@@ -181,47 +230,63 @@
     // -------------------------------------------------------
     // 회전 시작
     // -------------------------------------------------------
-    function startSpin()
+    function startSpin(event)
     {
-        /*$.ajax({
-            url : '/saveRouletteImg',
-            data : { strImg: canvImgStr, gameCode: [[ ${roulette.getRouletteCode()} ]] },
-            type : 'POST',
-            success : function(json) {
-                createSharingBtn();
-            },
-            error : function(request, textStatus, errorThrown) {
-                location.href = "/html/error.html";
-            }
-        });*/
+        function spin(event){
+            var canvas = document.querySelector('canvas');
+            var ctx = canvas.getContext('2d');
 
-        var canvas = document.querySelector('canvas');
-        var ctx = canvas.getContext('2d');
+            var x = event.offsetX;
+            var y = event.offsetY;
 
-        var x = event.offsetX;
-        var y = event.offsetY;
+            if(x>=163 && y>=190 && x<=237 && y<=256){
+                // Ensure that spinning can't be clicked again while already running.
+                if (wheelSpinning == false) {
+                    // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+                    // to rotate with the duration of the animation the quicker the wheel spins.
+                    if (wheelPower == 1) {
+                        theWheel.animation.spins = 3;
+                    } else if (wheelPower == 2) {
+                        theWheel.animation.spins = 8;
+                    } else if (wheelPower == 3) {
+                        theWheel.animation.spins = 15;
+                    }
 
-        if(x>=163 && y>=190 && x<=237 && y<=256){
-        // Ensure that spinning can't be clicked again while already running.
-            if (wheelSpinning == false) {
-                // Based on the power level selected adjust the number of spins for the wheel, the more times is has
-                // to rotate with the duration of the animation the quicker the wheel spins.
-                if (wheelPower == 1) {
-                    theWheel.animation.spins = 3;
-                } else if (wheelPower == 2) {
-                    theWheel.animation.spins = 8;
-                } else if (wheelPower == 3) {
-                    theWheel.animation.spins = 15;
+                    // Begin the spin animation by calling startAnimation on the wheel object.
+                    theWheel.startAnimation();
+
+                    // Set to true so that power can't be changed and spin button re-enabled during
+                    // the current animation. The user will have to reset before spinning again.
+                    wheelSpinning = true;
                 }
-
-                // Begin the spin animation by calling startAnimation on the wheel object.
-                theWheel.startAnimation();
-
-                // Set to true so that power can't be changed and spin button re-enabled during
-                // the current animation. The user will have to reset before spinning again.
-                wheelSpinning = true;
             }
         }
+        $.ajax({
+            url : '/startRoulette',
+            data : { segmentLength: rouletteSegmentArray.length, rouletteCode: [[ ${roulette.getRouletteCode()} ]] },
+            type : 'POST',
+            success : function(roulette) {
+                // segment에 따른 Angle 추출
+                let angle = 360 / roulette.rouletteSegmentResponseDtos.length;
+
+                // prize 세팅
+                let prizeAngle = (roulette.prize - 1) * angle;
+
+                // Stroke에 안걸치도록 angle 값 -2 세팅
+                let stopAt = prizeAngle + Math.floor((Math.random() * (angle - 2)));
+
+                theWheel.animation.stopAngle = stopAt;
+
+                spin(event);
+                $("#canvas").removeAttr("onclick");
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(request.responseJSON.message);
+            }
+        });
+
+
+        //createSharingBtn();
     }
 
     // -------------------------------------------------------
@@ -239,7 +304,8 @@
 
     function alertPrize(indicatedSegment)
     {
-        alert("You have won " + indicatedSegment.text);
+        $("#result").text("결과 : "+indicatedSegment.text);
+        //alert("You have won " + indicatedSegment.text);
     }
 </script>
 </html>

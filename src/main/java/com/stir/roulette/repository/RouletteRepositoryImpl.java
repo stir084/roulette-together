@@ -24,7 +24,7 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
                 .fetch();
     }*/
 
-    public List<Roulette> findLastGame(String userIp) {
+    public List<Roulette> findLastGameByUserIp(String userIp) {
         return queryFactory.selectFrom(roulette)
                 .where(roulette.user.userIp.eq(userIp))
                 .orderBy(roulette.id.desc())

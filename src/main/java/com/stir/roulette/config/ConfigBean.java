@@ -10,6 +10,12 @@ public class ConfigBean {
     public String getUserIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
 
+        /*System.out.println(request.getHeader("X-Forwarded-For"));
+        System.out.println(request.getHeader("Proxy-Client-IP"));
+        System.out.println(request.getHeader("WL-Proxy-Client-IP"));
+        System.out.println(request.getHeader("HTTP_CLIENT_IP"));
+        System.out.println(request.getHeader("HTTP_X_FORWARDED_FOR"));
+        System.out.println(request.getRemoteAddr());*/
         if (ip == null) {
             ip = request.getHeader("Proxy-Client-IP");
         }

@@ -35,9 +35,27 @@ public class RouletteService {
         }
 
         // 게임 조회
-        List<Roulette> rouletteList = rouletteRepository.findLastGame(userIp);
+        List<Roulette> rouletteList = rouletteRepository.findLastGameByUserIp(userIp);
 
         return new RouletteResponseDto(rouletteList.get(0));
+    }
+
+    @Transactional
+    public RouletteResponseDto startRoulette(String rouletteCode) {
+        // 현재 룰렛 조회
+        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode);
+
+        // 게임 시작 - 랜덤 prize 선정
+        int prizeNum;
+        if(roulette.getStatus() == RouletteStatus.READY) {
+            int rouletteSegmentSize = roulette.getRouletteSegments().size();
+            prizeNum = (int) (Math.random() * (rouletteSegmentSize - 1)) + 1;
+            roulette.setPrize(prizeNum);
+            roulette.setStatus(RouletteStatus.FINISH);
+        }else{
+            throw new IllegalArgumentException("이미 완료된 게임 입니다.");
+        }
+        return new RouletteResponseDto(roulette);
     }
 }
 

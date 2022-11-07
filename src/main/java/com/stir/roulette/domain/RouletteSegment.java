@@ -31,10 +31,10 @@ public class RouletteSegment {
         roulette.getRouletteSegments().add(this);
     }
 
-    public static RouletteSegment createRouletteSegment(Roulette roulette){
+    public static RouletteSegment createRouletteSegment(Roulette roulette, String element){
         RouletteSegment rouletteSegment = new RouletteSegment();
         rouletteSegment.addRoulette(roulette);
-        rouletteSegment.setElement("Test");
+        rouletteSegment.setElement(element);
         return rouletteSegment;
     }
    /* public void updateGame(Roulette roulette){

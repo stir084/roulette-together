@@ -33,6 +33,10 @@ public class Roulette {
     @OneToMany(mappedBy = "roulette", cascade = CascadeType.ALL)
     private List<RouletteSegment> rouletteSegments = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private RouletteStatus status; //주문상태 [ORDER, CANCEL]
+
+    private int prize;
 
     // N쪽에 써주는 연관관계 메소드 //
     public void setUser(User user) {
@@ -50,13 +54,13 @@ public class Roulette {
         Roulette roulette = new Roulette();
 
         roulette.setRouletteCode(rouletteCode);
-
+        roulette.setStatus(RouletteStatus.READY);
 
         List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette));
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "짜장면"));
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "짬뽕"));
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "탕수육"));
+        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "깐풍기"));
 
         roulette.setRouletteSegments(rouletteSegmentList);
 

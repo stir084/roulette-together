@@ -39,10 +39,14 @@ public class IndexController {
 
         String userIp = configBean.getUserIp(request);
         model.addAttribute("roulette", rouletteService.findLastGame(userIp));
-        model.addAttribute("tttt","ttttsdbd");
         return "index";
     }
 
+    @PostMapping("/startRoulette")
+    @ResponseBody
+    public RouletteResponseDto startRoulette(String segmentLength, String rouletteCode){
+        return rouletteService.startRoulette(rouletteCode);
+    }
 
     @GetMapping("/GameData")
     @ResponseBody

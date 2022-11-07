@@ -7,5 +7,7 @@ import java.util.List;
 
 
 public interface RouletteRepositoryCustom {
-    List<Roulette> findLastGame(String userIp);
+    List<Roulette> findLastGameByUserIp(String userIp);
+
+
 }
