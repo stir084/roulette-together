@@ -13,6 +13,7 @@ public class RouletteResponseDto {
     private String rouletteCode;
     private List<RouletteSegmentResponseDto> rouletteSegmentResponseDtos;
     private int prize;
+    private String title;
     private RouletteStatus rouletteStatus;
 
     public RouletteResponseDto(Roulette entity) {
@@ -21,6 +22,7 @@ public class RouletteResponseDto {
         this.rouletteSegmentResponseDtos = entity.getRouletteSegments().stream()
                 .map(o -> new RouletteSegmentResponseDto(o)).collect(Collectors.toList());
         this.prize = entity.getPrize();
+        this.title = entity.getTitle();
         this.rouletteStatus = entity.getStatus();
     }
 }

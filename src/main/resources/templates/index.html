@@ -13,7 +13,7 @@
                 <tr>
                     <td width="438" height="500" class="" align="center" valign="center">
                         <div>
-                            <h3 class="mt-4">3회차 게임</h3>
+                            <h3 class="mt-4" th:text="${roulette.getTitle()}">My Roulette</h3>
                         </div>
                         <canvas id="canvas" onclick="startSpin(event)" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
@@ -31,7 +31,8 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-around mt-4 mb-0">
                             <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">공유하기</a>
-                            <a class="btn btn-primary" href="javascript:resetWheel();">다시</a>
+                            <!--<a class="btn btn-primary" href="javascript:resetRoulette();">새 게임</a>-->
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">새 게임</a>
                         </div>
                     </td>
 
@@ -42,39 +43,59 @@
 
     </div>
 
-<!-- Modal -->
+<!-- Share Modal -->
     <div class="modal" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h6 class="modal-title" style="font-weight:bold">공유하기</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h6 class="modal-title" style="font-weight:bold">공유하기</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-            <!-- Modal body -->
-            <div class="modal-body" style="text-align: center;">
-                <a href="javascript:;" onclick="openKakaoLink()">
-                    <img
-                            src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-                            alt="카카오톡 공유 보내기 버튼"
+                <!-- Modal body -->
+                <div class="modal-body" style="text-align: center;">
+                    <a href="javascript:;" onclick="openKakaoLink()">
+                        <img
+                                src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+                                alt="카카오톡 공유 보내기 버튼"
 
-                    />
-                </a>
-                <input type="hidden" id="create-kakaotalk-sharing-btn" style="display:block"></input>
-            </div>
+                        />
+                    </a>
+                    <input type="hidden" id="create-kakaotalk-sharing-btn" style="display:block"></input>
+                </div>
 
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <div class="input-group">
-                    <input class="form-control" value="http://116.37.136.233:8080" style="width: 150px;" type="text" readonly>
-                    <button class="btn btn-primary" type="button">링크 복사</button>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <div class="input-group">
+                        <input class="form-control" value="http://116.37.136.233:8080" style="width: 150px;" type="text" readonly>
+                        <button class="btn btn-primary" type="button">링크 복사</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!--<div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    </div>-->
+                    <div class="modal-body">
+                        새 게임을 만드시겠습니까?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                    <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+                        <button type="button" class="btn btn-primary" onclick="resetRoulette()">예</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </body>
 <div th:replace="~{layout/footer}"></div>
@@ -82,8 +103,7 @@
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
-/*    2. 게임 이름 보여주는 텍스트 상자 Entity에 추가
-
+/*
     4. 등록버튼 누르면 FormObject 연결
     5. 새 게임 누르면 Alert 띄우고 새 게임 만들기
     6. 게임 설정은 id 값 기준으로 저장하기*/
@@ -102,7 +122,7 @@
             let angle = 360 / roulette.rouletteSegmentResponseDtos.length;
 
             // 결과 세팅
-            rotationAngle = (((roulette.prize) * angle) - ((roulette.prize - 1) * angle)) / 2 * -1 % 360;
+            rotationAngle = (((roulette.prize) * angle) - (angle / 2)) * -1 % 360;
 
 
             //270 % 360
@@ -290,9 +310,9 @@
     }
 
     // -------------------------------------------------------
-    // Function for reset button.
+    // 룰렛 초기화
     // -------------------------------------------------------
-    function resetWheel()
+    /*function resetWheel()
     {
         theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
         theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
@@ -300,8 +320,17 @@
         theWheel.draw();                // Call draw to render changes to the wheel.
 
         wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
-    }
+    }*/
+    function resetRoulette(){
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/roulette");
+        document.body.appendChild(form);
+        form.submit();
 
+        //팝업창 오픈
+        //ㅇ
+    }
     function alertPrize(indicatedSegment)
     {
         $("#result").text("결과 : "+indicatedSegment.text);

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class RouletteService {
 
         // 회원 정보 없을 시 회원 생성
         if(userRepository.findByUserIp(userIp).isEmpty()){
-            Roulette roulette = Roulette.createRoulette(configBean.getGameRandomCode());
+            Roulette roulette = Roulette.createInitRoulette(configBean.getGameRandomCode());
             User user = User.createUser(userIp, roulette);
             userRepository.save(user);
         }
@@ -56,6 +57,38 @@ public class RouletteService {
             throw new IllegalArgumentException("이미 완료된 게임 입니다.");
         }
         return new RouletteResponseDto(roulette);
+    }
+
+    @Transactional
+    public RouletteResponseDto createNewRoulette(String userIp) {
+
+        //가장 최근 게임 조회
+        List<Roulette> rouletteList = rouletteRepository.findLastGameByUserIp(userIp);
+        User user = userRepository.findByUserIp(userIp).get();
+        Roulette lastRoulette = rouletteList.get(0);
+        Roulette newRoulette = new Roulette();
+
+        //최근 게임 기반으로 룰렛 재생성
+        newRoulette.setRouletteCode(configBean.getGameRandomCode());
+        newRoulette.setTitle(lastRoulette.getTitle());
+        newRoulette.setStatus(RouletteStatus.READY);
+        newRoulette.addUser(user);
+
+
+        List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
+
+        for (RouletteSegment segment : lastRoulette.getRouletteSegments()) {
+            RouletteSegment rouletteSegment = new RouletteSegment();
+            rouletteSegment.setElement(segment.getElement());
+            rouletteSegmentList.add(rouletteSegment);
+        }
+
+        newRoulette.setRouletteSegments(rouletteSegmentList);
+
+        //새 룰렛 저장
+        rouletteRepository.save(newRoulette);
+
+        return new RouletteResponseDto(newRoulette);
     }
 }
 

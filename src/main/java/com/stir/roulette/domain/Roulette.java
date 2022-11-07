@@ -38,8 +38,10 @@ public class Roulette {
 
     private int prize;
 
+    private String title;
+
     // N쪽에 써주는 연관관계 메소드 //
-    public void setUser(User user) {
+    public void addUser(User user) {
         this.user = user;
         user.getRoulettes().add(this);
     }
@@ -50,7 +52,7 @@ public class Roulette {
         rouletteSegment.updateGame(this);
     }*/
 
-    public static Roulette createRoulette(String rouletteCode){
+    public static Roulette createInitRoulette(String rouletteCode){
         Roulette roulette = new Roulette();
 
         roulette.setRouletteCode(rouletteCode);
@@ -63,6 +65,7 @@ public class Roulette {
         rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "깐풍기"));
 
         roulette.setRouletteSegments(rouletteSegmentList);
+        roulette.setTitle("오늘의 점심은?");
 
         return roulette;
     }

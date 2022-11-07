@@ -9,6 +9,7 @@ import com.stir.roulette.web.dto.RouletteResponseDto;
 import com.stir.roulette.web.dto.RouletteSegmentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +43,18 @@ public class IndexController {
         return "index";
     }
 
-    @PostMapping("/startRoulette")
+    @PostMapping("/startRoulette") //RestApi에 안맞는 이름임.
     @ResponseBody
     public RouletteResponseDto startRoulette(String segmentLength, String rouletteCode){
         return rouletteService.startRoulette(rouletteCode);
+    }
+
+    @PostMapping("/roulette") //RestApi에 안맞는 이름임.
+    public String createNewRoulette(Model model, HttpServletRequest request){
+        System.out.println("하하");
+        String userIp = configBean.getUserIp(request);
+        model.addAttribute("roulette", rouletteService.createNewRoulette(userIp));
+        return "/index";
     }
 
     @GetMapping("/GameData")
