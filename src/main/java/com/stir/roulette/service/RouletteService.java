@@ -80,6 +80,7 @@ public class RouletteService {
         for (RouletteSegment segment : lastRoulette.getRouletteSegments()) {
             RouletteSegment rouletteSegment = new RouletteSegment();
             rouletteSegment.setElement(segment.getElement());
+            rouletteSegment.addRoulette(newRoulette);
             rouletteSegmentList.add(rouletteSegment);
         }
 

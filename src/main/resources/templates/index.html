@@ -3,7 +3,6 @@
 
 <div th:replace="~{layout/header}"></div>
 <body class="sb-nav-fixed">
-    <form id="mainForm">
 
     <div th:replace="~{layout/navbar}"></div>
 
@@ -24,11 +23,19 @@
 
                       <!--          th:if="${roulette.getRouletteStatus().name() == 'FINISH'}" th:text="'결과 : '+${roulette.getRouletteSegmentResponseDtos().get(roulette.getPrize()).getElement()}">My Roulette</h3>-->
                         </div>
+                        <form role="form" action="/roulette/segment" th:object="${rouletteForm}" method="post">
+                            <div class="input-group">
+                                <!--<input type="text" id="rouletteItem" name="rouletteItem" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
+-->
+                                <input type="text" th:field="*{rouletteItem}" class="form-control" placeholder="이름을 입력하세요"
+                                       th:class="${#fields.hasErrors('rouletteItem')}? 'form-control fieldError' : 'form-control'">
+                                <p th:if="${#fields.hasErrors('rouletteItem')}" th:errors="*{rouletteItem}">Incorrect date</p>
 
-                        <div class="input-group">
-                            <input id="rouletteItem" class="form-control" value="" placeholder="등록할 아이템을 입력" style="width: 150px;" type="text">
-                            <button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>
-                        </div>
+
+                                <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
+                                <button class="btn btn-primary" type="submit">등록</button>
+                            </div>
+                        </form>
                         <div class="d-flex align-items-center justify-content-around mt-4 mb-0">
                             <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">공유하기</a>
                             <!--<a class="btn btn-primary" href="javascript:resetRoulette();">새 게임</a>-->
@@ -96,7 +103,6 @@
                 </div>
             </div>
         </div>
-    </form>
 </body>
 <div th:replace="~{layout/footer}"></div>
 
@@ -105,13 +111,13 @@
 
 /*
     4. 등록버튼 누르면 FormObject 연결
-    5. 새 게임 누르면 Alert 띄우고 새 게임 만들기
     6. 게임 설정은 id 값 기준으로 저장하기*/
 
 
     let rotationAngle = 0;
+    let roulette;
     $(document).ready(function(){
-        let roulette = [[${roulette}]];
+        roulette = [[${roulette}]];
         if(roulette.rouletteStatus == "FINISH"){
             rouletteSegment = roulette.rouletteSegmentResponseDtos;
 
