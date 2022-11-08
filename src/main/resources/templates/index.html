@@ -105,7 +105,7 @@
         </div>
 </body>
 <div th:replace="~{layout/footer}"></div>
-
+<script src="js/roulette_common.js"></script>
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
@@ -113,28 +113,35 @@
     4. 등록버튼 누르면 FormObject 연결
     6. 게임 설정은 id 값 기준으로 저장하기*/
 
+    // 룰렛 기능 ajax로 만들기
+    // startSpin 공통으로 빼기..
 
-    let rotationAngle = 0;
-    let roulette;
-    $(document).ready(function(){
-        roulette = [[${roulette}]];
+    let rouletteSegment = [[${roulette.getRouletteSegmentResponseDtos()}]];
+    let roulette = [[${roulette}]];
+
+
+   /* let img = new Image();
+    img.src = 'assets/img/roulette-start.png';
+    // 이미지 파일이 로드되고 나서 룰렛 생성
+    img.onload = function(){
+
+
+    }*/
+
+    function initRoulette(){
+        // 완료된 룰렛일 경우 각도 설정
         if(roulette.rouletteStatus == "FINISH"){
-            rouletteSegment = roulette.rouletteSegmentResponseDtos;
-
-            $("#result").text("결과 : " + rouletteSegment[roulette.prize - 1].element);
-            $("#canvas").removeAttr("onclick");
-
-
-            let angle = 360 / roulette.rouletteSegmentResponseDtos.length;
-
-            // 결과 세팅
-            rotationAngle = (((roulette.prize) * angle) - (angle / 2)) * -1 % 360;
-
-
-            //270 % 360
+            setRouletteAngle(roulette, rouletteSegment);
         }
 
-    });
+        // 룰렛 세그먼트 초기화
+        setRouletteSegment(rouletteSegment);
+
+        // 룰렛 초기화
+        setRoulette(img);
+    }
+
+
 
     function openKakaoLink(){
         saveRouletteImg();
@@ -186,76 +193,7 @@
         })
     }
 
-    let rouletteSegmentColorArray = new Array('#007BFF', '#DC3545', '#28A745', '#FFC107');
 
-    let rouletteSegmentDto = [[${roulette.getRouletteSegmentResponseDtos()}]];
-    let rouletteSegmentArray = new Array();
-
-
-    rouletteSegmentDto.forEach(function(item, index){
-        if(rouletteSegmentDto.length < index){
-            index = index % rouletteSegmentDto.length;
-        }
-        let rouletteSegmentObj = new Object();
-        rouletteSegmentObj.fillStyle = rouletteSegmentColorArray[index];
-        rouletteSegmentObj.text = item.element;
-        rouletteSegmentArray.push(rouletteSegmentObj);
-    })
-
-    let theWheel;
-    let img = new Image();
-    let wheelObject;
-    img.src = 'assets/img/roulette-start.png'; // 이미지가 로드되고 나서 룰렛 생성
-    img.onload = function() {
-        wheelObject = {
-            'numSegments': rouletteSegmentArray.length, //8,     // Specify number of segments.
-            'outerRadius': 212,   // Set outer radius so wheel fits inside the background.
-            'textFontSize': 28,    // Set font size as desired.
-            'innerRadius': 40,         // Make wheel hollow so segments don't go all way to center.
-            'rotationAngle': rotationAngle,
-            'textAlignment': 'outer',    // Align text to outside of wheel.
-            'innerImage': img,
-            'textFillStyle' : "white",
-            'lineWidth': 3,
-            'segments':   rouletteSegmentArray,     // Define segments including colour and text.
-                /*[
-                    {'fillStyle': '#007BFF', 'text': 'Prize 2'},
-                    {'fillStyle': '#DC3545', 'text': 'Prize 2'},
-                    {'fillStyle': '#28A745', 'text': 'Prize 3'},
-                    {'fillStyle': '#FFC107', 'text': 'Prize 4'},
-                    {'fillStyle': '#007BFF', 'text': 'Prize 5'},
-                    {'fillStyle': '#DC3545', 'text': 'Prize 6'},
-                    {'fillStyle': '#28A745', 'text': 'Prize 7'},
-                    {'fillStyle': '#FFC107', 'text': 'Prize 8'}
-                ],*/
-            'animation':           // Specify the animation to use.
-                {
-                    'type': 'spinToStop',
-                    'duration': 5,     // Duration in seconds.
-                    'spins': 8,     // Number of complete spins.
-                    'callbackFinished': alertPrize
-                }
-        }
-        // Create new wheel object specifying the parameters at creation time.
-        theWheel = new Winwheel(wheelObject);
-    }
-    // Vars used by the code in this page to do power controls.
-    let wheelPower    = 0;
-    let wheelSpinning = false;
-
-
-    function saveRouletteItem(){
-        //현재 색깔 설정 타입
-        //
-        wheelObject.segments.push({'fillStyle': '#FFC107', 'text': $("#rouletteItem").val()});
-        wheelObject.numSegments = wheelObject.numSegments + 1;
-        theWheel = new Winwheel(wheelObject);
-        $("#rouletteItem").val("");
-        //실제 데이터 저장
-    }
-    // -------------------------------------------------------
-    // 회전 시작
-    // -------------------------------------------------------
     function startSpin(event)
     {
         function spin(event){
@@ -289,7 +227,7 @@
         }
         $.ajax({
             url : '/startRoulette',
-            data : { segmentLength: rouletteSegmentArray.length, rouletteCode: [[ ${roulette.getRouletteCode()} ]] },
+            data : { segmentLength: segmentArray.length, rouletteCode: [[ ${roulette.getRouletteCode()} ]] },
             type : 'POST',
             success : function(roulette) {
                 // segment에 따른 Angle 추출
@@ -315,32 +253,6 @@
         //createSharingBtn();
     }
 
-    // -------------------------------------------------------
-    // 룰렛 초기화
-    // -------------------------------------------------------
-    /*function resetWheel()
-    {
-        theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
-        theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
 
-        theWheel.draw();                // Call draw to render changes to the wheel.
-
-        wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
-    }*/
-    function resetRoulette(){
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/roulette");
-        document.body.appendChild(form);
-        form.submit();
-
-        //팝업창 오픈
-        //ㅇ
-    }
-    function alertPrize(indicatedSegment)
-    {
-        $("#result").text("결과 : "+indicatedSegment.text);
-        //alert("You have won " + indicatedSegment.text);
-    }
 </script>
 </html>
