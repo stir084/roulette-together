@@ -22,6 +22,12 @@ public class RouletteApiController {
         return rouletteResponseDto;
     }
 
+    @GetMapping("/api/v1/roulette/{rouletteCode}")
+    public RouletteResponseDto getSharedRoulette(@PathVariable String rouletteCode, HttpServletRequest request) {
+        RouletteResponseDto rouletteResponseDto = rouletteService.findSharedRoulette(rouletteCode);
+        return rouletteResponseDto;
+    }
+
     @PostMapping("/api/v1/roulette")
     public RouletteResponseDto startRoulette(String segmentLength, String rouletteCode){
         return rouletteService.startRoulette(rouletteCode);

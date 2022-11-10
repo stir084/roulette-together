@@ -94,6 +94,7 @@ public class RouletteService {
         return new RouletteResponseDto(newRoulette);
     }
 
+    @Transactional
     public void saveRouletteSegment(String element, String rouletteCode) {
         // 현재 룰렛 조회
         Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode);
@@ -103,6 +104,15 @@ public class RouletteService {
 
         // 세그먼트 저장
         rouletteSegmentRepository.save(rouletteSegment);
+    }
+
+    @Transactional
+    public RouletteResponseDto findSharedRoulette(String rouletteCode) {
+        // 게임 조회
+        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode);
+
+        roulette.
+        return new RouletteResponseDto(roulette);
     }
 }
 

@@ -97,7 +97,7 @@
         </div>
 </body>
 <div th:replace="~{layout/footer}"></div>
-<script src="js/roulette_common.js"></script>
+<script src="/js/roulette_common.js"></script>
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
@@ -105,13 +105,16 @@
     4. 등록버튼 누르면 FormObject 연결
     6. 게임 설정은 id 값 기준으로 저장하기*/
 
-    let rouletteCode;
-    /*console.log([[${not #strings.isEmpty(rouletteCode)}]]);*/
+    let rouletteCode = [[${rouletteCode}]];
+
     // img.src가 로드되고 나서 룰렛 생성
     function initRoulette(){
+        let url = '/api/v1/roulette';
+        if(rouletteCode != null){
+            url = url + "/" + rouletteCode;
+        }
         $.ajax({
-            url : '/api/v1/roulette',
-
+            url : url,
             type : 'GET',
             success : function(roulette) {
                 rouletteCode = roulette.rouletteCode;
