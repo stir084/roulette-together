@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,20 +45,28 @@ public class RouletteService {
     }
 
     @Transactional
-    public RouletteResponseDto startRoulette(String rouletteCode) {
+    public RouletteResponseDto startRoulette(String rouletteCode, String userIp) {
+
+        User user = userRepository.findByUserIp(userIp).get();
+
         // 현재 룰렛 조회
-        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode);
+        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+
+        if(roulette.getStatus() == RouletteStatus.FINISH) {
+            throw new IllegalArgumentException("이미 완료된 게임 입니다.");
+        }
+        if(user != roulette.getUser()){
+            throw new IllegalArgumentException("해당 룰렛의 권한이 없습니다.");
+        }
 
         // 게임 시작 - 랜덤 prize 선정
         int prizeNum;
-        if(roulette.getStatus() == RouletteStatus.READY) {
-            int rouletteSegmentSize = roulette.getRouletteSegments().size();
-            prizeNum = (int) (Math.random() * (rouletteSegmentSize - 1)) + 1;
-            roulette.setPrize(prizeNum);
-            roulette.setStatus(RouletteStatus.FINISH);
-        }else{
-            throw new IllegalArgumentException("이미 완료된 게임 입니다.");
-        }
+        int rouletteSegmentSize = roulette.getRouletteSegments().size();
+        prizeNum = (int) (Math.random() * (rouletteSegmentSize - 1)) + 1;
+        roulette.setPrize(prizeNum);
+        roulette.setStatus(RouletteStatus.FINISH);
+
         return new RouletteResponseDto(roulette);
     }
 
@@ -97,7 +106,8 @@ public class RouletteService {
     @Transactional
     public void saveRouletteSegment(String element, String rouletteCode) {
         // 현재 룰렛 조회
-        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode);
+        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
         // 세그먼트 생성
         RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment(roulette, element);
@@ -108,10 +118,10 @@ public class RouletteService {
 
     @Transactional
     public RouletteResponseDto findSharedRoulette(String rouletteCode) {
-        // 게임 조회
-        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode);
+        // 룰렛 조회
+        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
-        roulette.
         return new RouletteResponseDto(roulette);
     }
 }

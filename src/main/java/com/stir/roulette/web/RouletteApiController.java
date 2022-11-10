@@ -29,8 +29,9 @@ public class RouletteApiController {
     }
 
     @PostMapping("/api/v1/roulette")
-    public RouletteResponseDto startRoulette(String segmentLength, String rouletteCode){
-        return rouletteService.startRoulette(rouletteCode);
+    public RouletteResponseDto startRoulette(String rouletteCode, HttpServletRequest request){
+        String userIp = configBean.getUserIp(request);
+        return rouletteService.startRoulette(rouletteCode, userIp);
     }
 
     @PostMapping("/api/v1/roulette/segment")

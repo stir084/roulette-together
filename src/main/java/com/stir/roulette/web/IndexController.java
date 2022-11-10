@@ -42,11 +42,12 @@ public class IndexController {
     public String roulette() {
         return "/roulette";
     }
+
     @GetMapping("/roulette/{rouletteCode}")
     public String roulette(@PathVariable String rouletteCode, Model model) {
         //있는겜인지 없는겜인지 검사
         model.addAttribute("rouletteCode", rouletteCode);
-        return "/roulette";
+        return "/roulette-share";
     }
 
 

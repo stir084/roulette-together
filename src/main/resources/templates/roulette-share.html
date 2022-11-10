@@ -28,89 +28,24 @@
                                 <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
                                 <button class="btn btn-primary" onclick="saveSegment()">등록</button>
                             </div>
-                        <div class="d-flex align-items-center justify-content-around mt-4 mb-0">
-                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">공유하기</a>
-                            <!--<a class="btn btn-primary" href="javascript:resetRoulette();">새 게임</a>-->
-                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">새 게임</a>
-                        </div>
                     </td>
 
                 </tr>
             </table>
 
         </div>
-
     </div>
-
-<!-- Share Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h6 class="modal-title" style="font-weight:bold">공유하기</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body" style="text-align: center;">
-                    <a href="javascript:;" onclick="openKakaoLink()">
-                        <img
-                                src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-                                alt="카카오톡 공유 보내기 버튼"
-
-                        />
-                    </a>
-                    <input type="hidden" id="create-kakaotalk-sharing-btn" style="display:block"></input>
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <div class="input-group">
-                        <input class="form-control" value="http://116.37.136.233:8080" style="width: 150px;" type="text" readonly>
-                        <button class="btn btn-primary" type="button">링크 복사</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <!--<div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    </div>-->
-                    <div class="modal-body">
-                        새 게임을 만드시겠습니까?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
-                    <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
-                        <button type="button" class="btn btn-primary" onclick="resetRoulette()">예</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 </body>
 <div th:replace="~{layout/footer}"></div>
 <script src="/js/roulette_common.js"></script>
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
-/*
-    4. 등록버튼 누르면 FormObject 연결
-    6. 게임 설정은 id 값 기준으로 저장하기*/
-
-    let rouletteCode;
-
+    let rouletteCode = [[${rouletteCode}]];
     // img.src가 로드되고 나서 룰렛 생성
     function initRoulette(){
         $.ajax({
-            url : '/api/v1/roulette',
+            url : '/api/v1/roulette/' + rouletteCode,
             type : 'GET',
             success : function(roulette) {
                 rouletteCode = roulette.rouletteCode;
@@ -130,6 +65,8 @@
                 setRoulette();
             },
             error : function(request, textStatus, errorThrown) {
+                alert(request.responseJSON);
+                alert(JSON.stringify(request.responseJSON));
                 alert(request.responseJSON.message);
                 location.href = "/roulette"
             }

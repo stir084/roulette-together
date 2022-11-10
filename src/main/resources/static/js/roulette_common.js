@@ -7,8 +7,8 @@ let segmentArray; // 세그먼트 배열
 // 이미지 파일이 로드되고 나서 룰렛 생성
 let startImg = new Image();
 let denyImg = new Image();
-startImg.src = 'assets/img/roulette-start.png';
-denyImg.src = 'assets/img/roulette-deny.png';
+startImg.src = '/assets/img/roulette-start.png';
+denyImg.src = '/assets/img/roulette-deny.png';
 
 startImg.onload = function(){
     initRoulette();
