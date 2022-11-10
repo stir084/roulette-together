@@ -1,12 +1,9 @@
 package com.stir.roulette.web;
 
 import com.stir.roulette.config.ConfigBean;
-import com.stir.roulette.domain.Roulette;
-import com.stir.roulette.domain.RouletteSegment;
 import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.service.UserService;
 import com.stir.roulette.web.dto.RouletteResponseDto;
-import com.stir.roulette.web.dto.RouletteSegmentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,70 +24,52 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
 
-    private final RouletteService rouletteService;
+
     private final UserService userService;
-    private final ConfigBean configBean;
+
 
     @GetMapping("/")
-    public String index(ModelMap model, HttpServletRequest request) {
+    public String index() {
         return "redirect:/roulette";
     }
 
     @GetMapping("/roulette")
-    public String roulette(ModelMap model, HttpServletRequest request) {
-
-        String userIp = configBean.getUserIp(request);
-        RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
-        System.out.println("버즈"+rouletteResponseDto.toString());
-        model.addAttribute("roulette", rouletteResponseDto);
-
-        model.addAttribute("rouletteForm", new RouletteForm()); //메소드 인자로 받으면 유효성 검증 해야됨
-        return "/index";
+    public String roulette() {
+        return "/roulette";
+    }
+    @GetMapping("/roulette/dfdf")
+    public String roulette(Model model) {
+        //있는겜인지 없는겜인지 검사
+       // model.addAttribute("rouletteCode", rouletteCode);
+        return "/roulette";
     }
 
-    @PostMapping("/roulette") //RestApi에 안맞는 이름임.
-    public String createNewRoulette(@Valid RouletteForm form, Model model, HttpServletRequest request){
-        System.out.println("하하");
-        String userIp = configBean.getUserIp(request);
-        RouletteResponseDto rouletteResponseDto = rouletteService.createNewRoulette(userIp);
 
-        System.out.println("버즈"+rouletteResponseDto.toString());
-        model.addAttribute("roulette", rouletteResponseDto);
-        model.addAttribute("rouletteForm", new RouletteForm());
-        return "/index";
-    }
 
-    @PostMapping("/startRoulette") //RestApi에 안맞는 이름임.
-    @ResponseBody
-    public RouletteResponseDto startRoulette(String segmentLength, String rouletteCode){
-        return rouletteService.startRoulette(rouletteCode);
-    }
-
-    @PostMapping("/roulette/segment")
+   /* @PostMapping("/roulette/segment")
     public String createNewSegment(@Valid RouletteForm form, BindingResult result) {
 
         if (result.hasErrors()) {
-            return "index";
+            return "roulette";
             //같은 링크 같은 페이지로 쏴줘야함.. 제약 조건 1 - 매핑 메소드가 같은 성질(member/new)일 때 가능 가능
             //심지어 같은 Object(Roulette)도 담아야함.. 2 - 페이지에 있는 input 데이터가 Form 객체 모두 담겨져 넘어와야 제대로 된 리턴 가능
         }
 
-        /*Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
+        *//*Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
 
         Member member = new Member();
         member.setName(form.getName());
         member.setAddress(address);
 
-        memberService.join(member);*/
+        memberService.join(member);*//*
         return "redirect:/roulette";
     }
-
+*/
 
     @GetMapping("/GameData")
     @ResponseBody
@@ -122,7 +101,7 @@ public class IndexController {
     public String FncUserData(ModelMap model, @RequestParam(value="key") String key) {
 
         System.out.println("하하하하하" + key);
-        return "index";
+        return "roulette";
     }
 
     @GetMapping("/gameSetting")

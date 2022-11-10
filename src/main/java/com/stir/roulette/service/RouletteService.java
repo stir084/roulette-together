@@ -3,6 +3,7 @@ package com.stir.roulette.service;
 import com.stir.roulette.config.ConfigBean;
 import com.stir.roulette.domain.*;
 import com.stir.roulette.repository.RouletteRepository;
+import com.stir.roulette.repository.RouletteSegmentRepository;
 import com.stir.roulette.repository.UserRepository;
 import com.stir.roulette.web.dto.RouletteResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class RouletteService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final RouletteRepository rouletteRepository;
+    private final RouletteSegmentRepository rouletteSegmentRepository;
     private final ConfigBean configBean;
 
     @Transactional
@@ -90,6 +92,17 @@ public class RouletteService {
         rouletteRepository.save(newRoulette);
 
         return new RouletteResponseDto(newRoulette);
+    }
+
+    public void saveRouletteSegment(String element, String rouletteCode) {
+        // 현재 룰렛 조회
+        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode);
+
+        // 세그먼트 생성
+        RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment(roulette, element);
+
+        // 세그먼트 저장
+        rouletteSegmentRepository.save(rouletteSegment);
     }
 }
 

@@ -1,13 +1,16 @@
 let theWheel; // 룰렛
 let wheelObject;
 let rotationAngle = 0; // 룰렛 각도
-let segmentColorConfigArray = new Array('#007BFF', '#DC3545', '#28A745', '#FFC107'); // 룰렛 세그먼트 색깔
-let segmentArray = new Array(); // 세그먼트 배열
+let segmentColorConfigArray = new Array('#007BFF', '#DC3545', '#28A745', '#FFC107', '#5A5C69', '#FF8F13', '#1CC88A', '#6200EA', '#858796', '#9F24B3'); // 룰렛 세그먼트 색깔
+let segmentArray; // 세그먼트 배열
 
 // 이미지 파일이 로드되고 나서 룰렛 생성
-let img = new Image();
-img.src = 'assets/img/roulette-start.png';
-img.onload = function(){
+let startImg = new Image();
+let denyImg = new Image();
+startImg.src = 'assets/img/roulette-start.png';
+denyImg.src = 'assets/img/roulette-deny.png';
+
+startImg.onload = function(){
     initRoulette();
 }
 
@@ -27,9 +30,10 @@ function setRouletteAngle(roulette, rouletteSegment){
  * 룰렛 세그먼트 초기화
  */
 function setRouletteSegment(rouletteSegment) {
+    segmentArray = new Array();
     rouletteSegment.forEach(function(item, index){
-        if(rouletteSegment.length < index){
-            index = index % rouletteSegment.length;
+        if(segmentColorConfigArray.length <= index){
+            index = index % segmentColorConfigArray.length;
         }
         let rouletteSegmentObj = new Object();
         rouletteSegmentObj.fillStyle = segmentColorConfigArray[index];
@@ -41,7 +45,7 @@ function setRouletteSegment(rouletteSegment) {
 /**
  * 룰렛 생성 - 초기화
  */
-function setRoulette(img) {
+function setRoulette() {
     wheelObject = {
         'numSegments': segmentArray.length, //8,     // Specify number of segments.
         'outerRadius': 212,   // Set outer radius so wheel fits inside the background.
@@ -49,7 +53,7 @@ function setRoulette(img) {
         'innerRadius': 40,         // Make wheel hollow so segments don't go all way to center.
         'rotationAngle': rotationAngle,
         'textAlignment': 'outer',    // Align text to outside of wheel.
-        'innerImage': img,
+        'innerImage': startImg,
         'textFillStyle' : "white",
         'lineWidth': 3,
         'segments': segmentArray,     // Define segments including colour and text.
@@ -74,6 +78,39 @@ function setRoulette(img) {
     // Create new wheel object specifying the parameters at creation time.
     theWheel = new Winwheel(wheelObject);
 }
+
+function rouletteSpin(event){
+    theWheel.innerImage = denyImg;
+
+    var canvas = document.querySelector('canvas');
+    var ctx = canvas.getContext('2d');
+
+    var x = event.offsetX;
+    var y = event.offsetY;
+
+    if(x>=163 && y>=190 && x<=237 && y<=256){
+        // Ensure that spinning can't be clicked again while already running.
+        if (wheelSpinning == false) {
+            // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+            // to rotate with the duration of the animation the quicker the wheel spins.
+            if (wheelPower == 1) {
+                theWheel.animation.spins = 3;
+            } else if (wheelPower == 2) {
+                theWheel.animation.spins = 8;
+            } else if (wheelPower == 3) {
+                theWheel.animation.spins = 15;
+            }
+
+            // Begin the spin animation by calling startAnimation on the wheel object.
+            theWheel.startAnimation();
+
+            // Set to true so that power can't be changed and spin button re-enabled during
+            // the current animation. The user will have to reset before spinning again.
+            wheelSpinning = true;
+        }
+    }
+}
+
 /**
  * 스핀 파워 설정 - 사용안함
  */

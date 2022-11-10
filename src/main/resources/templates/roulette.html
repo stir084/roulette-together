@@ -12,9 +12,9 @@
                 <tr>
                     <td width="438" height="500" class="" align="center" valign="center">
                         <div>
-                            <h3 class="mt-4" th:text="${roulette.getTitle()}">My Roulette</h3>
+                            <h3 class="mt-4" id="title"></h3>
                         </div>
-                        <canvas id="canvas" onclick="startSpin(event)" width="456" height="500" style="width: calc(100% - 30px);">
+                        <canvas id="canvas" onclick="setPrize(event)" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
 
@@ -23,19 +23,11 @@
 
                       <!--          th:if="${roulette.getRouletteStatus().name() == 'FINISH'}" th:text="'결과 : '+${roulette.getRouletteSegmentResponseDtos().get(roulette.getPrize()).getElement()}">My Roulette</h3>-->
                         </div>
-                        <form role="form" action="/roulette/segment" th:object="${rouletteForm}" method="post">
                             <div class="input-group">
-                                <!--<input type="text" id="rouletteItem" name="rouletteItem" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
--->
-                                <input type="text" th:field="*{rouletteItem}" class="form-control" placeholder="이름을 입력하세요"
-                                       th:class="${#fields.hasErrors('rouletteItem')}? 'form-control fieldError' : 'form-control'">
-                                <p th:if="${#fields.hasErrors('rouletteItem')}" th:errors="*{rouletteItem}">Incorrect date</p>
-
-
+                                <input type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
                                 <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
-                                <button class="btn btn-primary" type="submit">등록</button>
+                                <button class="btn btn-primary" onclick="saveSegment()">등록</button>
                             </div>
-                        </form>
                         <div class="d-flex align-items-center justify-content-around mt-4 mb-0">
                             <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">공유하기</a>
                             <!--<a class="btn btn-primary" href="javascript:resetRoulette();">새 게임</a>-->
@@ -113,34 +105,87 @@
     4. 등록버튼 누르면 FormObject 연결
     6. 게임 설정은 id 값 기준으로 저장하기*/
 
-    // 룰렛 기능 ajax로 만들기
-    // startSpin 공통으로 빼기..
-
-    let rouletteSegment = [[${roulette.getRouletteSegmentResponseDtos()}]];
-    let roulette = [[${roulette}]];
-
-
-   /* let img = new Image();
-    img.src = 'assets/img/roulette-start.png';
-    // 이미지 파일이 로드되고 나서 룰렛 생성
-    img.onload = function(){
-
-
-    }*/
-
+    let rouletteCode;
+    /*console.log([[${not #strings.isEmpty(rouletteCode)}]]);*/
+    // img.src가 로드되고 나서 룰렛 생성
     function initRoulette(){
-        // 완료된 룰렛일 경우 각도 설정
-        if(roulette.rouletteStatus == "FINISH"){
-            setRouletteAngle(roulette, rouletteSegment);
-        }
+        $.ajax({
+            url : '/api/v1/roulette',
 
-        // 룰렛 세그먼트 초기화
-        setRouletteSegment(rouletteSegment);
+            type : 'GET',
+            success : function(roulette) {
+                rouletteCode = roulette.rouletteCode;
 
-        // 룰렛 초기화
-        setRoulette(img);
+                // 룰렛 타이틀 설정
+                $("#title").text(roulette.title);
+
+                // 완료된 룰렛일 경우 각도 설정
+                if(roulette.rouletteStatus == "FINISH"){
+                    setRouletteAngle(roulette, roulette.rouletteSegment);
+                }
+
+                // 룰렛 세그먼트 초기화
+                setRouletteSegment(roulette.rouletteSegment);
+
+                // 룰렛 초기화
+                setRoulette();
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(request.responseJSON.message);
+            }
+        });
+
     }
 
+    // 세그먼트 저장
+    function saveSegment(){
+        var data = {
+            element: $('#rouletteItem').val(),
+            rouletteCode: rouletteCode
+        };
+        $.ajax({
+            url : '/api/v1/roulette/segment',
+            data : data,
+            type : 'POST',
+            success : function(roulette) {
+                alert("등록되었습니다.")
+                location.href = "/roulette";
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(request.responseJSON.message);
+            }
+        });
+
+    }
+
+    // 룰렛 추첨
+    function setPrize(event) {
+
+        $.ajax({
+            url : '/api/v1/roulette',
+            data : { segmentLength: segmentArray.length, rouletteCode: rouletteCode },
+            type : 'POST',
+            success : function(roulette) {
+                // segment에 따른 Angle 추출
+                let angle = 360 / roulette.rouletteSegment.length;
+
+                // prize 세팅
+                let prizeAngle = (roulette.prize - 1) * angle;
+
+                // Stroke에 안걸치도록 angle 값 -2 세팅
+                let stopAt = prizeAngle + Math.floor((Math.random() * (angle - 2)));
+
+                theWheel.animation.stopAngle = stopAt;
+
+                rouletteSpin(event);
+                $("#canvas").removeAttr("onclick");
+                $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(request.responseJSON.message);
+            }
+        });
+    }
 
 
     function openKakaoLink(){
@@ -152,13 +197,13 @@
         let canvImgStr = canvas.toDataURL('image/png', 1.0);  // canvas.toDataURL()을 이용하여 base64 img string 으로 변경
         $.ajax({
             url : '/saveRouletteImg',
-            data : { strImg: canvImgStr, gameCode: [[ ${roulette.getRouletteCode()} ]] },
+            data : { strImg: canvImgStr, gameCode: rouletteCode },
             type : 'POST',
             success : function(json) {
                 createSharingBtn();
             },
             error : function(request, textStatus, errorThrown) {
-                location.href = "/html/error.html"; //레드마인 조치
+                location.href = "/html/error.html";
             }
         });
         return;
@@ -171,7 +216,7 @@
                 title: '36회차 게임',
                 description: '원하는 메뉴를 등록 해주세요~',
                 //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
-                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + [[ ${roulette.getRouletteCode()} ]] + '&blockCache=' + generateRandomString(10),
+                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + rouletteCode + '&blockCache=' + generateRandomString(10),
                 link: {
                     mobileWebUrl: 'https://developers.kakao.com',
                     webUrl: 'https://developers.kakao.com',
@@ -194,64 +239,7 @@
     }
 
 
-    function startSpin(event)
-    {
-        function spin(event){
-            var canvas = document.querySelector('canvas');
-            var ctx = canvas.getContext('2d');
 
-            var x = event.offsetX;
-            var y = event.offsetY;
-
-            if(x>=163 && y>=190 && x<=237 && y<=256){
-                // Ensure that spinning can't be clicked again while already running.
-                if (wheelSpinning == false) {
-                    // Based on the power level selected adjust the number of spins for the wheel, the more times is has
-                    // to rotate with the duration of the animation the quicker the wheel spins.
-                    if (wheelPower == 1) {
-                        theWheel.animation.spins = 3;
-                    } else if (wheelPower == 2) {
-                        theWheel.animation.spins = 8;
-                    } else if (wheelPower == 3) {
-                        theWheel.animation.spins = 15;
-                    }
-
-                    // Begin the spin animation by calling startAnimation on the wheel object.
-                    theWheel.startAnimation();
-
-                    // Set to true so that power can't be changed and spin button re-enabled during
-                    // the current animation. The user will have to reset before spinning again.
-                    wheelSpinning = true;
-                }
-            }
-        }
-        $.ajax({
-            url : '/startRoulette',
-            data : { segmentLength: segmentArray.length, rouletteCode: [[ ${roulette.getRouletteCode()} ]] },
-            type : 'POST',
-            success : function(roulette) {
-                // segment에 따른 Angle 추출
-                let angle = 360 / roulette.rouletteSegmentResponseDtos.length;
-
-                // prize 세팅
-                let prizeAngle = (roulette.prize - 1) * angle;
-
-                // Stroke에 안걸치도록 angle 값 -2 세팅
-                let stopAt = prizeAngle + Math.floor((Math.random() * (angle - 2)));
-
-                theWheel.animation.stopAngle = stopAt;
-
-                spin(event);
-                $("#canvas").removeAttr("onclick");
-            },
-            error : function(request, textStatus, errorThrown) {
-                alert(request.responseJSON.message);
-            }
-        });
-
-
-        //createSharingBtn();
-    }
 
 
 </script>

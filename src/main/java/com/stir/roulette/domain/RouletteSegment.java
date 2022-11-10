@@ -25,7 +25,6 @@ public class RouletteSegment {
     @JoinColumn(name = "roulette_id")
     private Roulette roulette;
 
-    //==연관관계 메서드==//
     public void addRoulette(Roulette roulette) {
         this.roulette = roulette;
         roulette.getRouletteSegments().add(this);
