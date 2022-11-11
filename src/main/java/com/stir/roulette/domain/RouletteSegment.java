@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -25,15 +28,18 @@ public class RouletteSegment {
     @JoinColumn(name = "roulette_id")
     private Roulette roulette;
 
+    private LocalDateTime createDate;
+
     public void addRoulette(Roulette roulette) {
         this.roulette = roulette;
         roulette.getRouletteSegments().add(this);
     }
 
-    public static RouletteSegment createRouletteSegment(Roulette roulette, String element){
+    public static RouletteSegment createRouletteSegment(String element){
         RouletteSegment rouletteSegment = new RouletteSegment();
-        rouletteSegment.addRoulette(roulette);
-        rouletteSegment.setElement(element);
+        //rouletteSegment.addRoulette(roulette); //룰렛에서 해줭하하
+       rouletteSegment.setElement(element);
+        rouletteSegment.setCreateDate(LocalDateTime.now());
         return rouletteSegment;
     }
    /* public void updateGame(Roulette roulette){

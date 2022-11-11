@@ -4,15 +4,7 @@ let rotationAngle = 0; // 룰렛 각도
 let segmentColorConfigArray = new Array('#007BFF', '#DC3545', '#28A745', '#FFC107', '#5A5C69', '#FF8F13', '#1CC88A', '#6200EA', '#858796', '#9F24B3'); // 룰렛 세그먼트 색깔
 let segmentArray; // 세그먼트 배열
 
-// 이미지 파일이 로드되고 나서 룰렛 생성
-let startImg = new Image();
-let denyImg = new Image();
-startImg.src = '/assets/img/roulette-start.png';
-denyImg.src = '/assets/img/roulette-deny.png';
 
-startImg.onload = function(){
-    initRoulette();
-}
 
 /**
  * 완료된 룰렛 각도 설정
@@ -20,7 +12,6 @@ startImg.onload = function(){
 function setRouletteAngle(roulette, rouletteSegment){
 
     $("#result").text("결과 : " + rouletteSegment[roulette.prize - 1].element);
-    $("#canvas").removeAttr("onclick");
 
     let angle = 360 / rouletteSegment.length;
 
@@ -45,15 +36,15 @@ function setRouletteSegment(rouletteSegment) {
 /**
  * 룰렛 생성 - 초기화
  */
-function setRoulette() {
+function setRoulette(img, textFontSize) {
     wheelObject = {
         'numSegments': segmentArray.length, //8,     // Specify number of segments.
         'outerRadius': 212,   // Set outer radius so wheel fits inside the background.
-        'textFontSize': 28,    // Set font size as desired.
+        'textFontSize': textFontSize,    // Set font size as desired.
         'innerRadius': 40,         // Make wheel hollow so segments don't go all way to center.
         'rotationAngle': rotationAngle,
         'textAlignment': 'outer',    // Align text to outside of wheel.
-        'innerImage': startImg,
+        'innerImage': img,
         'textFillStyle' : "white",
         'lineWidth': 3,
         'segments': segmentArray,     // Define segments including colour and text.
@@ -79,8 +70,17 @@ function setRoulette() {
     theWheel = new Winwheel(wheelObject);
 }
 
+function getRouletteFontSize(rouletteSegmentLength){
+    let fontSize;
+    if(rouletteSegmentLength <= 20){
+        fontSize = 24;
+    }else if(rouletteSegmentLength <= 28){
+        fontSize = 20;
+    }
+    return fontSize;
+}
 function rouletteSpin(event){
-    theWheel.innerImage = denyImg;
+
 
     var canvas = document.querySelector('canvas');
     var ctx = canvas.getContext('2d');
@@ -177,16 +177,7 @@ function saveRouletteItem(){
 
     wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
 }*/
-function resetRoulette(){
-    var form = document.createElement("form");
-    form.setAttribute("method", "post");
-    form.setAttribute("action", "/roulette");
-    document.body.appendChild(form);
-    form.submit();
 
-    //팝업창 오픈
-    //ㅇ
-}
 function alertPrize(indicatedSegment)
 {
     $("#result").text("결과 : "+indicatedSegment.text);

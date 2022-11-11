@@ -45,11 +45,13 @@ public class IndexController {
 
     @GetMapping("/roulette/{rouletteCode}")
     public String roulette(@PathVariable String rouletteCode, Model model) {
-        //있는겜인지 없는겜인지 검사
         model.addAttribute("rouletteCode", rouletteCode);
         return "/roulette-share";
     }
-
+    @GetMapping("/setting")
+    public String gameSetting(ModelMap model) {
+        return "roulette-setting";
+    }
 
 
    /* @PostMapping("/roulette/segment")
@@ -105,12 +107,7 @@ public class IndexController {
         return "roulette";
     }
 
-    @GetMapping("/gameSetting")
-    public String gameSetting(ModelMap model) {
-        model.addAttribute("data", "Hello Spring!");
-        model.addAttribute("msg", 11);
-        return "gameSetting";
-    }
+
 
 //    @GetMapping("/rt/game/v1/games/{id}")
 //    public Long findByGameCode(@PathVariable Long gameCode) {

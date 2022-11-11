@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,8 @@ public class Roulette {
 
     private String title;
 
+    private LocalDateTime createDate;
+
     // N쪽에 써주는 연관관계 메소드 //
     public void addUser(User user) {
         this.user = user;
@@ -57,7 +60,7 @@ public class Roulette {
         rouletteSegment.updateGame(this);
     }*/
 
-    public static Roulette createInitRoulette(String rouletteCode){
+   /* public static Roulette createInitRoulette2(String rouletteCode){
         Roulette roulette = new Roulette();
 
         roulette.setRouletteCode(rouletteCode);
@@ -71,6 +74,23 @@ public class Roulette {
 
         roulette.setRouletteSegments(rouletteSegmentList);
         roulette.setTitle("오늘의 점심은?");
+        roulette.setCreateDate(LocalDateTime.now());
+
+        return roulette;
+    }*/
+
+    public static Roulette createInitRoulette(String rouletteCode, String title, RouletteSegment... rouletteSegments){
+        Roulette roulette = new Roulette();
+
+        roulette.setRouletteCode(rouletteCode);
+        roulette.setStatus(RouletteStatus.READY);
+
+        for (RouletteSegment rouletteSegment : rouletteSegments) {
+            roulette.addRouletteSegment(rouletteSegment);
+        }
+        //roulette.setRouletteSegments(rouletteSegmentList);
+        roulette.setTitle(title);
+        roulette.setCreateDate(LocalDateTime.now());
 
         return roulette;
     }

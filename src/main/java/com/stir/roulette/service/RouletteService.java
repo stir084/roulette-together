@@ -31,9 +31,18 @@ public class RouletteService {
     @Transactional
     public RouletteResponseDto findLastGame(String userIp) {
 
-        // 회원 정보 없을 시 회원 생성
+        // 회원 정보 없을 시 초기 생성
         if(userRepository.findByUserIp(userIp).isEmpty()){
-            Roulette roulette = Roulette.createInitRoulette(configBean.getGameRandomCode());
+           //RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment("짜장면");
+            List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
+
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("짜장면"));
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("짬뽕"));
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("탕수육"));
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("취두부"));
+
+            Roulette roulette = Roulette.createInitRoulette(configBean.getGameRandomCode(), "점심 뭐 먹지?",
+                    rouletteSegmentList.stream().toArray(RouletteSegment[]::new));
             User user = User.createUser(userIp, roulette);
             userRepository.save(user);
         }
@@ -85,6 +94,7 @@ public class RouletteService {
         newRoulette.setStatus(RouletteStatus.READY);
         newRoulette.addUser(user);
 
+       // Roulette.createInitRoulette()
 
         List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
 
@@ -109,8 +119,13 @@ public class RouletteService {
         Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
+        if(roulette.getStatus() == RouletteStatus.FINISH) {
+            throw new IllegalArgumentException("이미 완료된 게임 입니다.");
+        }
+
         // 세그먼트 생성
-        RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment(roulette, element);
+        RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment(element);
+        roulette.addRouletteSegment(rouletteSegment);
 
         // 세그먼트 저장
         rouletteSegmentRepository.save(rouletteSegment);

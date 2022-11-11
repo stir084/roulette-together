@@ -34,6 +34,12 @@ public class RouletteApiController {
         return rouletteService.startRoulette(rouletteCode, userIp);
     }
 
+    @PostMapping("/api/v1/roulette/new") //RestApi에 안맞는 이름임.
+    public RouletteResponseDto createNewRoulette(HttpServletRequest request){
+        String userIp = configBean.getUserIp(request);
+        return rouletteService.createNewRoulette(userIp);
+    }
+
     @PostMapping("/api/v1/roulette/segment")
     public String saveRouletteSegment(@RequestParam("element") String element, @RequestParam("rouletteCode") String rouletteCode) {
         rouletteService.saveRouletteSegment(element, rouletteCode);

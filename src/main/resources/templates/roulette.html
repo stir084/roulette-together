@@ -23,7 +23,7 @@
 
                       <!--          th:if="${roulette.getRouletteStatus().name() == 'FINISH'}" th:text="'결과 : '+${roulette.getRouletteSegmentResponseDtos().get(roulette.getPrize()).getElement()}">My Roulette</h3>-->
                         </div>
-                            <div class="input-group">
+                            <div id="item" class="input-group">
                                 <input type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
                                 <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
                                 <button class="btn btn-primary" onclick="saveSegment()">등록</button>
@@ -90,7 +90,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
                     <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
-                        <button type="button" class="btn btn-primary" onclick="resetRoulette()">예</button>
+                        <button type="button" class="btn btn-primary" onclick="newRoulette()">예</button>
                     </div>
                 </div>
             </div>
@@ -107,27 +107,40 @@
 
     let rouletteCode;
 
-    // img.src가 로드되고 나서 룰렛 생성
+
+    // 이미지 파일이 로드되고 나서 룰렛 생성
+    let startImg = new Image();
+    let denyImg = new Image();
+    startImg.src = '/assets/img/roulette-start.png';
+    denyImg.src = '/assets/img/roulette-deny.png';
+
+    startImg.onload = function(){
+        initRoulette();
+    }
+
     function initRoulette(){
         $.ajax({
             url : '/api/v1/roulette',
             type : 'GET',
             success : function(roulette) {
                 rouletteCode = roulette.rouletteCode;
-
+                let img = startImg;
                 // 룰렛 타이틀 설정
                 $("#title").text(roulette.title);
 
                 // 완료된 룰렛일 경우 각도 설정
                 if(roulette.rouletteStatus == "FINISH"){
                     setRouletteAngle(roulette, roulette.rouletteSegment);
+                    $("#canvas").removeAttr("onclick");
+                    $("#item").remove();
+                    img = denyImg;
                 }
 
                 // 룰렛 세그먼트 초기화
                 setRouletteSegment(roulette.rouletteSegment);
 
                 // 룰렛 초기화
-                setRoulette();
+                setRoulette(img, getRouletteFontSize(roulette.rouletteSegment.length));
             },
             error : function(request, textStatus, errorThrown) {
                 alert(request.responseJSON.message);
@@ -176,10 +189,11 @@
                 let stopAt = prizeAngle + Math.floor((Math.random() * (angle - 2)));
 
                 theWheel.animation.stopAngle = stopAt;
-
+                theWheel.innerImage = denyImg;
                 rouletteSpin(event);
                 $("#canvas").removeAttr("onclick");
-                $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
+                $("#item").remove();
+               // $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
             },
             error : function(request, textStatus, errorThrown) {
                 alert(request.responseJSON.message);
@@ -187,6 +201,18 @@
         });
     }
 
+    function newRoulette(){
+        $.ajax({
+            url : '/api/v1/roulette/new',
+            type : 'POST',
+            success : function(roulette) {
+                location.href = "/roulette";
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(request.responseJSON.message);
+            }
+        });
+    }
 
     function openKakaoLink(){
         saveRouletteImg();

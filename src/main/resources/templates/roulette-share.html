@@ -14,7 +14,7 @@
                         <div>
                             <h3 class="mt-4" id="title"></h3>
                         </div>
-                        <canvas id="canvas" onclick="setPrize(event)" width="456" height="500" style="width: calc(100% - 30px);">
+                        <canvas id="canvas" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
 
@@ -23,7 +23,7 @@
 
                       <!--          th:if="${roulette.getRouletteStatus().name() == 'FINISH'}" th:text="'결과 : '+${roulette.getRouletteSegmentResponseDtos().get(roulette.getPrize()).getElement()}">My Roulette</h3>-->
                         </div>
-                            <div class="input-group">
+                            <div id="item" class="input-group">
                                 <input type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
                                 <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
                                 <button class="btn btn-primary" onclick="saveSegment()">등록</button>
@@ -41,6 +41,16 @@
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
+    // 이미지 파일이 로드되고 나서 룰렛 생성
+    let startImg = new Image();
+    let denyImg = new Image();
+    startImg.src = '/assets/img/roulette-start.png';
+    denyImg.src = '/assets/img/roulette-deny.png';
+
+    startImg.onload = function(){
+        initRoulette();
+    }
+
     let rouletteCode = [[${rouletteCode}]];
     // img.src가 로드되고 나서 룰렛 생성
     function initRoulette(){
@@ -56,17 +66,17 @@
                 // 완료된 룰렛일 경우 각도 설정
                 if(roulette.rouletteStatus == "FINISH"){
                     setRouletteAngle(roulette, roulette.rouletteSegment);
+                    $("#canvas").removeAttr("onclick");
+                    $("#item").remove();
                 }
 
                 // 룰렛 세그먼트 초기화
                 setRouletteSegment(roulette.rouletteSegment);
 
                 // 룰렛 초기화
-                setRoulette();
+                setRoulette(denyImg);
             },
             error : function(request, textStatus, errorThrown) {
-                alert(request.responseJSON);
-                alert(JSON.stringify(request.responseJSON));
                 alert(request.responseJSON.message);
                 location.href = "/roulette"
             }
@@ -86,7 +96,7 @@
             type : 'POST',
             success : function(roulette) {
                 alert("등록되었습니다.")
-                location.href = "/roulette";
+                location.href = "/roulette" + rouletteCode;
             },
             error : function(request, textStatus, errorThrown) {
                 alert(request.responseJSON.message);
@@ -94,36 +104,6 @@
         });
 
     }
-
-    // 룰렛 추첨
-    function setPrize(event) {
-
-        $.ajax({
-            url : '/api/v1/roulette',
-            data : { segmentLength: segmentArray.length, rouletteCode: rouletteCode },
-            type : 'POST',
-            success : function(roulette) {
-                // segment에 따른 Angle 추출
-                let angle = 360 / roulette.rouletteSegment.length;
-
-                // prize 세팅
-                let prizeAngle = (roulette.prize - 1) * angle;
-
-                // Stroke에 안걸치도록 angle 값 -2 세팅
-                let stopAt = prizeAngle + Math.floor((Math.random() * (angle - 2)));
-
-                theWheel.animation.stopAngle = stopAt;
-
-                rouletteSpin(event);
-                $("#canvas").removeAttr("onclick");
-                $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
-            },
-            error : function(request, textStatus, errorThrown) {
-                alert(request.responseJSON.message);
-            }
-        });
-    }
-
 
     function openKakaoLink(){
         saveRouletteImg();
