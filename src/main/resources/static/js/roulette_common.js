@@ -177,16 +177,16 @@ function saveRouletteItem(){
 
     wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
 }*/
-function resetRoulette(){
+/*function resetRoulette(){
     var form = document.createElement("form");
     form.setAttribute("method", "post");
-    form.setAttribute("action", "/roulette");
+    form.setAttribute("action", "/api/v1/roulette/new");
     document.body.appendChild(form);
     form.submit();
 
     //팝업창 오픈
     //ㅇ
-}
+}*/
 function alertPrize(indicatedSegment)
 {
     $("#result").text("결과 : "+indicatedSegment.text);

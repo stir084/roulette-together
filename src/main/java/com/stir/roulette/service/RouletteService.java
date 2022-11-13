@@ -6,6 +6,10 @@ import com.stir.roulette.repository.RouletteRepository;
 import com.stir.roulette.repository.RouletteSegmentRepository;
 import com.stir.roulette.repository.UserRepository;
 import com.stir.roulette.web.dto.RouletteResponseDto;
+import com.stir.roulette.web.dto.RouletteSegmentSettingRequestDto;
+import com.stir.roulette.web.dto.RouletteSettingRequestDto;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,10 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -124,5 +127,84 @@ public class RouletteService {
 
         return new RouletteResponseDto(roulette);
     }
+
+    @Transactional
+    public void updateRoulette(RouletteSettingRequestDto rouletteRequestDto) {
+        // Id와 RouletteCode로 같이 조회하기
+        System.out.println();
+        Roulette roulette = Optional.of(rouletteRepository.findByIdAndRouletteCode(rouletteRequestDto.getId(), rouletteRequestDto.getRouletteCode()))
+                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+
+
+        roulette.setTitle(rouletteRequestDto.getTitle());
+
+        //기존에 불러온 값이랑 가져온 값이랑 체크 / 조작된 값이 있는지 체크
+
+
+        // DB값 미리 넣기
+        Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedPayment = new LinkedHashMap<>();
+        List<RouletteSegment> rouletteSegmentList = roulette.getRouletteSegments(); // 지연로딩 List 하나라 1개만 가져옴 띠용 그럼 N+1인 언제 생기는거였지?
+        for (RouletteSegment rouletteSegment : rouletteSegmentList) {
+            RouletteSegmentSettingRequestDto rouletteSegmentSettingRequestDto = new RouletteSegmentSettingRequestDto(rouletteSegment);
+
+            SegmentUpdateChkVO segmentUpdateChkVO = new SegmentUpdateChkVO(rouletteSegmentSettingRequestDto);
+            classifiedPayment.put(segmentUpdateChkVO, Collections.singletonList(segmentUpdateChkVO));
+        }
+
+        //수정된거 있는지 출력하기
+        /*List<RouletteSegmentSettingRequestDto> rouletteSegmentList1 = rouletteRequestDto.getRouletteSegmentList();
+        for (RouletteSegmentSettingRequestDto rouletteSegmentSettingRequestDto : rouletteSegmentList1) {
+            SegmentUpdateChkVO.classify(rouletteSegmentSettingRequestDto, classifiedPayment);
+        }*/
+
+        //수정된게 있는지 체크
+        // 가져온 Segment 데이터 중 수정된 내역이 있으면 Save
+        HashMap<Long, String> hhh = SegmentUpdateChkVO.classify(rouletteRequestDto.getRouletteSegmentList(), classifiedPayment);
+        for (Long aLong : hhh.keySet()) {
+            RouletteSegment byId = rouletteSegmentRepository.findById(aLong)
+                    .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));;
+            byId.setElement(hhh.get(aLong));
+        }
+
+    }
+
+    @Data
+    @EqualsAndHashCode
+    static class SegmentUpdateChkVO{
+        private Long id;
+        private String element;
+
+        public SegmentUpdateChkVO(RouletteSegmentSettingRequestDto rouletteSegment) {
+            this.id = rouletteSegment.getId();
+            this.element = rouletteSegment.getElement();
+        }
+        public static HashMap<Long, String> classify(List<RouletteSegmentSettingRequestDto> rouletteSegmentList
+                , Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> testPayment){
+            Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedPayment = testPayment;//new LinkedHashMap<>();
+
+
+            HashMap<Long, String> test = new HashMap<>();
+
+            for(RouletteSegmentSettingRequestDto rouletteSegment : rouletteSegmentList){
+                SegmentUpdateChkVO dto = new SegmentUpdateChkVO(rouletteSegment);
+                List<SegmentUpdateChkVO> list = classifiedPayment.get(dto);
+
+                if(list == null){ // 비교 값이 없으면
+                    test.put(dto.getId(), dto.getElement());
+               /* if(dto.getId()==null){ // 새로 추가된 Segment 용도
+
+                }*/
+
+                    //classifiedPayment.put(dto, new ArrayList<>(Collections.singletonList(dto))); // 기존에 없으면 save하거나 throw
+                }
+            }
+
+           // System.out.println("하하"+test);
+            /*return classifiedPayment.entrySet().stream()
+                    .map(Map.Entry::getValue);*/
+            return test;
+        }
+    }
+
 }
 
