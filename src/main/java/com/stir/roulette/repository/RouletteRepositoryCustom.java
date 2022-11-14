@@ -9,5 +9,7 @@ import java.util.List;
 public interface RouletteRepositoryCustom {
     List<Roulette> findLastGameByUserIp(String userIp);
 
+    Roulette findByIdAndRouletteCode(Long id, String rouletteCode);
+
 
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,7 +9,7 @@
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/css/main.css" type="text/css" />
@@ -99,7 +100,7 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie" style="color:white"></i></div>
                         내 게임
                     </a>
-                    <a class="nav-link" href="/gameSetting">
+                    <a class="nav-link" href="/setting">
                         <div class="sb-nav-link-icon"><i class="fas fa-edit" style="color:white"></i></div>
                         게임 설정
                     </a>
@@ -139,16 +140,26 @@
                                     <div class="dataTable-container">
                                         <table id="datatablesSimple" class="dataTable-table">
                                             <tbody>
-                                            <tr>
-                                                <td><input class="dataTable-input" placeholder="" type="text"></td>
+                                            <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}">
+                                                <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getId()}" th:value="${rouletteSegment.getElement()}"></td>
                                                 <td><a class="btn btn-danger" href="">X</a></td>
                                             </tr>
-                                            <tr th:each="product : ${productList}">
-                                                <td th:text="${product.seq}"></td>
-                                                <td th:text="${product.name}"></td>
-                                                <td th:text="${product.price}"></td>
-                                                <td th:text="${product.quantity}"></td>
-                                            </tr>
+                                            <!--<div th:each="comment:${commentList}">
+                                                <form method="POST">
+                                                    <input type="hidden" id="commentNum" name="CommentNum" th:value="${comment.CO_NUM}">
+                                                    <div>
+                                                        <input type="button" class="btn p-0 btn-md" name="commentID" th:value="${comment.EMAIL}" />
+                                                        <small th:text="${#strings.substring(comment.TIME,0,19)}"></small>
+                                                    </div>
+                                                    <div th:text="${comment.CONTENT}"></div>
+                                                    <div class="text-right" th:if="${comment.EMAIL==userInform.userEmail}">
+                                                        <span><button type="submit" name="submit" value="update">수정</button></span>
+                                                        <span><button type="submit" name="submit" value="delete">삭제</button></span>
+                                                    </div>
+                                                </form>
+                                            </div>-->
+
+
 
                                             </tbody>
                                         </table>
@@ -175,7 +186,7 @@
                                             <tbody>
                                             <tr>
                                                 <td>제목</td>
-                                                <td><input class="dataTable-input" placeholder="" type="text"></td>
+                                                <td><input class="dataTable-input" placeholder="" type="text" th:id="title" th:value="${roulette.getTitle()}"></td>
                                                 <td><a class="btn btn-danger" href="roulette.html">X</a></td>
                                             </tr>
                                             <tr>
@@ -190,13 +201,16 @@
                             </div>
                         </div>
                     </div>
+
+
+
                 </div>
                 <div class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright © Your Website 2022</div>
                             <div>
-                                <button class="btn btn-primary">저장하기</button>
+                                <button class="btn btn-primary" onclick="saveRoulette();">저장하기</button>
                             </div>
                         </div>
                     </div>
@@ -214,13 +228,6 @@
             </div>
         </footer>
     </div>
-</div>
-
-<div id="memberListContent">
-    ㅋㅋㅋㅋ
-    <ul>
-        <li th:each="test: ${roulette}" th:text="|${member.email} , ${member.name}|"></li>
-    </ul>
 </div>
 <style>
 .dataTable-table > tbody > tr > td {
@@ -267,14 +274,64 @@ $.ajax({
         //location.href = "/roulette"
     }
 });
+let rouletteCode = "[[${roulette.getRouletteCode()}]]";
+let rouletteId = "[[${roulette.getId()}]]";
+
+function saveRoulette(){
+    //세그먼트 아이디가 특별하지 않다..
+    //DTO로 List를 던지고 싶다(정제 해야함) {[]}와 같은 형태만 맞춰주면 된다.
+    //그래서 DTO안에 DTO도 정제할 수 있을거같은데.. 이렇게하면 Map인 경우에 알아서 걸러져서 들어간다.
+    //근데 어차피 중복은 없으니 상관은 없네.. 아니지 중복있지 새로 추가해서 짜장면 짜장면 이렇게 되어버리면..
+    //해결해야할건 세그먼트 아이디인데..
+    //하나씩 저장하면 id를 href=""에 줘서 url에 꽂아서 하면 되긴하는데
+
+    //한꺼번에 저장할라그러면 id를 식별자로 넘겨야하는데, 이렇게 되면 사용자가 우회적으로 id값을 정제해서 수정할 가능성이 있네..
+    //그럼 세그먼트 아이디에서 세그먼트를 조회해서 다시 현재 룰렛코드와 일치한지 확인을 해야되네..
+
+    //아니지 일단 Roulette조회하고 세그먼트 id 일치 시에 해당 segment는 set하고
+    //아닌건 신규 저장하고..
+    //Roulette Id도 -1 처리할 수 있으니 findByIdAndRouletteCode로 해야겠다
+
+    //ajax 요청시 한꺼번에 보낼 것이냐/ 단건으로 보낼것이냐가 문제인데
+    //$.ajax로 보내면 정제해야된다.
+
+    let rouletteSettingObj = new Object();
+    let segmentArray = new Array();
+    rouletteSettingObj.id = rouletteId;
+    rouletteSettingObj.rouletteCode = rouletteCode;
+    rouletteSettingObj.title = $("#title").val();
+    $("#datatablesSimple .dataTable-input").each(function(i, v){
+        let segmentObj = new Object();
+        segmentObj.id = $(v).attr("name").replace("segment_", "");
+        segmentObj.element = $(v).val();
+        segmentArray.push(segmentObj);
+    });
+    rouletteSettingObj.rouletteSegmentList = segmentArray;
+
+    $.ajax({
+        url : '/api/v1/roulette',
+        type : 'PUT',
+        data : JSON.stringify(rouletteSettingObj),
+        contentType: "application/json",
+        dataType : "json",
+        success : function(roulette) {
+            console.log("하하");
+        },
+        error : function(request, textStatus, errorThrown) {
+            alert(request.responseJSON.message);
+            //location.href = "/roulette"
+        }
+    });
+}
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
+<script src="/js/scripts.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
 <script src="assets/demo/chart-bar-demo.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="js/datatables-simple-demo.js"></script>
+<script src="/js/datatables-simple-demo.js"></script>
 </body>
 </html>

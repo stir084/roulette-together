@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,7 +16,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -31,7 +29,8 @@ public class IndexController {
 
 
     private final UserService userService;
-
+    private final ConfigBean configBean;
+    private final RouletteService rouletteService;
 
     @GetMapping("/")
     public String index() {
@@ -44,7 +43,8 @@ public class IndexController {
     }
 
     @GetMapping("/roulette/{rouletteCode}")
-    public String roulette(@PathVariable String rouletteCode, Model model) {
+    public String sharedRoulette(@PathVariable String rouletteCode, Model model) {
+        //있는겜인지 없는겜인지 검사
         model.addAttribute("rouletteCode", rouletteCode);
         return "/roulette-share";
     }
@@ -53,6 +53,24 @@ public class IndexController {
         return "roulette-setting";
     }
 
+
+    @GetMapping("/setting")
+    public String setting(ModelMap model, HttpServletRequest request) {
+        String userIp = configBean.getUserIp(request);
+        model.addAttribute("roulette", rouletteService.findLastGame(userIp));
+        return "roulette-setting";
+    }
+
+    /*@GetMapping("/setting-ajax")
+    public String searchMembers(Model model, HttpServletRequest request) {
+        String userIp = configBean.getUserIp(request);
+        //RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
+        //List<Member> findMembers = memberUseCase.findAll();
+        model.addAttribute("roulette", rouletteService.findLastGame(userIp));
+
+        return "/roulette-setting :: #commentTable";
+    }
+*/
 
    /* @PostMapping("/roulette/segment")
     public String createNewSegment(@Valid RouletteForm form, BindingResult result) {
@@ -106,7 +124,6 @@ public class IndexController {
         System.out.println("하하하하하" + key);
         return "roulette";
     }
-
 
 
 //    @GetMapping("/rt/game/v1/games/{id}")

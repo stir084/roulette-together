@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface RouletteRepository extends JpaRepository<Roulette, Long>, RouletteRepositoryCustom {
     Optional<Roulette> findByRouletteCode(String rouletteCode);
 
+
 }
