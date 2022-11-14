@@ -197,7 +197,6 @@ public class IndexController {
     @RequestMapping(value="/deleteImg.do")
     @ResponseBody
     public String deleteImg(@RequestParam(value="gameCode") String gameCode) throws Exception{
-        System.out.println(gameCode+"ㅇ랑ㄹ");
 
      /*   File file = new File("C:\\uploadImage/" + gameCode +".png");
         if( file.exists() ){
