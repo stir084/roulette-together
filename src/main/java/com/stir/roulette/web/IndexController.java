@@ -48,11 +48,6 @@ public class IndexController {
         model.addAttribute("rouletteCode", rouletteCode);
         return "/roulette-share";
     }
-    @GetMapping("/setting")
-    public String gameSetting(ModelMap model) {
-        return "roulette-setting";
-    }
-
 
     @GetMapping("/setting")
     public String setting(ModelMap model, HttpServletRequest request) {
