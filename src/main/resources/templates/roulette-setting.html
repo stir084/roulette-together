@@ -141,7 +141,7 @@
                                         <table id="datatablesSimple" class="dataTable-table">
                                             <tbody>
                                             <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}">
-                                                <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getId()}" th:value="${rouletteSegment.getElement()}"></td>
+                                                <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getRouletteSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
                                                 <td><a class="btn btn-danger" href="">X</a></td>
                                             </tr>
                                             <!--<div th:each="comment:${commentList}">
@@ -275,7 +275,7 @@ $.ajax({
     }
 });
 let rouletteUID = "[[${roulette.getRouletteUID()}]]";
-let rouletteId = "[[${roulette.getId()}]]";
+
 
 function saveRoulette(){
     //세그먼트 아이디가 특별하지 않다..
@@ -297,12 +297,12 @@ function saveRoulette(){
 
     let rouletteSettingObj = new Object();
     let segmentArray = new Array();
-    rouletteSettingObj.id = rouletteId;
+    //rouletteSettingObj.id = rouletteId;
     rouletteSettingObj.rouletteUID = rouletteUID;
     rouletteSettingObj.title = $("#title").val();
     $("#datatablesSimple .dataTable-input").each(function(i, v){
         let segmentObj = new Object();
-        segmentObj.id = $(v).attr("name").replace("segment_", "");
+        segmentObj.rouletteSegmentUID = $(v).attr("name").replace("segment_", "");
         segmentObj.element = $(v).val();
         segmentArray.push(segmentObj);
     });

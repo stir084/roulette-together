@@ -40,9 +40,9 @@ public class RouletteApiController {
 
 
     @PutMapping("/api/v1/roulette")
-    public Long updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
+    public UUID updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
         rouletteService.updateRoulette(rouletteRequestDto);
-        return rouletteRequestDto.getId();
+        return rouletteRequestDto.getRouletteUID();
     }
 
     @PostMapping("/api/v1/roulette/new") //RestApi에 안맞는 이름임.

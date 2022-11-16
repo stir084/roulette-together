@@ -12,14 +12,14 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class RouletteSettingRequestDto {
 
-    private Long id;
+    //private Long id;
     private String title;
     private UUID rouletteUID;
     private List<RouletteSegmentSettingRequestDto> rouletteSegmentList;
    // private String title;
 
     public RouletteSettingRequestDto(Roulette entity) {
-        this.id = entity.getId();
+      //this.id = entity.getId();
         this.title = entity.getTitle();
         this.rouletteUID = entity.getRouletteUID();
         this.rouletteSegmentList = entity.getRouletteSegments().stream()

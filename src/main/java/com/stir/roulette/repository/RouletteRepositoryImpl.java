@@ -35,10 +35,10 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
                 .fetch();
     }
 
-    public Roulette findByIdAndRouletteUID(Long id, UUID rouletteUID) {
+    /*public Roulette findByRouletteUID(Long id, UUID rouletteUID) {
         return queryFactory.selectFrom(roulette)
                 .join(roulette.rouletteSegments, rouletteSegment)
                 .where(roulette.id.eq(id), roulette.rouletteUID.eq(rouletteUID))
                 .fetchOne();
-    }
+    }*/
 }

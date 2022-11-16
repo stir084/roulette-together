@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Getter
 public class RouletteResponseDto {
 
-    private Long id;
+    //private Long id;
     private UUID rouletteUID;
     private List<RouletteSegmentResponseDto> rouletteSegment;
     private int prize;
@@ -18,7 +18,7 @@ public class RouletteResponseDto {
     private RouletteStatus rouletteStatus;
 
     public RouletteResponseDto(Roulette entity) {
-        this.id = entity.getId();
+      //  this.id = entity.getId();
         this.rouletteUID = entity.getRouletteUID();
         this.rouletteSegment = entity.getRouletteSegments().stream()
                 .map(o -> new RouletteSegmentResponseDto(o)).collect(Collectors.toList());
