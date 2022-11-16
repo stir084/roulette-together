@@ -2,12 +2,11 @@ package com.stir.roulette.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.stir.roulette.domain.QRoulette;
-import com.stir.roulette.domain.QRouletteSegment;
 import com.stir.roulette.domain.Roulette;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 import static com.stir.roulette.domain.QRouletteSegment.rouletteSegment;
 
@@ -36,11 +35,10 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
                 .fetch();
     }
 
-    public Roulette findByIdAndRouletteCode(Long id, String rouletteCode) {
+    public Roulette findByIdAndRouletteUID(Long id, UUID rouletteUID) {
         return queryFactory.selectFrom(roulette)
                 .join(roulette.rouletteSegments, rouletteSegment)
-                .where(roulette.id.eq(id), roulette.rouletteCode.eq(rouletteCode))
+                .where(roulette.id.eq(id), roulette.rouletteUID.eq(rouletteUID))
                 .fetchOne();
     }
-    //Optional<Roulette> findByIdAndRouletteCode(Long id, String rouletteCode);
 }

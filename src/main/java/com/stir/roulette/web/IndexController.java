@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
@@ -42,10 +43,10 @@ public class IndexController {
         return "/roulette";
     }
 
-    @GetMapping("/roulette/{rouletteCode}")
-    public String sharedRoulette(@PathVariable String rouletteCode, Model model) {
+    @GetMapping("/roulette/{rouletteUID}")
+    public String sharedRoulette(@PathVariable UUID rouletteUID, Model model) {
         //있는겜인지 없는겜인지 검사
-        model.addAttribute("rouletteCode", rouletteCode);
+        model.addAttribute("rouletteUID", rouletteUID);
         return "/roulette-share";
     }
 

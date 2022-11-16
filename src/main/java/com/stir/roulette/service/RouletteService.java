@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,7 +45,7 @@ public class RouletteService {
             rouletteSegmentList.add(RouletteSegment.createRouletteSegment("탕수육"));
             rouletteSegmentList.add(RouletteSegment.createRouletteSegment("취두부"));
 
-            Roulette roulette = Roulette.createInitRoulette(configBean.getGameRandomCode(), "점심 뭐 먹지?",
+            Roulette roulette = Roulette.createInitRoulette("점심 뭐 먹지?",
                     rouletteSegmentList.stream().toArray(RouletteSegment[]::new));
             User user = User.createUser(userIp, roulette);
             userRepository.save(user);
@@ -57,12 +58,12 @@ public class RouletteService {
     }
 
     @Transactional
-    public RouletteResponseDto startRoulette(String rouletteCode, String userIp) {
+    public RouletteResponseDto startRoulette(UUID rouletteUID, String userIp) {
 
         User user = userRepository.findByUserIp(userIp).get();
 
         // 현재 룰렛 조회
-        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode)
+        Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
         if(roulette.getStatus() == RouletteStatus.FINISH) {
@@ -92,9 +93,11 @@ public class RouletteService {
         Roulette newRoulette = new Roulette();
 
         //최근 게임 기반으로 룰렛 재생성
-        newRoulette.setRouletteCode(configBean.getGameRandomCode());
+        //newRoulette.setrouletteUID(configBean.getGameRandomCode());
+
         newRoulette.setTitle(lastRoulette.getTitle());
         newRoulette.setStatus(RouletteStatus.READY);
+        newRoulette.setCreateDate(LocalDateTime.now());
         newRoulette.addUser(user);
 
        // Roulette.createInitRoulette()
@@ -104,6 +107,7 @@ public class RouletteService {
         for (RouletteSegment segment : lastRoulette.getRouletteSegments()) {
             RouletteSegment rouletteSegment = new RouletteSegment();
             rouletteSegment.setElement(segment.getElement());
+            rouletteSegment.setCreateDate(LocalDateTime.now());
             rouletteSegment.addRoulette(newRoulette);
             rouletteSegmentList.add(rouletteSegment);
         }
@@ -117,9 +121,9 @@ public class RouletteService {
     }
 
     @Transactional
-    public void saveRouletteSegment(String element, String rouletteCode) {
+    public void saveRouletteSegment(String element, UUID rouletteUID) {
         // 현재 룰렛 조회
-        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode)
+        Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
         if(roulette.getStatus() == RouletteStatus.FINISH) {
@@ -135,9 +139,9 @@ public class RouletteService {
     }
 
     @Transactional
-    public RouletteResponseDto findSharedRoulette(String rouletteCode) {
+    public RouletteResponseDto findSharedRoulette(UUID rouletteUID) {
         // 룰렛 조회
-        Roulette roulette = rouletteRepository.findByRouletteCode(rouletteCode)
+        Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
         return new RouletteResponseDto(roulette);
@@ -145,9 +149,9 @@ public class RouletteService {
 
     @Transactional
     public void updateRoulette(RouletteSettingRequestDto rouletteRequestDto) {
-        // Id와 RouletteCode로 같이 조회하기
+        // Id와 rouletteUID로 같이 조회하기
         System.out.println();
-        Roulette roulette = Optional.of(rouletteRepository.findByIdAndRouletteCode(rouletteRequestDto.getId(), rouletteRequestDto.getRouletteCode()))
+        Roulette roulette = Optional.of(rouletteRepository.findByIdAndRouletteUID(rouletteRequestDto.getId(), rouletteRequestDto.getRouletteUID()))
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
 

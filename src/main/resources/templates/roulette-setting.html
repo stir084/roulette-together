@@ -255,7 +255,7 @@ $.ajax({
     url : '/api/v1/roulette',
     type : 'GET',
     success : function(roulette) {
-        rouletteCode = roulette.rouletteCode;
+        rouletteUID = roulette.rouletteUID;
 
         $("#memberListContent").replaceWith(roulette);
         // 룰렛 타이틀 설정
@@ -274,7 +274,7 @@ $.ajax({
         //location.href = "/roulette"
     }
 });
-let rouletteCode = "[[${roulette.getRouletteCode()}]]";
+let rouletteUID = "[[${roulette.getRouletteUID()}]]";
 let rouletteId = "[[${roulette.getId()}]]";
 
 function saveRoulette(){
@@ -290,7 +290,7 @@ function saveRoulette(){
 
     //아니지 일단 Roulette조회하고 세그먼트 id 일치 시에 해당 segment는 set하고
     //아닌건 신규 저장하고..
-    //Roulette Id도 -1 처리할 수 있으니 findByIdAndRouletteCode로 해야겠다
+    //Roulette Id도 -1 처리할 수 있으니 findByIdAndrouletteUID로 해야겠다
 
     //ajax 요청시 한꺼번에 보낼 것이냐/ 단건으로 보낼것이냐가 문제인데
     //$.ajax로 보내면 정제해야된다.
@@ -298,7 +298,7 @@ function saveRoulette(){
     let rouletteSettingObj = new Object();
     let segmentArray = new Array();
     rouletteSettingObj.id = rouletteId;
-    rouletteSettingObj.rouletteCode = rouletteCode;
+    rouletteSettingObj.rouletteUID = rouletteUID;
     rouletteSettingObj.title = $("#title").val();
     $("#datatablesSimple .dataTable-input").each(function(i, v){
         let segmentObj = new Object();

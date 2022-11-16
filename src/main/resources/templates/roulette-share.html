@@ -51,14 +51,14 @@
         initRoulette();
     }
 
-    let rouletteCode = [[${rouletteCode}]];
+    let rouletteUID = [[${rouletteUID}]];
     // img.src가 로드되고 나서 룰렛 생성
     function initRoulette(){
         $.ajax({
-            url : '/api/v1/roulette/' + rouletteCode,
+            url : '/api/v1/roulette/' + rouletteUID,
             type : 'GET',
             success : function(roulette) {
-                rouletteCode = roulette.rouletteCode;
+                rouletteUID = roulette.rouletteUID;
 
                 // 룰렛 타이틀 설정
                 $("#title").text(roulette.title);
@@ -88,7 +88,7 @@
     function saveSegment(){
         var data = {
             element: $('#rouletteItem').val(),
-            rouletteCode: rouletteCode
+            rouletteUID: rouletteUID
         };
         $.ajax({
             url : '/api/v1/roulette/segment',
@@ -96,7 +96,7 @@
             type : 'POST',
             success : function(roulette) {
                 alert("등록되었습니다.")
-                location.href = "/roulette" + rouletteCode;
+                location.href = "/roulette" + rouletteUID;
             },
             error : function(request, textStatus, errorThrown) {
                 alert(request.responseJSON.message);
@@ -114,7 +114,7 @@
         let canvImgStr = canvas.toDataURL('image/png', 1.0);  // canvas.toDataURL()을 이용하여 base64 img string 으로 변경
         $.ajax({
             url : '/saveRouletteImg',
-            data : { strImg: canvImgStr, gameCode: rouletteCode },
+            data : { strImg: canvImgStr, gameCode: rouletteUID },
             type : 'POST',
             success : function(json) {
                 createSharingBtn();
@@ -133,7 +133,7 @@
                 title: '36회차 게임',
                 description: '원하는 메뉴를 등록 해주세요~',
                 //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
-                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + rouletteCode + '&blockCache=' + generateRandomString(10),
+                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + rouletteUID + '&blockCache=' + generateRandomString(10),
                 link: {
                     mobileWebUrl: 'https://developers.kakao.com',
                     webUrl: 'https://developers.kakao.com',

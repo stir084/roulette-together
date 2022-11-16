@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,16 +24,16 @@ public class RouletteApiController {
         return rouletteResponseDto;
     }
 
-    @GetMapping("/api/v1/roulette/{rouletteCode}")
-    public RouletteResponseDto getSharedRoulette(@PathVariable String rouletteCode, HttpServletRequest request) {
-        RouletteResponseDto rouletteResponseDto = rouletteService.findSharedRoulette(rouletteCode);
+    @GetMapping("/api/v1/roulette/{rouletteUID}")
+    public RouletteResponseDto getSharedRoulette(@PathVariable UUID rouletteUID, HttpServletRequest request) {
+        RouletteResponseDto rouletteResponseDto = rouletteService.findSharedRoulette(rouletteUID);
         return rouletteResponseDto;
     }
-
+    //@Validated StatutProduits statproduit BindingResult bindingResult
     @PostMapping("/api/v1/roulette")
-    public RouletteResponseDto startRoulette(String rouletteCode, HttpServletRequest request){
+    public RouletteResponseDto startRoulette(@RequestParam UUID rouletteUID, HttpServletRequest request){
         String userIp = configBean.getUserIp(request);
-        return rouletteService.startRoulette(rouletteCode, userIp);
+        return rouletteService.startRoulette(rouletteUID, userIp);
     }
 
 
@@ -41,8 +42,6 @@ public class RouletteApiController {
     @PutMapping("/api/v1/roulette")
     public Long updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
         rouletteService.updateRoulette(rouletteRequestDto);
-      //  System.out.println(rouletteRequestDto.getRouletteCode());
-       // System.out.println(rouletteRequestDto.getRouletteSegment().get(0).getElement());
         return rouletteRequestDto.getId();
     }
 
@@ -53,9 +52,9 @@ public class RouletteApiController {
     }
 
     @PostMapping("/api/v1/roulette/segment")
-    public String saveRouletteSegment(@RequestParam("element") String element, @RequestParam("rouletteCode") String rouletteCode) {
-        rouletteService.saveRouletteSegment(element, rouletteCode);
-        return rouletteCode;
+    public UUID saveRouletteSegment(@RequestParam("element") String element, @RequestParam("rouletteUID") UUID rouletteUID) {
+        rouletteService.saveRouletteSegment(element, rouletteUID);
+        return rouletteUID;
     }
 
 

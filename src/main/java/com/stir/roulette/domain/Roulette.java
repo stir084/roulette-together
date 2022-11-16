@@ -5,12 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -24,7 +27,13 @@ public class Roulette {
     @Column(name = "roulette_id")
     private Long id;
 
-    private String rouletteCode;
+    @Type(type = "uuid-char")
+    private UUID rouletteUID;
+
+    @PrePersist
+    private void setUUID(){
+        this.setRouletteUID(UUID.randomUUID());
+    }
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
@@ -42,6 +51,8 @@ public class Roulette {
     private String title;
 
     private LocalDateTime createDate;
+
+
 
     // N쪽에 써주는 연관관계 메소드 //
     public void addUser(User user) {
@@ -79,10 +90,9 @@ public class Roulette {
         return roulette;
     }*/
 
-    public static Roulette createInitRoulette(String rouletteCode, String title, RouletteSegment... rouletteSegments){
+    public static Roulette createInitRoulette(String title, RouletteSegment... rouletteSegments){
         Roulette roulette = new Roulette();
 
-        roulette.setRouletteCode(rouletteCode);
         roulette.setStatus(RouletteStatus.READY);
 
         for (RouletteSegment rouletteSegment : rouletteSegments) {

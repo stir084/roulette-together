@@ -4,11 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -20,6 +22,14 @@ public class RouletteSegment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Type(type = "uuid-char")
+    private UUID rouletteSegmentUID;
+
+    @PrePersist
+    private void setUUID(){
+        this.setRouletteSegmentUID(UUID.randomUUID());
+    }
 
     @Column(nullable = false)
     private String element;
