@@ -247,10 +247,11 @@ div.py-4.bg-light.mt-auto{
 }
 </style>
 <script>
-$("#layoutSidenav_content").on("click", function(){
-    $("body").removeClass("sb-sidenav-toggled")
-})
-
+    $(document).ready(function() {
+        if(window.mobileCheck()==false){
+            $("#sidebarToggle").hide();
+        }
+    })
 $.ajax({
     url : '/api/v1/roulette',
     type : 'GET',

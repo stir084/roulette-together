@@ -82,13 +82,7 @@ function getRouletteFontSize(rouletteSegmentLength){
 function rouletteSpin(event){
 
 
-    var canvas = document.querySelector('canvas');
-    var ctx = canvas.getContext('2d');
 
-    var x = event.offsetX;
-    var y = event.offsetY;
-
-    if(x>=163 && y>=190 && x<=237 && y<=256){
         // Ensure that spinning can't be clicked again while already running.
         if (wheelSpinning == false) {
             // Based on the power level selected adjust the number of spins for the wheel, the more times is has
@@ -108,7 +102,6 @@ function rouletteSpin(event){
             // the current animation. The user will have to reset before spinning again.
             wheelSpinning = true;
         }
-    }
 }
 
 /**

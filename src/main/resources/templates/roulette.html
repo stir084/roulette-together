@@ -44,7 +44,7 @@
 
 <!-- Share Modal -->
     <div class="modal" id="myModal">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <!-- Modal Header -->
@@ -79,7 +79,7 @@
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
                 <div class="modal-content">
                     <!--<div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -106,6 +106,12 @@
     6. 게임 설정은 id 값 기준으로 저장하기*/
 
     let rouletteUID;
+
+    $(document).ready(function() {
+        if(window.mobileCheck()==false){
+            $("#sidebarToggle").hide();
+        }
+    })
 
 
     // 이미지 파일이 로드되고 나서 룰렛 생성
@@ -174,31 +180,39 @@
     // 룰렛 추첨
     function setPrize(event) {
 
-        $.ajax({
-            url : '/api/v1/roulette',
-            data : { segmentLength: segmentArray.length, rouletteUID: rouletteUID },
-            type : 'POST',
-            success : function(roulette) {
-                // segment에 따른 Angle 추출
-                let angle = 360 / roulette.rouletteSegment.length;
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
 
-                // prize 세팅
-                let prizeAngle = (roulette.prize - 1) * angle;
+        var x = event.offsetX;
+        var y = event.offsetY;
+        //모바일이랑 미세하게 크기가 다르므로 동적 숫자로 변경해야할듯함.
+        if(x>=163 && y>=190 && x<=237 && y<=256) {
+            $.ajax({
+                url: '/api/v1/roulette',
+                data: {segmentLength: segmentArray.length, rouletteUID: rouletteUID},
+                type: 'POST',
+                success: function (roulette) {
+                    // segment에 따른 Angle 추출
+                    let angle = 360 / roulette.rouletteSegment.length;
 
-                // Stroke에 안걸치도록 angle 값 -2 세팅
-                let stopAt = prizeAngle + Math.floor((Math.random() * (angle - 2)));
+                    // prize 세팅
+                    let prizeAngle = (roulette.prize - 1) * angle;
 
-                theWheel.animation.stopAngle = stopAt;
-                theWheel.innerImage = denyImg;
-                rouletteSpin(event);
-                $("#canvas").removeAttr("onclick");
-                $("#item").remove();
-               // $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
-            },
-            error : function(request, textStatus, errorThrown) {
-                alert(request.responseJSON.message);
-            }
-        });
+                    // Stroke에 안걸치도록 angle 값 -2 세팅
+                    let stopAt = prizeAngle + Math.floor((Math.random() * (angle - 2)));
+
+                    theWheel.animation.stopAngle = stopAt;
+                    theWheel.innerImage = denyImg;
+                    rouletteSpin(event);
+                    $("#canvas").removeAttr("onclick");
+                    $("#item").remove();
+                    // $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
+                },
+                error: function (request, textStatus, errorThrown) {
+                    alert(request.responseJSON.message);
+                }
+            });
+        }
     }
 
     function newRoulette(){

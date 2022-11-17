@@ -5507,7 +5507,7 @@ textarea.form-control-lg {
 .modal-dialog {
   position: relative;
   width: auto;
-  margin: 0.5rem;
+  margin: 0.5rem auto; /*추가*/
   pointer-events: none;
 }
 .modal.fade .modal-dialog {
