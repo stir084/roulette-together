@@ -1,5 +1,7 @@
 @import url("/css/reset.css");
 
+#toast-container > .toast-error { background-color: blue; }
+#toast-container > .toast-success { background-color: red; }
 /*
 .modal {
   text-align: center;

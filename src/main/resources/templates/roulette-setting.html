@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<!--<head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dashboard - SB Admin</title>
+    <title>룰렛 투게더 - 설정</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -18,217 +18,139 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 
-</head>
+</head>-->
+<div th:replace="~{layout/header}"></div>
 <body class="sb-nav-fixed">
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="roulette.html">룰렛 투게더</a>
-    <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-    <!-- Navbar Search-->
-    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        <!--<div class="input-group">
-            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-        </div>-->
-    </form>
-    <!-- Navbar-->np
-    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">로그아웃</a></li>
-            </ul>
-        </li>
-    </ul>
-</nav>
-<div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-                <div class="nav">
-                    <!--<div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="roulette.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Dashboard
-                    </a>
-                    <div class="sb-sidenav-menu-heading">Interface</div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                        Layouts
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                            <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                        </nav>
-                    </div>
-                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                        Pages
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                Authentication
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="login.html">Login</a>
-                                    <a class="nav-link" href="register.html">Register</a>
-                                    <a class="nav-link" href="password.html">Forgot Password</a>
-                                </nav>
+    <div th:replace="~{layout/navbar}"></div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+
+
+
+                    <div class="row mt-4">
+                        <div class="col-xl-4">
+                            <div class="card mb-4">
+                                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseItemList" aria-expanded="true" aria-controls="collapseItemList" style="display: flex;">
+                                    <!-- <i class="fas fa-chart-area me-1"></i> Font Awesome fontawesome.com -->
+                                    등록 아이템
+                                    <div class="sb-sidenav-collapse-arrow" style="
+        margin-left: auto;
+    "><svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg><!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com --></div>                                   </div>
+                                <div class="card-body collapse show" id="collapseItemList" style="overflow: auto; height:400px;">
+                                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="dataTable-container">
+                                            <table id="datatablesSimple" class="dataTable-table">
+                                                <tbody>
+                                                <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}">
+                                                    <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getRouletteSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
+                                                    <td><a class="btn btn-danger" href="">X</a></td>
+                                                </tr>
+                                                <!--<div th:each="comment:${commentList}">
+                                                    <form method="POST">
+                                                        <input type="hidden" id="commentNum" name="CommentNum" th:value="${comment.CO_NUM}">
+                                                        <div>
+                                                            <input type="button" class="btn p-0 btn-md" name="commentID" th:value="${comment.EMAIL}" />
+                                                            <small th:text="${#strings.substring(comment.TIME,0,19)}"></small>
+                                                        </div>
+                                                        <div th:text="${comment.CONTENT}"></div>
+                                                        <div class="text-right" th:if="${comment.EMAIL==userInform.userEmail}">
+                                                            <span><button type="submit" name="submit" value="update">수정</button></span>
+                                                            <span><button type="submit" name="submit" value="delete">삭제</button></span>
+                                                        </div>
+                                                    </form>
+                                                </div>-->
+
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                Error
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="401.html">401 Page</a>
-                                    <a class="nav-link" href="404.html">404 Page</a>
-                                    <a class="nav-link" href="500.html">500 Page</a>
-                                </nav>
-                            </div>
-                        </nav>
-                    </div>-->
-                    <a class="nav-link" href="/">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-pie" style="color:white"></i></div>
-                        내 게임
-                    </a>
-                    <a class="nav-link" href="/setting">
-                        <div class="sb-nav-link-icon"><i class="fas fa-edit" style="color:white"></i></div>
-                        게임 설정
-                    </a>
-                    <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-book" style="color:white"></i></div>
-                        지난 게임
-                    </a>
-                    <a class="nav-link" href="tables.html">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-star" style="color:yellow"></i></div>
-                        즐겨찾기
-                    </a>
-                </div>
-            </div>
-           <!-- <div class="sb-sidenav-footer">
-                <div class="small">Logged in as:</div>
-                Start Bootstrap
-            </div>-->
-        </nav>
-    </div>
-    <div id="layoutSidenav_content">
-        <main>
-            <div class="container-fluid px-4">
 
-
-
-                <div class="row mt-4">
-                    <div class="col-xl-4">
-                        <div class="card mb-4">
-                            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseItemList" aria-expanded="true" aria-controls="collapseItemList" style="display: flex;">
-                                <!-- <i class="fas fa-chart-area me-1"></i> Font Awesome fontawesome.com -->
-                                등록 아이템
-                                <div class="sb-sidenav-collapse-arrow" style="
-    margin-left: auto;
-"><svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg><!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com --></div>                                   </div>
-                            <div class="card-body collapse show" id="collapseItemList" style="overflow: auto; height:400px;">
-                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                    <div class="dataTable-container">
-                                        <table id="datatablesSimple" class="dataTable-table">
-                                            <tbody>
-                                            <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}">
-                                                <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getRouletteSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
-                                                <td><a class="btn btn-danger" href="">X</a></td>
-                                            </tr>
-                                            <!--<div th:each="comment:${commentList}">
-                                                <form method="POST">
-                                                    <input type="hidden" id="commentNum" name="CommentNum" th:value="${comment.CO_NUM}">
-                                                    <div>
-                                                        <input type="button" class="btn p-0 btn-md" name="commentID" th:value="${comment.EMAIL}" />
-                                                        <small th:text="${#strings.substring(comment.TIME,0,19)}"></small>
-                                                    </div>
-                                                    <div th:text="${comment.CONTENT}"></div>
-                                                    <div class="text-right" th:if="${comment.EMAIL==userInform.userEmail}">
-                                                        <span><button type="submit" name="submit" value="update">수정</button></span>
-                                                        <span><button type="submit" name="submit" value="delete">삭제</button></span>
-                                                    </div>
-                                                </form>
-                                            </div>-->
-
-
-
-                                            </tbody>
-                                        </table>
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="card mb-4">
+                                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting" style="
+        display: flex;
+    ">
+                                    <!-- <i class="fas fa-chart-area me-1"></i> Font Awesome fontawesome.com -->
+                                    게임 설정
+                                    <div class="sb-sidenav-collapse-arrow" style="
+        margin-left: auto;
+    "><svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg><!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com --></div>                                   </div>
+                                <div class="card-body collapse show" id="collapseSetting" style="">
+                                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="dataTable-container">
+                                            <table id="datatablesSimple2" class="dataTable-table">
+                                                <tbody>
+                                                <tr>
+                                                    <td>제목</td>
+                                                    <td><input class="dataTable-input" placeholder="" type="text" th:id="title" th:value="${roulette.getTitle()}"></td>
+                                                    <td><a class="btn btn-danger" href="roulette.html">X</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>최대 인원</td>
+                                                    <td><input class="dataTable-input" placeholder="" type="text"></td>
+                                                    <td><a class="btn btn-danger" href="roulette.html">X</a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+
+
                     </div>
-                    <div class="col-xl-4">
-                        <div class="card mb-4">
-                            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting" style="
-    display: flex;
-">
-                                <!-- <i class="fas fa-chart-area me-1"></i> Font Awesome fontawesome.com -->
-                                게임 설정
-                                <div class="sb-sidenav-collapse-arrow" style="
-    margin-left: auto;
-"><svg class="svg-inline--fa fa-angle-down" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg><!-- <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com --></div>                                   </div>
-                            <div class="card-body collapse show" id="collapseSetting" style="">
-                                <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                    <div class="dataTable-container">
-                                        <table id="datatablesSimple2" class="dataTable-table">
-                                            <tbody>
-                                            <tr>
-                                                <td>제목</td>
-                                                <td><input class="dataTable-input" placeholder="" type="text" th:id="title" th:value="${roulette.getTitle()}"></td>
-                                                <td><a class="btn btn-danger" href="roulette.html">X</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>최대 인원</td>
-                                                <td><input class="dataTable-input" placeholder="" type="text"></td>
-                                                <td><a class="btn btn-danger" href="roulette.html">X</a></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                    <div class="py-4 bg-light mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright © Your Website 2022</div>
+                                <div>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">저장하기</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
-                <div class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright © Your Website 2022</div>
-                            <div>
-                                <button class="btn btn-primary" onclick="saveRoulette();">저장하기</button>
-                            </div>
-                        </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <!--<div class="text-muted">Copyright © Your Website 2022</div>
+                        <div>
+                            <button class="btn btn-link">저장</button>
+                        </div>-->
                     </div>
                 </div>
-            </div>
-        </main>
-        <footer class="py-4 bg-light mt-auto">
-            <div class="container-fluid px-4">
-                <div class="d-flex align-items-center justify-content-between small">
-                    <!--<div class="text-muted">Copyright © Your Website 2022</div>
-                    <div>
-                        <button class="btn btn-link">저장</button>
-                    </div>-->
+            </footer>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
+            <div class="modal-content">
+                <!--<div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                </div>-->
+                <div class="modal-body">
+                    저장하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                    <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveRoulette();">예</button>
                 </div>
             </div>
-        </footer>
+        </div>
     </div>
-</div>
+</body>
+<div th:replace="~{layout/footer}"></div>
 <style>
 .dataTable-table > tbody > tr > td {
      text-align: center;
@@ -245,20 +167,27 @@ div.py-4.bg-light.mt-auto{
     right: 0;
     left: 0;
 }
+
+
+/*#toast-container > .customer-info {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=") !important;
+    background-color: dodgerblue;
+}
+
+#toast-container > .toast-success { background-color: #BDBDBD; }*/
+.toast-success {
+    background-color: #51a351;
+}
 </style>
 <script>
-    $(document).ready(function() {
-        if(window.mobileCheck()==false){
-            $("#sidebarToggle").hide();
-        }
-    })
+
 $.ajax({
     url : '/api/v1/roulette',
     type : 'GET',
     success : function(roulette) {
         rouletteUID = roulette.rouletteUID;
 
-        $("#memberListContent").replaceWith(roulette);
+        //$("#memberListContent").replaceWith(roulette);
         // 룰렛 타이틀 설정
         //$("#title").text(roulette.title);
 
@@ -327,12 +256,12 @@ function saveRoulette(){
 
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="/js/scripts.js"></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+&lt;!&ndash;<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="assets/demo/chart-area-demo.js"></script>
-<script src="assets/demo/chart-bar-demo.js"></script>-->
+<script src="assets/demo/chart-bar-demo.js"></script>&ndash;&gt;
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-<script src="/js/datatables-simple-demo.js"></script>
-</body>
+<script src="/js/datatables-simple-demo.js"></script>-->
+
 </html>
