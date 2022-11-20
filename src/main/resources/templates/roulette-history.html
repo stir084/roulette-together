@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{layout/header}"></div>
+<body class="sb-nav-fixed">
+    <div th:replace="~{layout/navbar}"></div>
+        <div id="layoutSidenav_content">
+            <main>
+
+                <div class="container-fluid px-4">
+                    <div class="row mt-4">
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2 history-card">
+                                            <div>
+                                                <div class="left text-xs font-weight-bold text-uppercase mb-1">
+                                                    점심은 뭐먹지</div>
+                                                <div class="right text-xs font-weight-bold text-uppercase mb-1">
+                                                    22.02.25 19:52</div>
+                                            </div>
+
+                                            <div class="prize h5 mb-0 font-weight-bold text-gray-800">탕수육</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                    <!--<div class="row mt-4">
+                        <div class="col-xl-4">
+                            <div class="card mb-4">
+                                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting" style="
+        display: flex;
+    ">
+                                    &lt;!&ndash; <i class="fas fa-chart-area me-1"></i> Font Awesome fontawesome.com &ndash;&gt;
+                                    지난 게임
+                                    <div class="sb-sidenav-collapse-arrow" style="
+        margin-left: auto;
+    "><svg class="svg-inline&#45;&#45;fa fa-angle-down" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg>&lt;!&ndash; <i class="fas fa-angle-down"></i> Font Awesome fontawesome.com &ndash;&gt;</div>                                   </div>
+                                <div class="card-body collapse show" id="collapseSetting" style="">
+                                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                        <div class="dataTable-container">
+                                            <table id="datatablesSimple2" class="dataTable-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>제목</td>
+                                                        <td>결과</td>
+                                                        <td>날짜</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="column_a">점심은 뭐 먹지?</td>
+                                                        <td class="column_b">탕수육</td>
+                                                        <td class="column_c">2022-11-20</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>-->
+                    <div class="py-4 bg-light mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">© 2023. loose All rights reserved.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light" style="margin-top: 50px">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+<div th:replace="~{layout/footer}"></div>
+<style>
+
+.dataTable-table > tbody > tr > td {
+     text-align: center;
+     vertical-align: middle;
+     white-space: nowrap;
+}
+
+.card-header.collapsed .sb-sidenav-collapse-arrow{
+    transform: rotate(-90deg);
+}
+div.py-4.bg-light.mt-auto{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+table {width: 100%;}
+td
+{
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+td.column_a {width: 50%;}
+td.column_b {width: 20%;}
+td.column_c {width: 30%;}
+
+
+.card div{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
+</style>
+<script>
+
+$.ajax({
+    url : '/api/v1/roulette/history',
+    type : 'GET',
+    success : function(roulette) {
+        rouletteUID = roulette.rouletteUID;
+    },
+    error : function(request, textStatus, errorThrown) {
+        alert(request.responseJSON.message);
+        //location.href = "/roulette"
+    }
+});
+
+</script>
+</html>

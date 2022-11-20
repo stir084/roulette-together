@@ -5,22 +5,22 @@ import com.stir.roulette.domain.*;
 import com.stir.roulette.repository.RouletteRepository;
 import com.stir.roulette.repository.RouletteSegmentRepository;
 import com.stir.roulette.repository.UserRepository;
+import com.stir.roulette.web.dto.RouletteHistoryResponseDto;
 import com.stir.roulette.web.dto.RouletteResponseDto;
 import com.stir.roulette.web.dto.RouletteSegmentSettingRequestDto;
 import com.stir.roulette.web.dto.RouletteSettingRequestDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -191,6 +191,18 @@ public class RouletteService {
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
             byId.setElement(hhh.get(aLong));
         }
+
+    }
+
+    @Transactional
+    public Page<RouletteHistoryResponseDto> findRouletteHistory(String userIp, Pageable pageable) {
+        User user = userRepository.findByUserIp(userIp).get();
+        //PageRequest pageRequest = PageRequest.of(0, 5);
+
+      /*  return rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable)
+                .map(RouletteHistoryResponseDto::new);*/
+        return rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable)
+                .map(RouletteHistoryResponseDto::new);
 
     }
 

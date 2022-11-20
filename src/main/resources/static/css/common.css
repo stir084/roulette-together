@@ -1,7 +1,22 @@
 @import url("/css/reset.css");
 
-#toast-container > .toast-error { background-color: blue; }
-#toast-container > .toast-success { background-color: red; }
+#toast-container > .toast-error { background-color: #BD362F; }
+#toast-container > .toast-success { background-color: grey; }
+
+.history-card .left{
+    float:left;
+    width:60%;
+}
+
+.history-card .right{
+    float:right;
+    text-align: right;
+    width:40%;
+}
+
+.history-card .prize{
+    font-weight: bold
+}
 /*
 .modal {
   text-align: center;

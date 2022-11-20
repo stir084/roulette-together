@@ -57,6 +57,16 @@ public class IndexController {
         return "roulette-setting";
     }
 
+    @GetMapping("/history")
+    public String history(ModelMap model, HttpServletRequest request) {
+        return "roulette-history";
+    }
+
+    @GetMapping("/favorite")
+    public String favorite(ModelMap model, HttpServletRequest request) {
+        return "roulette-favorite";
+    }
+
     /*@GetMapping("/setting-ajax")
     public String searchMembers(Model model, HttpServletRequest request) {
         String userIp = configBean.getUserIp(request);

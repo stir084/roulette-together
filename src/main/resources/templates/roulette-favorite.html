@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="~{layout/header}"></div>
+<body class="sb-nav-fixed">
+    <div th:replace="~{layout/navbar}"></div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+
+
+
+                    <div class="row mt-4">
+                        <div class="col-xl-4">
+                            <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                                <div class="dataTable-container">
+                                    <table id="datatablesSimple2" class="dataTable-table">
+                                        <tbody>
+                                        <tr>
+                                            <td style="width:90%">점심은 뭐 먹지</td>
+                                            <td>
+                                                <a href="#" class="btn btn-dark btn-md">
+                                                    <i class="fa-solid fa-star fa-lg" style="color: yellow"></i>
+                                                </a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-4 bg-light mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">© 2023. loose All rights reserved.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light" style="margin-top: 50px">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
+            <div class="modal-content">
+                <!--<div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                </div>-->
+                <div class="modal-body">
+                    저장하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                    <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveRoulette();">예</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<div th:replace="~{layout/footer}"></div>
+<style>
+.dataTable-table > tbody > tr > td {
+     text-align: center;
+     vertical-align: middle;
+     white-space: nowrap;
+}
+
+.card-header.collapsed .sb-sidenav-collapse-arrow{
+    transform: rotate(-90deg);
+}
+div.py-4.bg-light.mt-auto{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+</style>
+<script>
+
+$.ajax({
+    url : '/api/v1/roulette',
+    type : 'GET',
+    success : function(roulette) {
+        rouletteUID = roulette.rouletteUID;
+    },
+    error : function(request, textStatus, errorThrown) {
+        alert(request.responseJSON.message);
+        //location.href = "/roulette"
+    }
+});
+
+
+</script>
+</html>

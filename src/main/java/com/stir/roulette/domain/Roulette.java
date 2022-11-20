@@ -44,7 +44,7 @@ public class Roulette {
     private List<RouletteSegment> rouletteSegments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private RouletteStatus status; //주문상태 [ORDER, CANCEL]
+    private RouletteStatus status;
 
     private int prize;
 

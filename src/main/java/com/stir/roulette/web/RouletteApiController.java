@@ -29,15 +29,11 @@ public class RouletteApiController {
         RouletteResponseDto rouletteResponseDto = rouletteService.findSharedRoulette(rouletteUID);
         return rouletteResponseDto;
     }
-    //@Validated StatutProduits statproduit BindingResult bindingResult
     @PostMapping("/api/v1/roulette")
     public RouletteResponseDto startRoulette(@RequestParam UUID rouletteUID, HttpServletRequest request){
         String userIp = configBean.getUserIp(request);
         return rouletteService.startRoulette(rouletteUID, userIp);
     }
-
-
-
 
     @PutMapping("/api/v1/roulette")
     public UUID updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
