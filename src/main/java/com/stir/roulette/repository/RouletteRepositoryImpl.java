@@ -41,11 +41,11 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
     }
 
     public Page<Roulette> findByUserAndStatus(User user, RouletteStatus rouletteStatus, Pageable pageable){
-        List<Roulette> content = queryFactory.selectFrom(roulette)
+        List<Roulette> content = queryFactory.selectFrom(roulette).distinct()
                 .innerJoin(roulette.rouletteSegments, rouletteSegment)
-                .fetchJoin()
-                .where(roulette.user.userIp.eq(user.getUserIp()))
-                .orderBy(roulette.id.desc())
+                //.fetchJoin() //일대다조인에서 페이징 + 페치 금지 - 이거빼니까 데이터 이상하게 나옴
+                .where(roulette.user.userIp.eq(user.getUserIp()), roulette.status.eq(rouletteStatus))
+                .orderBy(roulette.id.desc(), rouletteSegment.id.asc())
                 .offset(pageable.getOffset())   // (2) 페이지 번호
                 .limit(pageable.getPageSize())  // (3) 페이지 사이즈
                 .fetch();
@@ -54,12 +54,32 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
                 .select(roulette.count())
                 .from(roulette)
 //                .leftJoin(member.team, team)		(5) 검색조건 최적화
-                .where(roulette.user.userIp.eq(user.getUserIp()))
+                .where(roulette.user.userIp.eq(user.getUserIp()), roulette.status.eq(rouletteStatus))
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, count);
     }
 
+  /*  public Page<Roulette> findByUserAndStatus2(User user, RouletteStatus rouletteStatus, Pageable pageable){
+        List<Roulette> content = queryFactory.selectFrom(roulette)
+                .innerJoin(roulette.rouletteSegments, rouletteSegment)
+                .fetchJoin() //일대다조인에서 페이징 + 페치 금지
+                .where(roulette.user.userIp.eq(user.getUserIp()), roulette.status.eq(rouletteStatus))
+                .orderBy(roulette.id.desc(), rouletteSegment.id.asc())
+                .offset(pageable.getOffset())   // (2) 페이지 번호
+                .limit(pageable.getPageSize())  // (3) 페이지 사이즈
+                .fetch();
+
+        Long count = queryFactory		// (4)
+                .select(roulette.count())
+                .from(roulette)
+//                .leftJoin(member.team, team)		(5) 검색조건 최적화
+                .where(roulette.user.userIp.eq(user.getUserIp()), roulette.status.eq(rouletteStatus))
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, count);
+    }
+*/
    // (User user, RouletteStatus rouletteStatus, Pageable pageable);
     /*public Roulette findByRouletteUID(Long id, UUID rouletteUID) {
         return queryFactory.selectFrom(roulette)

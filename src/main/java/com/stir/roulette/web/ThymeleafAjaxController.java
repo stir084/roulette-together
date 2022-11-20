@@ -6,6 +6,7 @@ import com.stir.roulette.web.dto.RouletteHistoryResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +21,11 @@ public class ThymeleafAjaxController {
 
 
     @GetMapping("/api/v1/roulette/history")
-    @ResponseBody
-    public List<RouletteHistoryResponseDto> getRouletteHistory(HttpServletRequest request, Pageable pageable) {
+    public String getRouletteHistory(HttpServletRequest request, Pageable pageable, Model model) {
         String userIp = configBean.getUserIp(request);
-        return rouletteService.findRouletteHistory(userIp, pageable).getContent();
+        model.addAttribute("roulette", rouletteService.findRouletteHistory(userIp, pageable).getContent());
+
+        return "/roulette-history :: #rouletteHistoryTable";
+        //return rouletteService.findRouletteHistory(userIp, pageable).getContent();
     }
 }

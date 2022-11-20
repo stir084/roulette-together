@@ -201,7 +201,12 @@ public class RouletteService {
 
       /*  return rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable)
                 .map(RouletteHistoryResponseDto::new);*/
-        return rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable)
+       // Page<Roulette> byUserAndStatus = rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable);
+        //System.out.println(byUserAndStatus.getContent());
+        //System.out.println("하하"+rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable).getTotalPages());
+        Page<Roulette> byUserAndStatus = rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable);
+        System.out.println("흠"+byUserAndStatus.getTotalPages());
+        return byUserAndStatus
                 .map(RouletteHistoryResponseDto::new);
 
     }
