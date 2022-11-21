@@ -44,7 +44,9 @@
                                                 <tbody>
                                                 <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}">
                                                     <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getRouletteSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
-                                                    <td><a class="btn btn-danger" href="">X</a></td>
+                                                    <td><a href="javascript:;" class="btn btn-danger btn-md" th:rouletteSegmentUID="${rouletteSegment.getRouletteSegmentUID()}" data-bs-toggle="modal" data-bs-target="#deleteModal" th:onclick="segmentUID=this.getAttribute('rouletteSegmentUID')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a></td>
                                                 </tr>
                                                 <!--<div th:each="comment:${commentList}">
                                                     <form method="POST">
@@ -117,7 +119,7 @@
                             <div class="d-flex align-items-center justify-content-between small">
                                 <div class="text-muted">© 2023. loose All rights reserved.</div>
                                 <div>
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">저장하기</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">저장하기</button>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +135,7 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
             <div class="modal-content">
                 <!--<div class="modal-header">
@@ -146,6 +148,24 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
                     <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
                     <button id="saveRouletteBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveRoulette();">예</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
+            <div class="modal-content">
+                <!--<div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                </div>-->
+                <div class="modal-body">
+                    삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                    <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+                    <button id="deleteSegmentBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="deleteSegment();">예</button>
                 </div>
             </div>
         </div>
@@ -181,9 +201,14 @@ div.py-4.bg-light.mt-auto{
 }
 </style>
 <script>
-
-    $("#exampleModal").on("shown.bs.modal", function () {
+    let rouletteUID = "[[${roulette.getRouletteUID()}]]";
+    let segmentUID;
+    $("#saveModal").on("shown.bs.modal", function () {
         $('#saveRouletteBtn').focus();
+    });
+
+    $("#deleteModal").on("shown.bs.modal", function () {
+        $('#deleteSegmentBtn').focus();
     });
 
     $.ajax({
@@ -208,8 +233,26 @@ div.py-4.bg-light.mt-auto{
         //location.href = "/roulette"
     }
 });
-let rouletteUID = "[[${roulette.getRouletteUID()}]]";
 
+
+function deleteSegment(){
+    var data = {
+        segmentUID: segmentUID
+    };
+    $.ajax({
+        url : '/api/v1/roulette/segment/'+segmentUID,
+        type : 'DELETE',
+        contentType: "application/json",
+        dataType : "json",
+        success : function(roulette) {
+            toastr.success("삭제되었습니다.");
+        },
+        error : function(request, textStatus, errorThrown) {
+            alert(request.responseJSON.message);
+        }
+    });
+
+}
 
 function saveRoulette(){
     //세그먼트 아이디가 특별하지 않다..

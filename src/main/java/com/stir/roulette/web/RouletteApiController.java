@@ -29,6 +29,12 @@ public class RouletteApiController {
         RouletteResponseDto rouletteResponseDto = rouletteService.findSharedRoulette(rouletteUID);
         return rouletteResponseDto;
     }
+
+    @DeleteMapping("/api/v1/roulette/segment/{segmentUID}")
+    public void deleteSegment(@PathVariable UUID segmentUID, HttpServletRequest request) {
+        System.out.println("짜잔"+segmentUID);
+    }
+
     @PostMapping("/api/v1/roulette")
     public RouletteResponseDto startRoulette(@RequestParam UUID rouletteUID, HttpServletRequest request){
         String userIp = configBean.getUserIp(request);

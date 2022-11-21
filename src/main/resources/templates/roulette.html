@@ -90,7 +90,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
                     <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
-                        <button type="button" class="btn btn-primary" onclick="newRoulette()">예</button>
+                        <button id="newRouletteBtn" type="button" class="btn btn-primary" onclick="newRoulette()">예</button>
                     </div>
                 </div>
             </div>
@@ -101,6 +101,9 @@
 <script th:inline="javascript">
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
+    $("#exampleModal").on("shown.bs.modal", function () {
+        $('#newRouletteBtn').focus();
+    });
 /*
     4. 등록버튼 누르면 FormObject 연결
     6. 게임 설정은 id 값 기준으로 저장하기*/

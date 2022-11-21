@@ -27,8 +27,11 @@
                             </div>
                         </div>
                     </div>-->
-                    <div id="rouletteHistoryTable" class="row mt-4">
-                        <div class="col-xl-3 col-md-6 mb-4" th:each="roulette:${roulette}">
+                    <span id="rouletteHistory">
+                    </span>
+                    <div id="rouletteHistoryTable" class="row mt-4" th:each="roulette:${roulette}" >
+                        <!--<div class="col-xl-4 col-md-6 mb-4" >-->
+                        <div class="col-xl-4 col-md-6" >
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -165,30 +168,51 @@ td.column_c {width: 30%;}
 
 </style>
 <script>
-    $.fn.hasScrollBar = function() {
+   /* $.fn.hasScrollBar = function() {
         return (this.prop("scrollHeight") == 0 && this.prop("clientHeight") == 0) || (this.prop("scrollHeight") > this.prop("clientHeight"));
-    }; //이걸로 스크롤바 없으면 더 불러오기 // 아니면 유튜브처럼 20개 고정 하기
+    }; // 스크롤 없을 때 Catch
+*/
+
+    let currentPage = 0;
+    const currentSize = 10;
+    let isEndHistory = false;
+    $(function(){
+        getHistory(currentPage, currentSize);
+    });
+
+    function getHistory(){
+        if(isEndHistory == false){
+            $.ajax({
+                url : '/api/v1/roulette/history?page='+currentPage+'&size='+currentSize,
+                type : 'GET',
+                success : function(roulette) {
+                    currentPage += 1;
+                    //$('#rouletteHistoryTable').replaceWith(roulette);
+
+                    let span = document.createElement('span'); // body에 추가할 span 태그를 추가
+                    span.innerHTML = roulette;
+                    $('#rouletteHistory').append(span);
+
+                    if(roulette==""){
+                        isEndHistory = true;
+                    }
+                    if($('#rouletteHistory').find(".card-body").length == 0){
+                        alert("지난 게임 이력이 없습니다.");
+                        location.href = "/roulette"
+                    }
+                },
+                error : function(request, textStatus, errorThrown) {
+                    alert(request.responseJSON.message);
+
+                    location.href = "/roulette"
+                }
+            });
+        }
+    }
+
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() == $(document).height()) {
-            alert("bottom!");
-        } //축소해도 인식하네
-    });
-    $.ajax({
-        url : '/api/v1/roulette/history?page=0&size=2',
-        type : 'GET',
-        success : function(roulette) {
-           // console.log("하하"+roulette);
-            $('#rouletteHistoryTable').replaceWith(roulette);
-
-            if($('#rouletteHistoryTable').find(".card-body").length == 0){
-                alert("지난 게임 이력이 없습니다.");
-                location.href = "/roulette"
-            }
-        },
-        error : function(request, textStatus, errorThrown) {
-            alert(request.responseJSON.message);
-
-            location.href = "/roulette"
+            getHistory(currentPage, currentSize);
         }
     });
 
