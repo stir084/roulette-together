@@ -165,10 +165,13 @@ td.column_c {width: 30%;}
 
 </style>
 <script>
+    $.fn.hasScrollBar = function() {
+        return (this.prop("scrollHeight") == 0 && this.prop("clientHeight") == 0) || (this.prop("scrollHeight") > this.prop("clientHeight"));
+    }; //이걸로 스크롤바 없으면 더 불러오기 // 아니면 유튜브처럼 20개 고정 하기
     $(window).scroll(function() {
         if($(window).scrollTop() + $(window).height() == $(document).height()) {
             alert("bottom!");
-        }
+        } //축소해도 인식하네
     });
     $.ajax({
         url : '/api/v1/roulette/history?page=0&size=2',
