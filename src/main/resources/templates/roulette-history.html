@@ -165,24 +165,29 @@ td.column_c {width: 30%;}
 
 </style>
 <script>
+    $(window).scroll(function() {
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            alert("bottom!");
+        }
+    });
+    $.ajax({
+        url : '/api/v1/roulette/history?page=0&size=2',
+        type : 'GET',
+        success : function(roulette) {
+           // console.log("하하"+roulette);
+            $('#rouletteHistoryTable').replaceWith(roulette);
 
-$.ajax({
-    url : '/api/v1/roulette/history?page=0&size=2',
-    type : 'GET',
-    success : function(roulette) {
-        $('#rouletteHistoryTable').replaceWith(roulette);
+            if($('#rouletteHistoryTable').find(".card-body").length == 0){
+                alert("지난 게임 이력이 없습니다.");
+                location.href = "/roulette"
+            }
+        },
+        error : function(request, textStatus, errorThrown) {
+            alert(request.responseJSON.message);
 
-        if($('#rouletteHistoryTable').find(".card-body").length == 0){
-            alert("지난 게임 이력이 없습니다.");
             location.href = "/roulette"
         }
-    },
-    error : function(request, textStatus, errorThrown) {
-        alert(request.responseJSON.message);
-
-        location.href = "/roulette"
-    }
-});
+    });
 
 </script>
 </html>

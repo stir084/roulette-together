@@ -43,7 +43,7 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
     public Page<Roulette> findByUserAndStatus(User user, RouletteStatus rouletteStatus, Pageable pageable){
         List<Roulette> content = queryFactory.selectFrom(roulette).distinct()
                 .innerJoin(roulette.rouletteSegments, rouletteSegment)
-                //.fetchJoin() //일대다조인에서 페이징 + 페치 금지 - 이거빼니까 데이터 이상하게 나옴
+                //.fetchJoin() //일대다조인에서 페이징 + 페치 금지 - 이거빼니까 데이터 이상하게 나옴 - 뻥튀기 돼서 그럼. distinct로 해결
                 .where(roulette.user.userIp.eq(user.getUserIp()), roulette.status.eq(rouletteStatus))
                 .orderBy(roulette.id.desc(), rouletteSegment.id.asc())
                 .offset(pageable.getOffset())   // (2) 페이지 번호

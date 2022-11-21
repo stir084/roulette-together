@@ -2,6 +2,7 @@ package com.stir.roulette.web;
 
 import com.stir.roulette.config.ConfigBean;
 import com.stir.roulette.service.RouletteService;
+import com.stir.roulette.web.dto.PageDTO;
 import com.stir.roulette.web.dto.RouletteHistoryResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,12 @@ public class ThymeleafAjaxController {
     @GetMapping("/api/v1/roulette/history")
     public String getRouletteHistory(HttpServletRequest request, Pageable pageable, Model model) {
         String userIp = configBean.getUserIp(request);
-        model.addAttribute("roulette", rouletteService.findRouletteHistory(userIp, pageable).getContent());
+       // model.addAttribute("roulette", rouletteService.findRouletteHistory(userIp, pageable).getContent());
+
+        PageDTO<RouletteHistoryResponseDto> rouletteHistory = rouletteService.findRouletteHistory(userIp, pageable);
+        model.addAttribute("roulette", rouletteHistory.getContent());
+
+       // model.addAttribute("rouletteCustomPage", rouletteHistory.getCustomPage());
 
         return "/roulette-history :: #rouletteHistoryTable";
         //return rouletteService.findRouletteHistory(userIp, pageable).getContent();

@@ -5,16 +5,15 @@ import com.stir.roulette.domain.*;
 import com.stir.roulette.repository.RouletteRepository;
 import com.stir.roulette.repository.RouletteSegmentRepository;
 import com.stir.roulette.repository.UserRepository;
-import com.stir.roulette.web.dto.RouletteHistoryResponseDto;
-import com.stir.roulette.web.dto.RouletteResponseDto;
-import com.stir.roulette.web.dto.RouletteSegmentSettingRequestDto;
-import com.stir.roulette.web.dto.RouletteSettingRequestDto;
+import com.stir.roulette.web.dto.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -195,7 +194,7 @@ public class RouletteService {
     }
 
     @Transactional
-    public Page<RouletteHistoryResponseDto> findRouletteHistory(String userIp, Pageable pageable) {
+    public PageDTO<RouletteHistoryResponseDto> findRouletteHistory(String userIp, Pageable pageable) {
         User user = userRepository.findByUserIp(userIp).get();
         //PageRequest pageRequest = PageRequest.of(0, 5);
 
@@ -204,12 +203,30 @@ public class RouletteService {
        // Page<Roulette> byUserAndStatus = rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable);
         //System.out.println(byUserAndStatus.getContent());
         //System.out.println("하하"+rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable).getTotalPages());
+
+
+
         Page<Roulette> byUserAndStatus = rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable);
-        System.out.println("흠"+byUserAndStatus.getTotalPages());
+
+        Page<RouletteHistoryResponseDto> map = byUserAndStatus.map(RouletteHistoryResponseDto::new);
+
+
+      /*  System.out.println("흠여기서 언제 쿼리나가지?"+byUserAndStatus.getTotalPages());
         return byUserAndStatus
-                .map(RouletteHistoryResponseDto::new);
+                .map(RouletteHistoryResponseDto::new);*/
+
+
+       // Page<T> page = map;
+
+        PageDTO<RouletteHistoryResponseDto> pageDto = new PageDTO<RouletteHistoryResponseDto>(map);
+
+        System.out.println("이러면 쿼리안나감");
+      //  pageDto.
+        return new PageDTO<RouletteHistoryResponseDto>(map);
 
     }
+
+
 
     @Data
     @EqualsAndHashCode

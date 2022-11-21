@@ -21,7 +21,7 @@ public class RouletteApiController {
     public RouletteResponseDto getRoulette(HttpServletRequest request) {
         String userIp = configBean.getUserIp(request);
         RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
-        return rouletteResponseDto;
+        return rouletteResponseDto; //responseEntity로 수정하기
     }
 
     @GetMapping("/api/v1/roulette/{rouletteUID}")
