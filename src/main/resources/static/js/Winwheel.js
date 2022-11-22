@@ -51,7 +51,7 @@ function Winwheel(options, drawWheel, img)
         'textStrokeStyle'   : null,         // Basically the line colour for segment text, only looks good for large text so off by default.
         'textLineWidth'     : 1,            // Width of the lines around the text. Even though this defaults to 1, a line is only drawn if textStrokeStyle specified.
         'fillStyle'         : 'silver',     // The segment background colour.
-        'strokeStyle'       : 'black',      // Segment line colour. Again segment lines only drawn if this is specified.
+        'strokeStyle'       : 'grey',      // Segment line colour. Again segment lines only drawn if this is specified.
         'lineWidth'         : 1,            // Width of lines around segments.
         'clearTheCanvas'    : true,         // When set to true the canvas will be cleared before the wheel is drawn.
         'imageOverlay'      : false,        // If set to true in image drawing mode the outline of the segments will be displayed over the image. Does nothing in code drawMode.
@@ -728,7 +728,8 @@ Winwheel.prototype.drawSegments = function()
                         // If no inner radius then we draw a line back to the center of the wheel.
                         this.ctx.lineTo(centerX, centerY);
                     }
-
+                    this.ctx.shadowColor = "black";
+                    this.ctx.shadowBlur = 4;
                     // Fill and stroke the segment. Only do either if a style was specified, if the style is null then
                     // we assume the developer did not want that particular thing.
                     // For example no stroke style so no lines to be drawn.
