@@ -8,5 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface RouletteSegmentRepository extends JpaRepository<RouletteSegment, Long> {
-    Optional<RouletteSegment> findByRouletteSegmentUID(UUID rouletteUID);
+    Optional<RouletteSegment> findBySegmentUID(UUID rouletteUID);
+
+    void deleteBySegmentUID(UUID segmentUID);
 }

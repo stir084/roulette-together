@@ -42,9 +42,9 @@
                                         <div class="dataTable-container">
                                             <table id="datatablesSimple" class="dataTable-table">
                                                 <tbody>
-                                                <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}">
-                                                    <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getRouletteSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
-                                                    <td><a href="javascript:;" class="btn btn-danger btn-md" th:rouletteSegmentUID="${rouletteSegment.getRouletteSegmentUID()}" data-bs-toggle="modal" data-bs-target="#deleteModal" th:onclick="segmentUID=this.getAttribute('rouletteSegmentUID')">
+                                                <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}" th:id="${rouletteSegment.getSegmentUID()}">
+                                                    <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
+                                                    <td class="trashClass"><a href="javascript:;" class="btn btn-danger btn-md" th:segmentUID="${rouletteSegment.getSegmentUID()}" data-bs-toggle="modal" data-bs-target="#deleteModal" th:onclick="segmentUID=this.getAttribute('segmentUID')">
                                                         <i class="fas fa-trash"></i>
                                                     </a></td>
                                                 </tr>
@@ -91,17 +91,10 @@
                                                 <tr>
                                                     <td>제목</td>
                                                     <td><input class="dataTable-input" placeholder="" type="text" th:id="title" th:value="${roulette.getTitle()}"></td>
-                                                    <td><a href="#" class="btn btn-danger btn-md">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>최대 인원</td>
+                                                    <td>아이템 개수</td>
                                                     <td><input class="dataTable-input" placeholder="" type="text"></td>
-                                                    <td>
-                                                        <a href="#" class="btn btn-md" style="background-color:#0d6efd">
-                                                            <i class="fa-solid fa-star fa-lg" style="color: yellow"></i>
-                                                        </a></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -118,7 +111,7 @@
                         <div class="container-fluid px-4">
                             <div class="d-flex align-items-center justify-content-between small">
                                 <div class="text-muted">© 2023. loose All rights reserved.</div>
-                                <div>
+                                <div id="saveComp">
                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">저장하기</button>
                                 </div>
                             </div>
@@ -202,7 +195,15 @@ div.py-4.bg-light.mt-auto{
 </style>
 <script>
     let rouletteUID = "[[${roulette.getRouletteUID()}]]";
+    let rouletteStatus = "[[${roulette.getRouletteStatus()}]]";
     let segmentUID;
+    if(rouletteStatus == "FINISH"){
+        $("input").attr("disabled", "disabled");
+        $(".trashClass").remove();
+        $("#saveComp").remove();
+    }
+
+
     $("#saveModal").on("shown.bs.modal", function () {
         $('#saveRouletteBtn').focus();
     });
@@ -245,6 +246,8 @@ function deleteSegment(){
         contentType: "application/json",
         dataType : "json",
         success : function(roulette) {
+            $("#"+segmentUID).remove();
+            segmentUID = "";
             toastr.success("삭제되었습니다.");
         },
         error : function(request, textStatus, errorThrown) {

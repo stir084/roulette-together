@@ -18,12 +18,12 @@ import static javax.persistence.FetchType.LAZY;
 public class RouletteSegmentResponseDto {
 
     //private Long id;
-    private UUID rouletteSegmentUID;
+    private UUID segmentUID;
     private String element;
 
     public RouletteSegmentResponseDto(RouletteSegment entity) {
         //this.id = entity.getId();
-        this.rouletteSegmentUID = entity.getRouletteSegmentUID();
+        this.segmentUID = entity.getSegmentUID();
         this.element = entity.getElement();
     }
 }

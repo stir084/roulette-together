@@ -151,7 +151,9 @@ public class RouletteService {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteRequestDto.getRouletteUID())
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
-
+        if(roulette.getStatus()==RouletteStatus.FINISH){
+            throw new IllegalArgumentException("이미 종료된 게임입니다.");
+        }
         roulette.setTitle(rouletteRequestDto.getTitle());
 
         /*List<RouletteSegmentSettingRequestDto> rouletteSegmentList = rouletteRequestDto.getRouletteSegmentList();
@@ -186,7 +188,7 @@ public class RouletteService {
            /* RouletteSegment byId = rouletteSegmentRepository.findById(aLong)
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));;
             byId.setElement(hhh.get(aLong));*/
-            RouletteSegment byId = rouletteSegmentRepository.findByRouletteSegmentUID(aLong)
+            RouletteSegment byId = rouletteSegmentRepository.findBySegmentUID(aLong)
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
             byId.setElement(hhh.get(aLong));
         }
@@ -231,11 +233,11 @@ public class RouletteService {
     @Data
     @EqualsAndHashCode
     static class SegmentUpdateChkVO{
-        private UUID rouletteSegmentUID;
+        private UUID segmentUID;
         private String element;
 
         public SegmentUpdateChkVO(RouletteSegmentSettingRequestDto rouletteSegment) {
-            this.rouletteSegmentUID = rouletteSegment.getRouletteSegmentUID();
+            this.segmentUID = rouletteSegment.getSegmentUID();
             this.element = rouletteSegment.getElement();
         }
         public static HashMap<UUID, String> classify(List<RouletteSegmentSettingRequestDto> rouletteSegmentList
@@ -250,7 +252,7 @@ public class RouletteService {
                 List<SegmentUpdateChkVO> list = classifiedPayment.get(dto);
 
                 if(list == null){ // 비교 값이 없으면
-                    test.put(dto.getRouletteSegmentUID(), dto.getElement());
+                    test.put(dto.getSegmentUID(), dto.getElement());
                /* if(dto.getId()==null){ // 새로 추가된 Segment 용도
                 }*/
 

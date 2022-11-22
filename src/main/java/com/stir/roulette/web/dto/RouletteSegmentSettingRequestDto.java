@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 public class RouletteSegmentSettingRequestDto {
 
     //private Long id;
-    private UUID rouletteSegmentUID;
+    private UUID segmentUID;
     private String element;
 
     public RouletteSegmentSettingRequestDto(RouletteSegment entity) {
         //this.id = entity.getId();
-        this.rouletteSegmentUID = entity.getRouletteSegmentUID();
+        this.segmentUID = entity.getSegmentUID();
         this.element = entity.getElement();
     }
 }

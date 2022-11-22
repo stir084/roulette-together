@@ -24,11 +24,11 @@ public class RouletteSegment {
     private Long id;
 
     @Type(type = "uuid-char")
-    private UUID rouletteSegmentUID;
+    private UUID segmentUID;
 
     @PrePersist
     private void setUUID(){
-        this.setRouletteSegmentUID(UUID.randomUUID());
+        this.setSegmentUID(UUID.randomUUID());
     }
 
     @Column(nullable = false)

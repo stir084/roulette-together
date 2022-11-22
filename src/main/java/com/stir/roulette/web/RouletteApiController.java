@@ -1,6 +1,7 @@
 package com.stir.roulette.web;
 
 import com.stir.roulette.config.ConfigBean;
+import com.stir.roulette.service.RouletteSegmentService;
 import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.web.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class RouletteApiController {
 
     private final RouletteService rouletteService;
+    private final RouletteSegmentService rouletteSegmentService;
     private final ConfigBean configBean;
 
     @GetMapping("/api/v1/roulette")
@@ -31,8 +33,9 @@ public class RouletteApiController {
     }
 
     @DeleteMapping("/api/v1/roulette/segment/{segmentUID}")
-    public void deleteSegment(@PathVariable UUID segmentUID, HttpServletRequest request) {
-        System.out.println("짜잔"+segmentUID);
+    public UUID deleteSegment(@PathVariable UUID segmentUID, HttpServletRequest request) {
+        rouletteSegmentService.deleteSegment(segmentUID);
+        return segmentUID;
     }
 
     @PostMapping("/api/v1/roulette")
