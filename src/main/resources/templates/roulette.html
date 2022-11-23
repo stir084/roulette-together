@@ -36,29 +36,32 @@
 -->
 
 
-                        <div id="rouletteHistoryTable" class="row mt-4">
+                        <div id="rouletteHistoryTable">
                             <!--<div class="col-xl-4 col-md-6 mb-4" >-->
                             <div class="col-xl-12 col-md-12">
                                 <div class="card border-left-success shadow h-100 py-2" style="
     margin-left: 1rem;
     margin-right: 1rem;
 ">
-                                    <div class="card-body">
+                                    <div class="card-body" style="padding: 0rem 1rem;">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2 history-card">
-                                                <div style="
-    margin-bottom: 5px;
-    float: right;
-">
-                                                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">공유하기</a>
-                                                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">새 게임</a>
+                                                <div style="margin-bottom: 10px;">
+                                                    <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#test"><i class="fa-regular fa-star"></i> 즐겨찾기</a>
+                                                    <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-solid fa-share"></i> 공유하기</a>
+                                                    <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-chart-pie fa-spin"></i> 새 게임</a>
                                                 </div>
 
-                                                <div id="item" class="input-group">
-                                                    <input type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
+                                                <div id="item" class="input-group" style="width:100%">
+                                                    <input style="width: 150px;" type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요">
                                                     <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
-                                                    <button class="btn btn-primary" onclick="saveSegment()">등록</button>
+                                                    <button class="btn btn-secondary" onclick="saveSegment()">등록</button>
                                                 </div>
+                                                <style>
+                                                    .btn{
+                                                        border-radius: 1.5rem;
+                                                    }
+                                                </style>
                                             </div>
                                         </div>
                                     </div>
