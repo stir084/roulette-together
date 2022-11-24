@@ -59,8 +59,8 @@
                                                         </svg> 새 게임</a>
                                                 </div>
 
-                                                <div id="item" class="input-group" style="width:100%;">
-                                                    <input style="width: 150px;" type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요">
+                                                <div class="input-group" style="width:100%;">
+                                                    <input style="width: 150px; border-top-left-radius: 1.5rem; border-bottom-left-radius: 1.5rem;" type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요">
                                                     <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
                                                     <button class="btn btn-secondary" onclick="saveSegment()">등록</button>
                                                 </div>
@@ -173,7 +173,7 @@
                 if(roulette.rouletteStatus == "FINISH"){
                     setRouletteAngle(roulette, roulette.rouletteSegment);
                     $("#canvas").removeAttr("onclick");
-                    $("#item").remove();
+                    $("#rouletteItem").attr("disable", "disable")
                     $("#spinIcon").addClass("fa-spin")
                     img = denyImg;
                 }
@@ -241,7 +241,7 @@
                     theWheel.innerImage = denyImg;
                     rouletteSpin(event);
                     $("#canvas").removeAttr("onclick");
-                    $("#item").remove();
+                    $("#rouletteItem").attr("disable", "disable")
                     $("#spinIcon").addClass("fa-spin");
                     // $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
                 },
