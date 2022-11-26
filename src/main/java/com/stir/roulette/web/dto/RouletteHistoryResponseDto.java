@@ -1,15 +1,11 @@
 package com.stir.roulette.web.dto;
 
 import com.stir.roulette.domain.Roulette;
-import com.stir.roulette.domain.RouletteSegment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor

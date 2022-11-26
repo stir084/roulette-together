@@ -2,9 +2,6 @@ package com.stir.roulette.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 
 @Data

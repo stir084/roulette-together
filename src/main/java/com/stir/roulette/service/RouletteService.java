@@ -203,8 +203,6 @@ public class RouletteService {
       /*  return rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable)
                 .map(RouletteHistoryResponseDto::new);*/
        // Page<Roulette> byUserAndStatus = rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable);
-        //System.out.println(byUserAndStatus.getContent());
-        //System.out.println("하하"+rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable).getTotalPages());
 
 
 
@@ -213,17 +211,11 @@ public class RouletteService {
         Page<RouletteHistoryResponseDto> map = byUserAndStatus.map(RouletteHistoryResponseDto::new);
 
 
-      /*  System.out.println("흠여기서 언제 쿼리나가지?"+byUserAndStatus.getTotalPages());
-        return byUserAndStatus
-                .map(RouletteHistoryResponseDto::new);*/
 
 
-       // Page<T> page = map;
 
         PageDTO<RouletteHistoryResponseDto> pageDto = new PageDTO<RouletteHistoryResponseDto>(map);
 
-        System.out.println("이러면 쿼리안나감");
-      //  pageDto.
         return new PageDTO<RouletteHistoryResponseDto>(map);
 
     }
