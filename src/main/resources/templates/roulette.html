@@ -13,6 +13,7 @@
                     <td width="438" height="500" class="" align="center" valign="center">
                         <div>
                             <h3 class="mt-4" id="title" style="font-weight: bold"></h3>
+                            <h3 class="" id="result" style="font-weight: bold">　</h3>
                         </div>
                         <canvas id="canvas" onclick="setPrize(event)" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
@@ -173,7 +174,7 @@
                 if(roulette.rouletteStatus == "FINISH"){
                     setRouletteAngle(roulette, roulette.rouletteSegment);
                     $("#canvas").removeAttr("onclick");
-                    $("#rouletteItem").attr("disable", "disable")
+                    $("#rouletteItem").attr("disabled", "disabled")
                     $("#spinIcon").addClass("fa-spin")
                     img = denyImg;
                 }
@@ -241,7 +242,7 @@
                     theWheel.innerImage = denyImg;
                     rouletteSpin(event);
                     $("#canvas").removeAttr("onclick");
-                    $("#rouletteItem").attr("disable", "disable")
+                    $("#rouletteItem").attr("disabled", "disabled")
                     $("#spinIcon").addClass("fa-spin");
                     // $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
                 },
