@@ -2,7 +2,7 @@ let theWheel; // 룰렛
 let wheelObject;
 let rotationAngle = 0; // 룰렛 각도
 //let segmentColorConfigArray = new Array('#007BFF', '#DC3545', '#28A745', '#FFC107', '#5A5C69', '#FF8F13', '#1CC88A', '#6200EA', '#858796', '#9F24B3'); // 룰렛 세그먼트 색깔
-let segmentColorConfigArray = new Array('#2196F3', '#F44336','#4CAF50', '#FFC107'); // 룰렛 세그먼트 색깔
+let segmentColorConfigArray = new Array('#2196F3', '#F44336','#4CAF50', '#FFC107', '#009688', '#673ab7', '#ffc107', '#795548', '#4caf50', '#3f51b5', '#374046', '#607d8b', '#ff5722', '#e91e63', '#8bc34a', '#9c27b0', '#656749', '#03a9f4', '#9e9e9e'); // 룰렛 세그먼트 색깔
 let segmentArray; // 세그먼트 배열
 
 

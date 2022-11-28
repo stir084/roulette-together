@@ -1,5 +1,6 @@
 package com.stir.roulette.web.dto;
 
+import com.stir.roulette.domain.FavoriteStatus;
 import com.stir.roulette.domain.Roulette;
 import com.stir.roulette.domain.RouletteStatus;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class RouletteResponseDto {
     private int prize;
     private String title;
     private RouletteStatus rouletteStatus;
+    private FavoriteStatus favoriteStatus;
 
     public RouletteResponseDto(Roulette entity) {
         this.rouletteUID = entity.getRouletteUID();
@@ -23,5 +25,6 @@ public class RouletteResponseDto {
         this.prize = entity.getPrize();
         this.title = entity.getTitle();
         this.rouletteStatus = entity.getStatus();
+        this.favoriteStatus = entity.getFavoriteStatus();
     }
 }

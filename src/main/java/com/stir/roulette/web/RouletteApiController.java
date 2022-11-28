@@ -62,6 +62,12 @@ public class RouletteApiController {
         return rouletteUID;
     }
 
+    @PutMapping("/api/v1/roulette/favorite")
+    public UUID changeRouletteFavoriteStatus(@RequestParam("rouletteUID") UUID rouletteUID){
+
+        rouletteService.changeRouletteFavoriteStatus(rouletteUID);
+        return rouletteUID;
+    }
 
 
     /*PostMapping("/login")

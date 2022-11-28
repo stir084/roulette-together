@@ -39,6 +39,9 @@ public class Roulette {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    private FavoriteStatus favoriteStatus;
+
     @JsonIgnore
     @OneToMany(mappedBy = "roulette", cascade = CascadeType.ALL)
     private List<RouletteSegment> rouletteSegments = new ArrayList<>();
@@ -64,6 +67,7 @@ public class Roulette {
         this.rouletteSegments.add(rouletteSegment);
         rouletteSegment.setRoulette(this);
     }
+
 
     // 1쪽에 써주는 연관관계 메소드(updateGame같이 메소드가 하나 더 필요하다) //
     /*public void addGameInfo(RouletteSegment rouletteSegment){
@@ -94,12 +98,12 @@ public class Roulette {
         Roulette roulette = new Roulette();
 
         roulette.setStatus(RouletteStatus.READY);
-
         for (RouletteSegment rouletteSegment : rouletteSegments) {
             roulette.addRouletteSegment(rouletteSegment);
         }
         //roulette.setRouletteSegments(rouletteSegmentList);
         roulette.setTitle(title);
+        roulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
         roulette.setCreateDate(LocalDateTime.now());
 
         return roulette;

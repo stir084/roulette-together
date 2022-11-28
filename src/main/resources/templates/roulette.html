@@ -47,7 +47,7 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2 history-card">
                                                 <div style="margin-bottom: 10px; display:flex; justify-content: space-between;">
-                                                    <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#test"><i class="fa-regular fa-star"></i> 즐겨찾기</a>
+                                                    <a class="btn btn-secondary" onclick="saveFavorite()"><i id="favoriteIcon" class="fa-solid fa-star"></i> 즐겨찾기</a>
 
                                                     <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-solid fa-share"></i> 공유하기</a>
                                                     <!--<a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-chart-pie fa-spin"></i> 새 게임</a>-->
@@ -150,6 +150,7 @@
 
 
     let rouletteUID;
+    let favoriteStatus;
     // 이미지 파일이 로드되고 나서 룰렛 생성
     let startImg = new Image();
     let denyImg = new Image();
@@ -166,6 +167,7 @@
             type : 'GET',
             success : function(roulette) {
                 rouletteUID = roulette.rouletteUID;
+                favoriteStatus = roulette.favoriteStatus;
                 let img = startImg;
                 // 룰렛 타이틀 설정
                 $("#title").text(roulette.title);
@@ -177,6 +179,10 @@
                     $("#rouletteItem").attr("disabled", "disabled")
                     $("#spinIcon").addClass("fa-spin")
                     img = denyImg;
+                }
+
+                if(favoriteStatus == "FAVORED"){
+                    $("#favoriteIcon").css('color', 'yellow');
                 }
 
                 // 룰렛 세그먼트 초기화
@@ -251,6 +257,26 @@
                 }
             });
         }
+    }
+    function saveFavorite(){
+
+        $.ajax({
+            url : '/api/v1/roulette/favorite',
+            type : 'PUT',
+            data : { rouletteUID: rouletteUID },
+            success : function(roulette) {
+                if($("#favoriteIcon").css('color') == "rgb(255, 255, 0)"){
+                    $("#favoriteIcon").css('color', '');
+                    toastr.success("즐겨찾기가 해제되었습니다.");
+                }else{
+                    $("#favoriteIcon").css('color', 'yellow');
+                    toastr.success("즐겨찾기가 등록되었습니다.");
+                }
+            },
+            error : function(request, textStatus, errorThrown) {
+                alert(request.responseJSON.message);
+            }
+        });
     }
 
     function newRoulette(){

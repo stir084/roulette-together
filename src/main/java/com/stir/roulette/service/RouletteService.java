@@ -6,14 +6,11 @@ import com.stir.roulette.repository.RouletteRepository;
 import com.stir.roulette.repository.RouletteSegmentRepository;
 import com.stir.roulette.repository.UserRepository;
 import com.stir.roulette.web.dto.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +40,7 @@ public class RouletteService {
             rouletteSegmentList.add(RouletteSegment.createRouletteSegment("짬뽕"));
             rouletteSegmentList.add(RouletteSegment.createRouletteSegment("탕수육"));
             rouletteSegmentList.add(RouletteSegment.createRouletteSegment("취두부"));
+
 
             Roulette roulette = Roulette.createInitRoulette("점심 뭐 먹지?",
                     rouletteSegmentList.stream().toArray(RouletteSegment[]::new));
@@ -220,6 +218,17 @@ public class RouletteService {
 
     }
 
+    @Transactional
+    public void changeRouletteFavoriteStatus(UUID rouletteUID) {
+        Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+
+        if(roulette.getFavoriteStatus() == FavoriteStatus.UNFAVORED){
+            roulette.setFavoriteStatus(FavoriteStatus.FAVORED);
+        }else{
+            roulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
+        }
+    }
 
 
     @Data
