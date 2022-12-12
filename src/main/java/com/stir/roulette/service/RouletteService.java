@@ -94,6 +94,7 @@ public class RouletteService {
 
         newRoulette.setTitle(lastRoulette.getTitle());
         newRoulette.setStatus(RouletteStatus.READY);
+        newRoulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
         newRoulette.setCreateDate(LocalDateTime.now());
         newRoulette.addUser(user);
 
@@ -228,6 +229,23 @@ public class RouletteService {
         }else{
             roulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
         }
+    }
+
+    @Transactional
+    public List<RouletteFavoriteResponseDto> getRouletteFavorite(String userIp) {
+        Optional<User> user = userRepository.findByUserIp(userIp);
+        if(user.isEmpty()){
+            return new ArrayList<>(); //조회 내역 없음
+        }
+        List<Roulette> rouletteList = rouletteRepository.findByUserAndFavoriteStatus(user.get(), FavoriteStatus.FAVORED);
+
+        List<RouletteFavoriteResponseDto> rouletteResponseDtoList = new ArrayList<>();
+        for (Roulette roulette : rouletteList) {
+            rouletteResponseDtoList.add(new RouletteFavoriteResponseDto(roulette));
+        }
+
+
+        return rouletteResponseDtoList;
     }
 
 

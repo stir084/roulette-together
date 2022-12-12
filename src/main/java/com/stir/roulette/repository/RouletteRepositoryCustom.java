@@ -1,6 +1,7 @@
 package com.stir.roulette.repository;
 
 
+import com.stir.roulette.domain.FavoriteStatus;
 import com.stir.roulette.domain.Roulette;
 import com.stir.roulette.domain.RouletteStatus;
 import com.stir.roulette.domain.User;
@@ -16,5 +17,6 @@ public interface RouletteRepositoryCustom {
     //Roulette findByRouletteUID(Long id, UUID rouletteUID);
 
     Page<Roulette> findByUserAndStatus(User user, RouletteStatus rouletteStatus, Pageable pageable);
+
 
 }

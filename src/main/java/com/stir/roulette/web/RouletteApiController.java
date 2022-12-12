@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -61,13 +62,21 @@ public class RouletteApiController {
         rouletteService.saveRouletteSegment(element, rouletteUID);
         return rouletteUID;
     }
-
+   /* @GetMapping("/api/v1/roulette/favorite")
+    public List<RouletteResponseDto> getRouletteFavorite(HttpServletRequest request){
+        String userIp = configBean.getUserIp(request);
+        //RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
+        List<RouletteResponseDto> rouletteResponseDtoList = rouletteService.getRouletteFavorite(userIp);
+        return rouletteResponseDtoList;
+    }*/
     @PutMapping("/api/v1/roulette/favorite")
     public UUID changeRouletteFavoriteStatus(@RequestParam("rouletteUID") UUID rouletteUID){
 
         rouletteService.changeRouletteFavoriteStatus(rouletteUID);
         return rouletteUID;
     }
+
+
 
 
     /*PostMapping("/login")

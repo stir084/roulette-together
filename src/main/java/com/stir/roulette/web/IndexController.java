@@ -3,6 +3,7 @@ package com.stir.roulette.web;
 import com.stir.roulette.config.ConfigBean;
 import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.service.UserService;
+import com.stir.roulette.web.dto.RouletteFavoriteResponseDto;
 import com.stir.roulette.web.dto.RouletteResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -64,6 +66,13 @@ public class IndexController {
 
     @GetMapping("/favorite")
     public String favorite(ModelMap model, HttpServletRequest request) {
+        String userIp = configBean.getUserIp(request);
+        //RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
+        List<RouletteFavoriteResponseDto> rouletteResponseDtoList = rouletteService.getRouletteFavorite(userIp);
+        if(rouletteResponseDtoList.size() == 0){
+            model.addAttribute("isEmpty", "true");
+        }
+        model.addAttribute("rouletteList", rouletteResponseDtoList);
         return "roulette-favorite";
     }
 
