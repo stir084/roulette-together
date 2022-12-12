@@ -7,24 +7,52 @@
             <main>
                 <div class="container-fluid px-4">
 
+                    <div id="rouletteFavoriteTable" class="row mt-4">
+                        <!--<div class="col-xl-4 col-md-6 mb-4" >-->
+                        <div class="col-xl-4 col-md-6">
+                            <div onclick="goGame()" class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2 history-card">
+                                            <div>
+                                                <div class="left text-xs font-weight-bold text-uppercase mb-1">점심 뭐 먹지?</div>
+                                                <div class="right text-xs font-weight-bold text-uppercase mb-1">22.11.28 18:09</div>
+                                            </div>
+                                            <div>
+                                                <div class="left prize h5 mb-0 font-weight-bold text-gray-800">짬뽕</div>
+                                                <div class="right">
+                                                    <a href="#" class="btn btn-danger btn-md rouletteSetting" style="border-radius: 1.5rem;"><!-- style="background-color:#0d6efd"-->
+                                                        <svg class="svg-inline--fa fa-pen-to-square fa-lg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"></path></svg><!-- <i class="fas fa-edit"></i> Font Awesome fontawesome.com -->
+                                                    </a>
+                                                    <a onclick="console.log('Game ID 넣기');" href="#" class="btn btn-secondary btn-md rouletteFavorite" style="border-radius: 1.5rem;"><!-- data-bs-target="#deleteModal">-->
+                                                        <!--<i class="fa-solid fa-star fa-lg" style="color: yellow"></i>-->
+                                                        <svg class="svg-inline--fa fa-star fa-lg" style="color: yellow;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"></path></svg>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-
-                    <div class="row mt-4">
+                    <!--<div class="row mt-4">
                         <div class="col-xl-4">
                             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                                <div class="dataTable-container">
+                               &lt;!&ndash; <div class="dataTable-container">
                                     <table id="datatablesSimple2" class="dataTable-table">
                                         <tbody>
                                         <tr>
                                             <td style="width:90%">점심은 뭐 먹지</td>
                                             <td>
-                                                <a href="#" class="btn btn-danger btn-md" style="border-radius: 1.5rem;"><!-- style="background-color:#0d6efd"-->
+                                                <a href="#" class="btn btn-danger btn-md" style="border-radius: 1.5rem;">&lt;!&ndash; style="background-color:#0d6efd"&ndash;&gt;
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
-                                                <!--<a href="javascript:;" class="btn btn-danger btn-md" th:segmentUID="${rouletteSegment.getSegmentUID()}" data-bs-toggle="modal" data-bs-target="#deleteModal" th:onclick="segmentUID=this.getAttribute('segmentUID')">
+                                                &lt;!&ndash;<a href="javascript:;" class="btn btn-danger btn-md" th:segmentUID="${rouletteSegment.getSegmentUID()}" data-bs-toggle="modal" data-bs-target="#deleteModal" th:onclick="segmentUID=this.getAttribute('segmentUID')">
                                                     <i class="fas fa-trash"></i>
-                                                </a>-->
+                                                </a>&ndash;&gt;
                                             </td>
 
                                             <td>
@@ -35,37 +63,17 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                </div>
+                                </div>&ndash;&gt;
 
 
 
 
-                                <div id="rouletteHistoryTable" class="row mt-4">
-                                    <!--<div class="col-xl-4 col-md-6 mb-4" >-->
-                                    <div class="col-xl-4 col-md-6">
-                                        <div class="card border-left-success shadow h-100 py-2">
-                                            <div class="card-body">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col mr-2 history-card">
-                                                        <div>
-                                                            <div class="left text-xs font-weight-bold text-uppercase mb-1">점심 뭐 먹지?</div>
-                                                            <div class="right text-xs font-weight-bold text-uppercase mb-1">22.11.28 18:09</div>
-                                                        </div>
-                                                        <div>
-                                                            <div class="left prize h5 mb-0 font-weight-bold text-gray-800">짬뽕</div><div class="right"><a href="#" class="btn btn-danger btn-md" style="border-radius: 1.5rem;"><!-- style="background-color:#0d6efd"-->
-                                                            <svg class="svg-inline--fa fa-pen-to-square" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.6 141.5 383.4 135 376.1C128.6 370.5 126.4 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"></path></svg><!-- <i class="fas fa-edit"></i> Font Awesome fontawesome.com -->
-                                                        </a></div>
-                                                        </div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
 
 
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="py-4 bg-light mt-auto">
                         <div class="container-fluid px-4">
                             <div class="d-flex align-items-center justify-content-between small">
@@ -97,6 +105,24 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
                     <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveRoulette();">예</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="favoriteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
+            <div class="modal-content">
+                <!--<div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                </div>-->
+                <div class="modal-body">
+                    즐겨찾기를 해제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                    <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
+                    <button id="deleteSegmentBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="deleteFavorite();">예</button>
                 </div>
             </div>
         </div>
@@ -135,5 +161,31 @@ $.ajax({
 });
 
 
+window.onload = function(){
+    $(".rouletteSetting").click(function(event) {
+        event.stopPropagation();
+        console.log("setting 하는 곳으로 이동")
+        //setting하는 곳으로 ㄱㄱ
+    })
+
+    $(".rouletteFavorite").click(function(event) {
+        event.stopPropagation();
+        $("#favoriteModal").modal('show');
+    })
+}
+
+function deleteFavorite(){
+    console.log("Favorite 지우기 AJAX 로직 작성");
+}
+/*$('.goSetting').click(function(event){
+    event.stopPropagation();
+    alert(event.target.id);
+});​*/
+/*function goGame(){
+    alert("게임하러")
+}*/
+/*function goSetting(e){
+    alert(e);
+}*/
 </script>
 </html>
