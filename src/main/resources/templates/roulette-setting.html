@@ -282,7 +282,7 @@ function saveRoulette(){
     rouletteSettingObj.title = $("#title").val();
     $("#datatablesSimple .dataTable-input").each(function(i, v){
         let segmentObj = new Object();
-        segmentObj.rouletteSegmentUID = $(v).attr("name").replace("segment_", "");
+        segmentObj.segmentUID = $(v).attr("name").replace("segment_", "");
         segmentObj.element = $(v).val();
         segmentArray.push(segmentObj);
     });

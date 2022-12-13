@@ -45,17 +45,24 @@ public class IndexController {
         return "/roulette";
     }
 
-    @GetMapping("/roulette/{rouletteUID}")
-    public String sharedRoulette(@PathVariable UUID rouletteUID, Model model) {
+    @GetMapping("/roulette/{rouletteUID}") //공유 룰렛, Favorite 에서 넘어온 룰렛
+    public String specificRoulette(@PathVariable UUID rouletteUID, Model model) {
         //있는겜인지 없는겜인지 검사
         model.addAttribute("rouletteUID", rouletteUID);
-        return "/roulette-share";
+        return "/roulette-specific";
     }
 
     @GetMapping("/setting")
     public String setting(ModelMap model, HttpServletRequest request) {
         String userIp = configBean.getUserIp(request);
         model.addAttribute("roulette", rouletteService.findLastGame(userIp));
+        return "roulette-setting";
+    }
+
+    @GetMapping("/setting/{rouletteUID}")
+    public String settingFavoriteGame(@PathVariable UUID rouletteUID, ModelMap model, HttpServletRequest request) {
+        String userIp = configBean.getUserIp(request);
+        model.addAttribute("roulette", rouletteService.getSpecificRoulette(rouletteUID));
         return "roulette-setting";
     }
 

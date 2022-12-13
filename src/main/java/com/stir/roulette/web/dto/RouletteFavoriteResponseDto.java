@@ -33,7 +33,7 @@ public class RouletteFavoriteResponseDto {
         if(entity.getPrize() != 0){
             this.prizeName = entity.getRouletteSegments().get(entity.getPrize()-1).getElement();
         }else{
-            this.prizeName = "미완료게임";
+            this.prizeName = "";
         }
         //
         this.createDate = entity.getCreateDate().format(DateTimeFormatter.ofPattern("yy.MM.dd HH:mm"));
