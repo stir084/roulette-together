@@ -20,7 +20,7 @@ public class RouletteApiController {
     private final RouletteSegmentService rouletteSegmentService;
     private final ConfigBean configBean;
 
-    @GetMapping("/api/v1/roulette")
+    @GetMapping("/api/v1/roulette/last")
     public RouletteResponseDto getRoulette(HttpServletRequest request) {
         String userIp = configBean.getUserIp(request);
         RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
@@ -28,8 +28,15 @@ public class RouletteApiController {
     }
 
     @GetMapping("/api/v1/roulette/{rouletteUID}")
+    public RouletteResponseDto getSpecificRoulette(@PathVariable UUID rouletteUID, HttpServletRequest request) {
+        String userIp = configBean.getUserIp(request);
+        RouletteResponseDto rouletteResponseDto = rouletteService.getSpecificRoulette(userIp, rouletteUID);
+        return rouletteResponseDto;
+    }
+
+    @GetMapping("/api/v1/roulette/share/{rouletteUID}")
     public RouletteResponseDto getSharedRoulette(@PathVariable UUID rouletteUID, HttpServletRequest request) {
-        RouletteResponseDto rouletteResponseDto = rouletteService.getSpecificRoulette(rouletteUID);
+        RouletteResponseDto rouletteResponseDto = rouletteService.getSharedRoulette(rouletteUID);
         return rouletteResponseDto;
     }
 

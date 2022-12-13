@@ -59,7 +59,7 @@
     // img.src가 로드되고 나서 룰렛 생성
     function initRoulette(){
         $.ajax({
-            url : '/api/v1/roulette/' + rouletteUID,
+            url : '/api/v1/roulette/share/' + rouletteUID,
             type : 'GET',
             success : function(roulette) {
                 rouletteUID = roulette.rouletteUID;

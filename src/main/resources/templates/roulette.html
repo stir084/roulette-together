@@ -150,6 +150,8 @@
 
 
     let rouletteUID;
+
+    let getRouletteUIDParam = [[${rouletteUID}]];
     let favoriteStatus;
     // 이미지 파일이 로드되고 나서 룰렛 생성
     let startImg = new Image();
@@ -162,12 +164,17 @@
     }
 
     function initRoulette(){
+        let url = '/api/v1/roulette/last'
+        if(getRouletteUIDParam != null){
+            url = '/api/v1/roulette/' + getRouletteUIDParam;
+        }
         $.ajax({
-            url : '/api/v1/roulette',
+            url : url,
             type : 'GET',
             success : function(roulette) {
                 rouletteUID = roulette.rouletteUID;
                 favoriteStatus = roulette.favoriteStatus;
+
                 let img = startImg;
                 // 룰렛 타이틀 설정
                 $("#title").text(roulette.title);
@@ -211,7 +218,12 @@
             type : 'POST',
             success : function(roulette) {
                 alert("등록되었습니다.")
-                location.href = "/roulette";
+                if(getRouletteUIDParam != null){
+                    location.href = "/roulette/" + getRouletteUIDParam;
+                }else{
+                    location.href = "/roulette/";
+                }
+
             },
             error : function(request, textStatus, errorThrown) {
                 alert(request.responseJSON.message);
