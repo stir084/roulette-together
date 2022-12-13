@@ -54,6 +54,17 @@ public class RouletteService {
         return new RouletteResponseDto(rouletteList.get(0));
     }
 
+
+    public RouletteResponseDto getSpecificRoulette(String userIp, UUID rouletteUID) {
+        Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+        if(!roulette.getUser().getUserIp().equals(userIp)){
+            throw new IllegalArgumentException("올바른 접근이 아닙니다.");
+        }
+        return new RouletteResponseDto(roulette);
+    }
+
+
     @Transactional
     public RouletteResponseDto startRoulette(UUID rouletteUID, String userIp) {
 
@@ -136,8 +147,9 @@ public class RouletteService {
         rouletteSegmentRepository.save(rouletteSegment);
     }
 
+
     @Transactional
-    public RouletteResponseDto getSpecificRoulette(UUID rouletteUID) {
+    public RouletteResponseDto getSharedRoulette(UUID rouletteUID) {
         // 룰렛 조회
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
@@ -183,16 +195,11 @@ public class RouletteService {
         //수정된게 있는지 체크
         // 가져온 Segment 데이터 중 수정된 내역이 있으면 Save
         HashMap<UUID, String> hhh = SegmentUpdateChkVO.classify(rouletteRequestDto.getRouletteSegmentList(), classifiedRequestRoulette);
-        for (SegmentUpdateChkVO segmentUpdateChkVO : classifiedRequestRoulette.keySet()) {
-            System.out.println("케케케"+segmentUpdateChkVO);
-        }
 
-        System.out.println("머지"+hhh.toString());
         for (UUID aLong : hhh.keySet()) {
            /* RouletteSegment byId = rouletteSegmentRepository.findById(aLong)
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));;
             byId.setElement(hhh.get(aLong));*/
-            System.out.println("하하"+aLong);
             RouletteSegment byId = rouletteSegmentRepository.findBySegmentUID(aLong)
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
             byId.setElement(hhh.get(aLong));
@@ -253,6 +260,8 @@ public class RouletteService {
 
         return rouletteResponseDtoList;
     }
+
+
 
     @Data
     @EqualsAndHashCode

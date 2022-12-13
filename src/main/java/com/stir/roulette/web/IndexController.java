@@ -4,7 +4,6 @@ import com.stir.roulette.config.ConfigBean;
 import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.service.UserService;
 import com.stir.roulette.web.dto.RouletteFavoriteResponseDto;
-import com.stir.roulette.web.dto.RouletteResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,11 +44,18 @@ public class IndexController {
         return "/roulette";
     }
 
-    @GetMapping("/roulette/{rouletteUID}") //공유 룰렛, Favorite 에서 넘어온 룰렛
+    @GetMapping("/roulette/{rouletteUID}") //특정 룰렛 선택(ex. Favorite 에서 넘어온 룰렛)
     public String specificRoulette(@PathVariable UUID rouletteUID, Model model) {
         //있는겜인지 없는겜인지 검사
         model.addAttribute("rouletteUID", rouletteUID);
-        return "/roulette-specific";
+        return "/roulette";
+    }
+
+    @GetMapping("/roulette/share/{rouletteUID}") //특정 룰렛 선택(ex. Favorite 에서 넘어온 룰렛)
+    public String shareRoulette(@PathVariable UUID rouletteUID, Model model) {
+        //있는겜인지 없는겜인지 검사
+        model.addAttribute("rouletteUID", rouletteUID);
+        return "/roulette-share";
     }
 
     @GetMapping("/setting")
@@ -62,7 +68,7 @@ public class IndexController {
     @GetMapping("/setting/{rouletteUID}")
     public String settingFavoriteGame(@PathVariable UUID rouletteUID, ModelMap model, HttpServletRequest request) {
         String userIp = configBean.getUserIp(request);
-        model.addAttribute("roulette", rouletteService.getSpecificRoulette(rouletteUID));
+        model.addAttribute("roulette", rouletteService.getSharedRoulette(rouletteUID));
         return "roulette-setting";
     }
 

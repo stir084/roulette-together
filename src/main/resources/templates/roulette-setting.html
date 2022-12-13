@@ -196,6 +196,9 @@ div.py-4.bg-light.mt-auto{
 <script>
     let rouletteUID = "[[${roulette.getRouletteUID()}]]";
     let rouletteStatus = "[[${roulette.getRouletteStatus()}]]";
+
+    let getRouletteUIDParam = "[[${rouletteUID}]]"; //roulette.html이랑 다르다 <script>가 달라서 그런가?
+
     let segmentUID;
     if(rouletteStatus == "FINISH"){
         $("input").attr("disabled", "disabled");
@@ -212,10 +215,16 @@ div.py-4.bg-light.mt-auto{
         $('#deleteSegmentBtn').focus();
     });
 
+    url = '/api/v1/roulette/last';
+
+    if(getRouletteUIDParam != ""){
+        url = '/api/v1/roulette/' + getRouletteUIDParam;
+    }
+
     $.ajax({
-    url : '/api/v1/roulette',
-    type : 'GET',
-    success : function(roulette) {
+        url : url,
+        type : 'GET',
+        success : function(roulette) {
         rouletteUID = roulette.rouletteUID;
 
         // 룰렛 타이틀 설정
@@ -295,7 +304,6 @@ function saveRoulette(){
         contentType: "application/json",
         dataType : "json",
         success : function(roulette) {
-            console.log("헐?");
             toastr.success("저장되었습니다.");
         },
         error : function(request, textStatus, errorThrown) {
