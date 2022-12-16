@@ -135,6 +135,9 @@ public class RouletteService {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
+        if(roulette.getMaxCount() == roulette.getRouletteSegments().size()){
+            throw new IllegalArgumentException("최대 아이템 개수는 " + roulette.getMaxCount() + "개 입니다.");
+        }
         if(roulette.getStatus() == RouletteStatus.FINISH) {
             throw new IllegalArgumentException("이미 완료된 게임 입니다.");
         }
@@ -162,6 +165,9 @@ public class RouletteService {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteRequestDto.getRouletteUID())
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
+        if(rouletteRequestDto.getMaxCount() < roulette.getRouletteSegments().size()){
+            throw new IllegalArgumentException("최대 아이템 개수보다 아이템이 많습니다.");
+        }
         if(roulette.getStatus()==RouletteStatus.FINISH){
             throw new IllegalArgumentException("이미 종료된 게임입니다.");
         }

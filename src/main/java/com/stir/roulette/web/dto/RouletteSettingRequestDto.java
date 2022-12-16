@@ -16,10 +16,13 @@ public class RouletteSettingRequestDto {
     private UUID rouletteUID;
     private List<RouletteSegmentSettingRequestDto> rouletteSegmentList;
 
+    private int maxCount;
+
     public RouletteSettingRequestDto(Roulette entity) {
         this.title = entity.getTitle();
         this.rouletteUID = entity.getRouletteUID();
         this.rouletteSegmentList = entity.getRouletteSegments().stream()
                 .map(o -> new RouletteSegmentSettingRequestDto(o)).collect(Collectors.toList());
+        this.maxCount = entity.getMaxCount();
     }
 }

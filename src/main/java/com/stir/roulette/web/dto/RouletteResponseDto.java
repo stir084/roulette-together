@@ -18,6 +18,8 @@ public class RouletteResponseDto {
     private RouletteStatus rouletteStatus;
     private FavoriteStatus favoriteStatus;
 
+    private int maxCount;
+
     public RouletteResponseDto(Roulette entity) {
         this.rouletteUID = entity.getRouletteUID();
         this.rouletteSegment = entity.getRouletteSegments().stream()
@@ -26,5 +28,6 @@ public class RouletteResponseDto {
         this.title = entity.getTitle();
         this.rouletteStatus = entity.getStatus();
         this.favoriteStatus = entity.getFavoriteStatus();
+        this.maxCount = entity.getMaxCount();
     }
 }
