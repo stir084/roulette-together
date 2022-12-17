@@ -36,10 +36,10 @@ public class RouletteService {
            //RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment("짜장면");
             List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
 
-            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("짜장면"));
-            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("짬뽕"));
-            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("탕수육"));
-            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("취두부"));
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("치킨🥠"));
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("삼겹살🥩"));
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("피자🍕"));
+            rouletteSegmentList.add(RouletteSegment.createRouletteSegment("초밥🍣"));
 
 
             Roulette roulette = Roulette.createInitRoulette("점심 뭐 먹지?",
@@ -101,12 +101,11 @@ public class RouletteService {
         Roulette newRoulette = new Roulette();
 
         //최근 게임 기반으로 룰렛 재생성
-        //newRoulette.setrouletteUID(configBean.getGameRandomCode());
-
         newRoulette.setTitle(lastRoulette.getTitle());
         newRoulette.setStatus(RouletteStatus.READY);
         newRoulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
         newRoulette.setCreateDate(LocalDateTime.now());
+        newRoulette.setMaxCount(lastRoulette.getMaxCount());
         newRoulette.addUser(user);
 
        // Roulette.createInitRoulette()
@@ -166,12 +165,16 @@ public class RouletteService {
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
         if(rouletteRequestDto.getMaxCount() < roulette.getRouletteSegments().size()){
-            throw new IllegalArgumentException("최대 아이템 개수보다 아이템이 많습니다.");
+            throw new IllegalArgumentException("최대 아이템 개수가 너무 적습니다.");
+        }
+        if(rouletteRequestDto.getMaxCount()>30){
+            throw new IllegalArgumentException("최대 아이템 개수는 30개 입니다.");
         }
         if(roulette.getStatus()==RouletteStatus.FINISH){
             throw new IllegalArgumentException("이미 종료된 게임입니다.");
         }
         roulette.setTitle(rouletteRequestDto.getTitle());
+        roulette.setMaxCount(rouletteRequestDto.getMaxCount());
 
         /*List<RouletteSegmentSettingRequestDto> rouletteSegmentList = rouletteRequestDto.getRouletteSegmentList();
         for (RouletteSegmentSettingRequestDto rouletteSegment : rouletteSegmentList) {
@@ -221,32 +224,32 @@ public class RouletteService {
       /*  return rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable)
                 .map(RouletteHistoryResponseDto::new);*/
        // Page<Roulette> byUserAndStatus = rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable);
-
-
-
         Page<Roulette> byUserAndStatus = rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable);
-
         Page<RouletteHistoryResponseDto> map = byUserAndStatus.map(RouletteHistoryResponseDto::new);
-
-
-
-
-
         PageDTO<RouletteHistoryResponseDto> pageDto = new PageDTO<RouletteHistoryResponseDto>(map);
 
         return new PageDTO<RouletteHistoryResponseDto>(map);
-
     }
 
     @Transactional
-    public void changeRouletteFavoriteStatus(UUID rouletteUID) {
+    public void changeRouletteFavoriteStatus(UUID rouletteUID, String userIp) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
+
+        User user = userRepository.findByUserIp(userIp)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+        // roulette.get
         if(roulette.getFavoriteStatus() == FavoriteStatus.UNFAVORED){
+
+            if(user.getFavoriteCount() >= 5){
+                throw new IllegalArgumentException("즐겨찾기 개수는 최대 5개 입니다.");
+            }
             roulette.setFavoriteStatus(FavoriteStatus.FAVORED);
+            user.setFavoriteCount(user.getFavoriteCount()+1);
         }else{
             roulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
+            user.setFavoriteCount(user.getFavoriteCount()-1);
         }
     }
 

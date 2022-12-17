@@ -104,7 +104,7 @@ public class Roulette {
             roulette.addRouletteSegment(rouletteSegment);
         }
         //roulette.setRouletteSegments(rouletteSegmentList);
-        roulette.setMaxCount(4); // 최대 갯수 4개
+        roulette.setMaxCount(8); // 초기 최대 갯수 8개
         roulette.setTitle(title);
         roulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
         roulette.setCreateDate(LocalDateTime.now());

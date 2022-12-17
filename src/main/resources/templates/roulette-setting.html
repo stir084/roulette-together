@@ -289,6 +289,7 @@ function saveRoulette(){
     //rouletteSettingObj.id = rouletteId;
     rouletteSettingObj.rouletteUID = rouletteUID;
     rouletteSettingObj.title = $("#title").val();
+    rouletteSettingObj.maxCount = $("#maxCount").val();
     $("#datatablesSimple .dataTable-input").each(function(i, v){
         let segmentObj = new Object();
         segmentObj.segmentUID = $(v).attr("name").replace("segment_", "");

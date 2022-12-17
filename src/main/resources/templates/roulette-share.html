@@ -12,20 +12,35 @@
                 <tr>
                     <td width="438" height="500" class="" align="center" valign="center">
                         <div>
-                            <h3 class="mt-4" id="title"></h3>
+                            <h3 class="mt-4" id="title" style="font-weight: bold"></h3>
+                        </div>
+                        <div>
+                            <h3 class="mt-4" id="result" style="font-weight: bold"></h3>
                         </div>
                         <canvas id="canvas" width="456" height="500" style="width: calc(100% - 30px);">
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
-
-                        <div>
-                            <h3 class="mt-4" id="result" ></h3>
-                        </div>
-                            <div id="item" class="input-group">
-                                <input type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
-                                <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
-                                <button class="btn btn-primary" onclick="saveSegment()">등록</button>
+                        <div id="rouletteHistoryTable">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card border-left-success shadow h-100 py-2" style="margin-left: 1rem; margin-right: 1rem;">
+                                    <div class="card-body" style="padding: 0rem 1rem;">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2 history-card">
+                                                <div class="input-group" style="width:100%;">
+                                                    <input style="width: 150px; border-top-left-radius: 1.5rem; border-bottom-left-radius: 1.5rem;" type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요">
+                                                    <button class="btn btn-secondary" onclick="saveSegment()">등록</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                            <!--<div id="item" class="input-group">
+                                <input type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
+                                &lt;!&ndash;<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>&ndash;&gt;
+                                <button class="btn btn-primary" onclick="saveSegment()">등록</button>
+                            </div>-->
                     </td>
 
                 </tr>

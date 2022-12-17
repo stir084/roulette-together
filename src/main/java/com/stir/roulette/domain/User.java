@@ -26,7 +26,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Roulette> roulettes = new ArrayList<>();
 
-
+    private int FavoriteCount;
   /*  @Builder
     public User(String userIp) {
         this.userIp = userIp;
@@ -41,6 +41,7 @@ public class User {
         User user = new User();
         user.setUserIp(userIp);
         user.addRoulette(roulette);
+        user.setFavoriteCount(0);
 
         return user;
     }

@@ -17,7 +17,6 @@ public class RouletteResponseDto {
     private String title;
     private RouletteStatus rouletteStatus;
     private FavoriteStatus favoriteStatus;
-
     private int maxCount;
 
     public RouletteResponseDto(Roulette entity) {
@@ -28,6 +27,7 @@ public class RouletteResponseDto {
         this.title = entity.getTitle();
         this.rouletteStatus = entity.getStatus();
         this.favoriteStatus = entity.getFavoriteStatus();
+        System.out.println(entity.getMaxCount()+"머야");
         this.maxCount = entity.getMaxCount();
     }
 }

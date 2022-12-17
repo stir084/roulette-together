@@ -54,7 +54,6 @@ public class RouletteApiController {
 
     @PutMapping("/api/v1/roulette")
     public UUID updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
-        System.out.println("머야"+rouletteRequestDto.getRouletteSegmentList().get(0).getSegmentUID());
         rouletteService.updateRoulette(rouletteRequestDto);
         return rouletteRequestDto.getRouletteUID();
     }
@@ -78,9 +77,9 @@ public class RouletteApiController {
         return rouletteResponseDtoList;
     }*/
     @PutMapping("/api/v1/roulette/favorite")
-    public UUID changeRouletteFavoriteStatus(@RequestParam("rouletteUID") UUID rouletteUID){
-
-        rouletteService.changeRouletteFavoriteStatus(rouletteUID);
+    public UUID changeRouletteFavoriteStatus(@RequestParam("rouletteUID") UUID rouletteUID, HttpServletRequest request){
+        String userIp = configBean.getUserIp(request);
+        rouletteService.changeRouletteFavoriteStatus(rouletteUID, userIp);
         return rouletteUID;
     }
 
