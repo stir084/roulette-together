@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.net.UnknownHostException;
 import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -40,7 +41,7 @@ public class IndexController {
     }
 
     @GetMapping("/roulette")
-    public String roulette() {
+    public String roulette() throws UnknownHostException {
         return "/roulette";
     }
 
@@ -207,7 +208,6 @@ public class IndexController {
         }
         f.close();
 
-        System.out.println("여기서 지우자");
 
         File file = new File("C:\\uploadImage/" + gameCode +".png");
         if( file.exists() ){

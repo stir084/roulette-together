@@ -1,3 +1,23 @@
+
+/**
+ * 사용자 고유 ID 생성
+ */
+var du = new DeviceUUID().get(); //.parse();
+document.cookie = "userUUID="+du;
+/**
+ * 버튼에 클립보드 기능 연결
+ */
+var clipboard = new ClipboardJS('.shareBtn');
+
+clipboard.on('success', function(e) {
+    console.log(e);
+});
+
+clipboard.on('error', function(e) {
+    console.log(e);
+});
+
+
 /**
  * 모바일 체크
  */

@@ -76,7 +76,8 @@
 
                 <!-- Modal body -->
                 <div class="modal-body" style="text-align: center;">
-                    <button style="border-width: 0px; background-color: white" href="javascript:;" onclick="openKakaoLink()"><div style="
+                    <textarea style="position: absolute; left: -999em;" id="linkText">http://116.37.136.233:8080/roulette/share/</textarea>
+                    <button class="shareBtn" style="border-width: 0px; background-color: white" href="javascript:;" onclick="shareLink()" data-clipboard-target="#linkText"><div style="
                         background-color: #bfbdbd;
                         border-radius: 1.6rem;
                     ">
@@ -84,7 +85,8 @@
                             <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"></path>
                             <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"></path>
                         </svg></div>
-                        <div style="font-size:0.8rem; margin-top: 0.4em" style-target="" class="">링크 공유</div>
+                        <div style="font-size:0.8rem; margin-top: 0.4em">링크 공유</div>
+
                     </button>
                     <button style="border-width: 0px; background-color: white" href="javascript:;" onclick="openKakaoLink()">
                         <img style="height:3.1rem"
@@ -163,7 +165,7 @@
                 rouletteUID = roulette.rouletteUID;
                 favoriteStatus = roulette.favoriteStatus;
 
-                $("#shareLink").val("http://116.37.136.233:8080")
+                $("#linkText").text($("#linkText").text() + rouletteUID);
                 let img = startImg;
                 // 룰렛 타이틀 설정
                 $("#title").text(roulette.title);
@@ -229,8 +231,13 @@
 
         var x = event.offsetX;
         var y = event.offsetY;
-        //모바일이랑 미세하게 크기가 다르므로 동적 숫자로 변경해야할듯함.
-        if(x>=163 && y>=190 && x<=237 && y<=256) {
+
+        var canvasWidth = canvas.offsetWidth / 2;
+        var canvasHeight = canvas.offsetHeight / 2;
+
+        var dynamicRange = canvas.offsetWidth / 10
+        //if(x>=163 && y>=190 && x<=237 && y<=256) {
+        if(x>=canvasWidth-dynamicRange && y>=canvasHeight-dynamicRange && x<=canvasWidth+dynamicRange && y<=canvasHeight+dynamicRange){
             $.ajax({
                 url: '/api/v1/roulette',
                 data: {segmentLength: segmentArray.length, rouletteUID: rouletteUID},
@@ -295,6 +302,7 @@
 
     function openKakaoLink(){
         console.log(rouletteUID)
+        $("#linkText").val($("#linkText").val() + rouletteUID);
         saveRouletteImg();
     }
     function saveRouletteImg(){
@@ -335,14 +343,16 @@
                 {
                     title: '등록하러 가기',
                     link: {
-                        mobileWebUrl: 'http://116.37.136.233:8080/share/' + rouletteUID,
-                        webUrl: 'http://116.37.136.233:8080/share/' + rouletteUID,
+                        mobileWebUrl: 'http://116.37.136.233:8080/roulette/share/' + rouletteUID,
+                        webUrl: 'http://116.37.136.233:8080/roulette/share/' + rouletteUID,
                     },
                 },
             ],
             serverCallbackArgs: '{"key":"value"}'
         })
     }
-
+    function shareLink(){
+       toastr.success("링크를 클립보드에 복사했습니다.");
+    }
 </script>
 </html>

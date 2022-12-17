@@ -27,7 +27,6 @@ public class RouletteResponseDto {
         this.title = entity.getTitle();
         this.rouletteStatus = entity.getStatus();
         this.favoriteStatus = entity.getFavoriteStatus();
-        System.out.println(entity.getMaxCount()+"머야");
         this.maxCount = entity.getMaxCount();
     }
 }

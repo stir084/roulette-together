@@ -21,7 +21,8 @@ public class RouletteApiController {
     private final ConfigBean configBean;
 
     @GetMapping("/api/v1/roulette/last")
-    public RouletteResponseDto getRoulette(HttpServletRequest request) {
+    public RouletteResponseDto getRoulette(@CookieValue String userUUID, HttpServletRequest request) {
+        System.out.println("에에"+userUUID);
         String userIp = configBean.getUserIp(request);
         RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
         return rouletteResponseDto; //responseEntity로 수정하기

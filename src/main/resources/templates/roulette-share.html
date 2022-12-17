@@ -87,6 +87,7 @@
                     setRouletteAngle(roulette, roulette.rouletteSegment);
                     $("#canvas").removeAttr("onclick");
                     $("#item").remove();
+                    $("#rouletteHistoryTable").remove();
                 }
 
                 // 룰렛 세그먼트 초기화
@@ -115,7 +116,7 @@
             type : 'POST',
             success : function(roulette) {
                 alert("등록되었습니다.")
-                location.href = "/roulette" + rouletteUID;
+                location.href = "/roulette/share/" + rouletteUID;
             },
             error : function(request, textStatus, errorThrown) {
                 alert(request.responseJSON.message);

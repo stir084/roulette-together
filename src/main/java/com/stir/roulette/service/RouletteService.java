@@ -167,7 +167,7 @@ public class RouletteService {
         if(rouletteRequestDto.getMaxCount() < roulette.getRouletteSegments().size()){
             throw new IllegalArgumentException("최대 아이템 개수가 너무 적습니다.");
         }
-        if(rouletteRequestDto.getMaxCount()>30){
+        if(rouletteRequestDto.getMaxCount()>100){
             throw new IllegalArgumentException("최대 아이템 개수는 30개 입니다.");
         }
         if(roulette.getStatus()==RouletteStatus.FINISH){
