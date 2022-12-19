@@ -20,7 +20,7 @@ public class User {
     private Long id;
 
     @Column
-    private String userIp;
+    private String userUUID;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -37,9 +37,9 @@ public class User {
         roulette.setUser(this);
     }
 
-    public static User createUser(String userIp, Roulette roulette){
+    public static User createUser(String userUUID, Roulette roulette){
         User user = new User();
-        user.setUserIp(userIp);
+        user.setUserUUID(userUUID);
         user.addRoulette(roulette);
         user.setFavoriteCount(0);
 

@@ -29,10 +29,10 @@ public class RouletteService {
     private final ConfigBean configBean;
 
     @Transactional
-    public RouletteResponseDto findLastGame(String userIp) {
+    public RouletteResponseDto findLastGame(String userUUID) {
 
         // 회원 정보 없을 시 초기 생성
-        if(userRepository.findByUserIp(userIp).isEmpty()){
+        if(userRepository.findByUserUUID(userUUID).isEmpty()){
            //RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment("짜장면");
             List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
 
@@ -44,12 +44,12 @@ public class RouletteService {
 
             Roulette roulette = Roulette.createInitRoulette("점심 뭐 먹지?",
                     rouletteSegmentList.stream().toArray(RouletteSegment[]::new));
-            User user = User.createUser(userIp, roulette);
+            User user = User.createUser(userUUID, roulette);
             userRepository.save(user);
         }
 
         // 게임 조회
-        List<Roulette> rouletteList = rouletteRepository.findLastGameByUserIp(userIp);
+        List<Roulette> rouletteList = rouletteRepository.findLastGameByUserUUID(userUUID);
 
         return new RouletteResponseDto(rouletteList.get(0));
     }
@@ -58,7 +58,7 @@ public class RouletteService {
     public RouletteResponseDto getSpecificRoulette(String userIp, UUID rouletteUID) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
-        if(!roulette.getUser().getUserIp().equals(userIp)){
+        if(!roulette.getUser().getUserUUID().equals(userIp)){
             throw new IllegalArgumentException("올바른 접근이 아닙니다.");
         }
         return new RouletteResponseDto(roulette);
@@ -66,9 +66,9 @@ public class RouletteService {
 
 
     @Transactional
-    public RouletteResponseDto startRoulette(UUID rouletteUID, String userIp) {
+    public RouletteResponseDto startRoulette(UUID rouletteUID, String userUUID) {
 
-        User user = userRepository.findByUserIp(userIp).get();
+        User user = userRepository.findByUserUUID(userUUID).get();
 
         // 현재 룰렛 조회
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
@@ -92,11 +92,11 @@ public class RouletteService {
     }
 
     @Transactional
-    public RouletteResponseDto createNewRoulette(String userIp) {
+    public RouletteResponseDto createNewRoulette(String userUUID) {
 
         //가장 최근 게임 조회
-        List<Roulette> rouletteList = rouletteRepository.findLastGameByUserIp(userIp);
-        User user = userRepository.findByUserIp(userIp).get();
+        List<Roulette> rouletteList = rouletteRepository.findLastGameByUserUUID(userUUID);
+        User user = userRepository.findByUserUUID(userUUID).get();
         Roulette lastRoulette = rouletteList.get(0);
         Roulette newRoulette = new Roulette();
 
@@ -217,8 +217,8 @@ public class RouletteService {
     }
 
     @Transactional
-    public PageDTO<RouletteHistoryResponseDto> findRouletteHistory(String userIp, Pageable pageable) {
-        User user = userRepository.findByUserIp(userIp).get();
+    public PageDTO<RouletteHistoryResponseDto> findRouletteHistory(String userUUID, Pageable pageable) {
+        User user = userRepository.findByUserUUID(userUUID).get();
         //PageRequest pageRequest = PageRequest.of(0, 5);
 
       /*  return rouletteRepository.findByUserAndStatus(user, RouletteStatus.FINISH, pageable)
@@ -232,12 +232,12 @@ public class RouletteService {
     }
 
     @Transactional
-    public void changeRouletteFavoriteStatus(UUID rouletteUID, String userIp) {
+    public void changeRouletteFavoriteStatus(UUID rouletteUID, String userUUID) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
 
-        User user = userRepository.findByUserIp(userIp)
+        User user = userRepository.findByUserUUID(userUUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
         // roulette.get
         if(roulette.getFavoriteStatus() == FavoriteStatus.UNFAVORED){
@@ -254,8 +254,8 @@ public class RouletteService {
     }
 
     @Transactional
-    public List<RouletteFavoriteResponseDto> getRouletteFavorite(String userIp) {
-        Optional<User> user = userRepository.findByUserIp(userIp);
+    public List<RouletteFavoriteResponseDto> getRouletteFavorite(String userUUID) {
+        Optional<User> user = userRepository.findByUserUUID(userUUID);
         if(user.isEmpty()){
             return new ArrayList<>(); //조회 내역 없음
         }

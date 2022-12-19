@@ -32,9 +32,9 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
                 .fetch();
     }*/
 
-    public List<Roulette> findLastGameByUserIp(String userIp) {
+    public List<Roulette> findLastGameByUserUUID(String userIp) {
         return queryFactory.selectFrom(roulette)
-                .where(roulette.user.userIp.eq(userIp))
+                .where(roulette.user.userUUID.eq(userIp))
                 .orderBy(roulette.id.desc())
                 .offset(0).limit(1)
                 .fetch();
@@ -44,7 +44,7 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
         List<Roulette> content = queryFactory.selectFrom(roulette).distinct()
                 .innerJoin(roulette.rouletteSegments, rouletteSegment)
                 //.fetchJoin() //일대다조인에서 페이징 + 페치 금지 - 이거빼니까 데이터 이상하게 나옴 - 뻥튀기 돼서 그럼. distinct로 해결
-                .where(roulette.user.userIp.eq(user.getUserIp()), roulette.status.eq(rouletteStatus))
+                .where(roulette.user.userUUID.eq(user.getUserUUID()), roulette.status.eq(rouletteStatus))
                 .orderBy(roulette.id.desc(), rouletteSegment.id.asc())
                 .offset(pageable.getOffset())   // (2) 페이지 번호
                 .limit(pageable.getPageSize())  // (3) 페이지 사이즈
@@ -54,7 +54,7 @@ public class RouletteRepositoryImpl implements RouletteRepositoryCustom {
                 .select(roulette.count())
                 .from(roulette)
 //                .leftJoin(member.team, team)		(5) 검색조건 최적화
-                .where(roulette.user.userIp.eq(user.getUserIp()), roulette.status.eq(rouletteStatus))
+                .where(roulette.user.userUUID.eq(user.getUserUUID()), roulette.status.eq(rouletteStatus))
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, count);

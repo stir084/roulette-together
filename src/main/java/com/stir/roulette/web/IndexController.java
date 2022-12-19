@@ -60,15 +60,14 @@ public class IndexController {
     }
 
     @GetMapping("/setting")
-    public String setting(ModelMap model, HttpServletRequest request) {
-        String userIp = configBean.getUserIp(request);
-        model.addAttribute("roulette", rouletteService.findLastGame(userIp));
+    public String setting(@CookieValue String userUUID, ModelMap model, HttpServletRequest request) {
+        //String userIp = configBean.getUserIp(request);
+        model.addAttribute("roulette", rouletteService.findLastGame(userUUID));
         return "roulette-setting";
     }
 
     @GetMapping("/setting/{rouletteUID}")
     public String settingFavoriteGame(@PathVariable UUID rouletteUID, ModelMap model, HttpServletRequest request) {
-        String userIp = configBean.getUserIp(request);
         model.addAttribute("roulette", rouletteService.getSharedRoulette(rouletteUID));
         return "roulette-setting";
     }
@@ -79,10 +78,10 @@ public class IndexController {
     }
 
     @GetMapping("/favorite")
-    public String favorite(ModelMap model, HttpServletRequest request) {
-        String userIp = configBean.getUserIp(request);
+    public String favorite(@CookieValue String userUUID, ModelMap model, HttpServletRequest request) {
+        //String userIp = configBean.getUserIp(request);
         //RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
-        List<RouletteFavoriteResponseDto> rouletteResponseDtoList = rouletteService.getRouletteFavorite(userIp);
+        List<RouletteFavoriteResponseDto> rouletteResponseDtoList = rouletteService.getRouletteFavorite(userUUID);
         if(rouletteResponseDtoList.size() == 0){
             model.addAttribute("isEmpty", "true");
         }

@@ -22,16 +22,16 @@ public class RouletteApiController {
 
     @GetMapping("/api/v1/roulette/last")
     public RouletteResponseDto getRoulette(@CookieValue String userUUID, HttpServletRequest request) {
-        System.out.println("에에"+userUUID);
-        String userIp = configBean.getUserIp(request);
-        RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
+        //System.out.println("에에"+userUUID);
+        //String userIp = configBean.getUserIp(request);
+        RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userUUID);
         return rouletteResponseDto; //responseEntity로 수정하기
     }
 
     @GetMapping("/api/v1/roulette/{rouletteUID}")
-    public RouletteResponseDto getSpecificRoulette(@PathVariable UUID rouletteUID, HttpServletRequest request) {
-        String userIp = configBean.getUserIp(request);
-        RouletteResponseDto rouletteResponseDto = rouletteService.getSpecificRoulette(userIp, rouletteUID);
+    public RouletteResponseDto getSpecificRoulette(@CookieValue String userUUID, @PathVariable UUID rouletteUID, HttpServletRequest request) {
+        //String userIp = configBean.getUserIp(request);
+        RouletteResponseDto rouletteResponseDto = rouletteService.getSpecificRoulette(userUUID, rouletteUID);
         return rouletteResponseDto;
     }
 
@@ -48,9 +48,9 @@ public class RouletteApiController {
     }
 
     @PostMapping("/api/v1/roulette")
-    public RouletteResponseDto startRoulette(@RequestParam UUID rouletteUID, HttpServletRequest request){
-        String userIp = configBean.getUserIp(request);
-        return rouletteService.startRoulette(rouletteUID, userIp);
+    public RouletteResponseDto startRoulette(@CookieValue String userUUID, @RequestParam UUID rouletteUID, HttpServletRequest request){
+        //String userIp = configBean.getUserIp(request);
+        return rouletteService.startRoulette(rouletteUID, userUUID);
     }
 
     @PutMapping("/api/v1/roulette")
@@ -60,9 +60,9 @@ public class RouletteApiController {
     }
 
     @PostMapping("/api/v1/roulette/new") //RestApi에 안맞는 이름임.
-    public RouletteResponseDto createNewRoulette(Model model, HttpServletRequest request){
-        String userIp = configBean.getUserIp(request);
-        return rouletteService.createNewRoulette(userIp);
+    public RouletteResponseDto createNewRoulette(@CookieValue String userUUID, Model model, HttpServletRequest request){
+      //  String userIp = configBean.getUserIp(request);
+        return rouletteService.createNewRoulette(userUUID);
     }
 
     @PostMapping("/api/v1/roulette/segment")
@@ -78,9 +78,9 @@ public class RouletteApiController {
         return rouletteResponseDtoList;
     }*/
     @PutMapping("/api/v1/roulette/favorite")
-    public UUID changeRouletteFavoriteStatus(@RequestParam("rouletteUID") UUID rouletteUID, HttpServletRequest request){
-        String userIp = configBean.getUserIp(request);
-        rouletteService.changeRouletteFavoriteStatus(rouletteUID, userIp);
+    public UUID changeRouletteFavoriteStatus(@CookieValue String userUUID, @RequestParam("rouletteUID") UUID rouletteUID, HttpServletRequest request){
+        //String userIp = configBean.getUserIp(request);
+        rouletteService.changeRouletteFavoriteStatus(rouletteUID, userUUID);
         return rouletteUID;
     }
 

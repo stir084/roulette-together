@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public interface RouletteRepositoryCustom {
-    List<Roulette> findLastGameByUserIp(String userIp);
+    List<Roulette> findLastGameByUserUUID(String userUUID);
 
     //Roulette findByRouletteUID(Long id, UUID rouletteUID);
 
