@@ -23,15 +23,8 @@ public class ThymeleafAjaxController {
 
     @GetMapping("/api/v1/roulette/history")
     public String getRouletteHistory(@CookieValue String userUUID, HttpServletRequest request, Pageable pageable, Model model) {
-        String userIp = configBean.getUserIp(request);
-       // model.addAttribute("roulette", rouletteService.findRouletteHistory(userIp, pageable).getContent());
-
         PageDTO<RouletteHistoryResponseDto> rouletteHistory = rouletteService.findRouletteHistory(userUUID, pageable);
         model.addAttribute("roulette", rouletteHistory.getContent());
-
-       // model.addAttribute("rouletteCustomPage", rouletteHistory.getCustomPage());
-
         return "/roulette-history :: #rouletteHistoryTable";
-        //return rouletteService.findRouletteHistory(userIp, pageable).getContent();
     }
 }

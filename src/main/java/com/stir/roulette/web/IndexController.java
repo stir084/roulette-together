@@ -47,14 +47,12 @@ public class IndexController {
 
     @GetMapping("/roulette/{rouletteUID}") //특정 룰렛 선택(ex. Favorite 에서 넘어온 룰렛)
     public String specificRoulette(@PathVariable UUID rouletteUID, Model model) {
-        //있는겜인지 없는겜인지 검사
         model.addAttribute("rouletteUID", rouletteUID);
         return "/roulette";
     }
 
     @GetMapping("/roulette/share/{rouletteUID}") //특정 룰렛 선택(ex. Favorite 에서 넘어온 룰렛)
     public String shareRoulette(@PathVariable UUID rouletteUID, Model model) {
-        //있는겜인지 없는겜인지 검사
         model.addAttribute("rouletteUID", rouletteUID);
         return "/roulette-share";
     }
