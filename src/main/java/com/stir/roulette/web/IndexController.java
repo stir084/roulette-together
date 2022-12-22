@@ -119,45 +119,10 @@ public class IndexController {
         return "redirect:/roulette";
     }
 */
-
-    @GetMapping("/GameData")
-    @ResponseBody
-    public HashMap<String, String> GameData(ModelMap model, HttpServletRequest request) {
-        //Roulette roulette = rouletteService.findMyGame(configBean.getMyIp(request));
-
-            HashMap<String, String> test = new HashMap<>();
-            test.put("ttt", "dsd");
-
-        model.addAttribute("members", "ㅗㅗ");
-        //List<RouletteSegment> rouletteSegmentList = roulette.getRouletteSegments();
-
-       // model.addAttribute("gameInfoList", gameInfoList);
-
-      /*  BookForm form = new BookForm();
-        form.setId(item.getId());
-        form.setName(item.getName());
-        form.setPrice(item.getPrice());
-        form.setStockQuantity(item.getStockQuantity());
-        form.setAuthor(item.getAuthor());
-        form.setIsbn(item.getIsbn());*/
-
-        //model.addAttribute("game",  new GamesResponseDto(game));
-
-        return test;
-    }
-
     @GetMapping("/FncUserData")
     public String FncUserData(ModelMap model, @RequestParam(value="key") String key) {
-
-        System.out.println("하하하하하" + key);
         return "roulette";
     }
-
-
-//    @GetMapping("/rt/game/v1/games/{id}")
-//    public Long findByGameCode(@PathVariable Long gameCode) {
-//        return gameService.findByGameCode(gameCode);
-//    }
 
     @ResponseBody
     @PostMapping("/saveRouletteImg")

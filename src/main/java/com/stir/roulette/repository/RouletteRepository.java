@@ -19,3 +19,4 @@ public interface RouletteRepository extends JpaRepository<Roulette, Long>, Roule
 
 
 }
+        
