@@ -59,9 +59,8 @@ public class RouletteApiController {
         return rouletteRequestDto.getRouletteUID();
     }
 
-    @PostMapping("/api/v1/roulette/new") //RestApi에 안맞는 이름임.
+    @PostMapping("/api/v1/roulette/new")
     public RouletteResponseDto createNewRoulette(@CookieValue String userUUID, Model model, HttpServletRequest request){
-      //  String userIp = configBean.getUserIp(request);
         return rouletteService.createNewRoulette(userUUID);
     }
 
@@ -70,28 +69,10 @@ public class RouletteApiController {
         rouletteService.saveRouletteSegment(element, rouletteUID);
         return rouletteUID;
     }
-   /* @GetMapping("/api/v1/roulette/favorite")
-    public List<RouletteResponseDto> getRouletteFavorite(HttpServletRequest request){
-        String userIp = configBean.getUserIp(request);
-        //RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
-        List<RouletteResponseDto> rouletteResponseDtoList = rouletteService.getRouletteFavorite(userIp);
-        return rouletteResponseDtoList;
-    }*/
     @PutMapping("/api/v1/roulette/favorite")
     public UUID changeRouletteFavoriteStatus(@CookieValue String userUUID, @RequestParam("rouletteUID") UUID rouletteUID, HttpServletRequest request){
         //String userIp = configBean.getUserIp(request);
         rouletteService.changeRouletteFavoriteStatus(rouletteUID, userUUID);
         return rouletteUID;
     }
-
-
-
-
-    /*PostMapping("/login")
-    public ResponseEntity<?> login(HttpSession session){
-        UUID uid = Optional.ofNullable(UUID.class.cast(session.getAttribute("uid")))
-                .orElse(UUID.randomUUID());
-        session.setAttribute("uid", uid);
-        return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
-    }*/
 }

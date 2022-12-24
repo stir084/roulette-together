@@ -22,7 +22,7 @@ public class ThymeleafAjaxController {
 
 
     @GetMapping("/api/v1/roulette/history")
-    public String getRouletteHistory(@CookieValue String userUUID, HttpServletRequest request, Pageable pageable, Model model) {
+    public String getRouletteHistory(@CookieValue String userUUID, Pageable pageable, Model model) {
         PageDTO<RouletteHistoryResponseDto> rouletteHistory = rouletteService.findRouletteHistory(userUUID, pageable);
         model.addAttribute("roulette", rouletteHistory.getContent());
         return "/roulette-history :: #rouletteHistoryTable";
