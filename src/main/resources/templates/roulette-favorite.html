@@ -176,20 +176,6 @@ div.py-4.bg-light.mt-auto{
 </style>
 <script>
 
-/*
-$.ajax({
-    url : '/api/v1/roulette/favorite',
-    type : 'GET',
-    success : function(roulette) {
-        rouletteUID = roulette.rouletteUID;
-    },
-    error : function(request, textStatus, errorThrown) {
-        alert(request.responseJSON.message);
-
-        location.href = "/roulette"
-    }
-});
-*/
 let rouletteUID;
 let isEmpty = "[[${isEmpty}]]";
 if(isEmpty == "true"){
@@ -200,8 +186,6 @@ if(isEmpty == "true"){
 window.onload = function(){
     $(".rouletteSetting").click(function(event) {
         event.stopPropagation();
-        console.log("setting 하는 곳으로 이동")
-        //setting하는 곳으로 ㄱㄱ
     })
 
     $(".rouletteFavorite").click(function(event) {
@@ -209,11 +193,6 @@ window.onload = function(){
         $("#favoriteModal").modal('show');
     })
 }
-
-function deleteFavorite(){
-    console.log("Favorite 지우기 AJAX 로직 작성");
-}
-
 function moveFavoriteGame(rouletteUID){
     location.href = "/roulette/" + rouletteUID;
 }
@@ -236,9 +215,6 @@ function toggleFavorite(){
             alert(request.responseJSON.message);
         }
     });
-}
-function setRouletteInfo(rouletteUID){
-    location.href = "/setting/" + rouletteUID;
 }
 </script>
 </html>
