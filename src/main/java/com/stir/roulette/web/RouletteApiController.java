@@ -22,15 +22,12 @@ public class RouletteApiController {
 
     @GetMapping("/api/v1/roulette/last")
     public RouletteResponseDto getRoulette(@CookieValue String userUUID, HttpServletRequest request) {
-        //System.out.println("에에"+userUUID);
-        //String userIp = configBean.getUserIp(request);
         RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userUUID);
         return rouletteResponseDto; //responseEntity로 수정하기
     }
 
     @GetMapping("/api/v1/roulette/{rouletteUID}")
     public RouletteResponseDto getSpecificRoulette(@CookieValue String userUUID, @PathVariable UUID rouletteUID, HttpServletRequest request) {
-        //String userIp = configBean.getUserIp(request);
         RouletteResponseDto rouletteResponseDto = rouletteService.getSpecificRoulette(userUUID, rouletteUID);
         return rouletteResponseDto;
     }
@@ -49,7 +46,6 @@ public class RouletteApiController {
 
     @PostMapping("/api/v1/roulette")
     public RouletteResponseDto startRoulette(@CookieValue String userUUID, @RequestParam UUID rouletteUID, HttpServletRequest request){
-        //String userIp = configBean.getUserIp(request);
         return rouletteService.startRoulette(rouletteUID, userUUID);
     }
 
