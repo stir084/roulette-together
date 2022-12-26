@@ -45,14 +45,8 @@ public class RouletteSegment {
 
     public static RouletteSegment createRouletteSegment(String element){
         RouletteSegment rouletteSegment = new RouletteSegment();
-        //rouletteSegment.addRoulette(roulette); //룰렛에서 해줭하하
         rouletteSegment.setElement(element);
         rouletteSegment.setCreateDate(LocalDateTime.now());
         return rouletteSegment;
     }
-   /* public void updateGame(Roulette roulette){
-        this.roulette = roulette;
-    }*/
-
-
 }
