@@ -33,7 +33,6 @@ public class RouletteService {
 
         // 회원 정보 없을 시 초기 생성
         if(userRepository.findByUserUUID(userUUID).isEmpty()){
-           //RouletteSegment rouletteSegment = RouletteSegment.createRouletteSegment("짜장면");
             List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
 
             rouletteSegmentList.add(RouletteSegment.createRouletteSegment("치킨🥠"));

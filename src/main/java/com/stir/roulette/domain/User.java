@@ -27,10 +27,6 @@ public class User {
     private List<Roulette> roulettes = new ArrayList<>();
 
     private int FavoriteCount;
-  /*  @Builder
-    public User(String userIp) {
-        this.userIp = userIp;
-    }*/
 
     public void addRoulette(Roulette roulette) {
         this.roulettes.add(roulette);

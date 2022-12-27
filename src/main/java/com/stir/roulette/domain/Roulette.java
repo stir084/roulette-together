@@ -77,24 +77,6 @@ public class Roulette {
         rouletteSegment.updateGame(this);
     }*/
 
-   /* public static Roulette createInitRoulette2(String rouletteCode){
-        Roulette roulette = new Roulette();
-
-        roulette.setRouletteCode(rouletteCode);
-        roulette.setStatus(RouletteStatus.READY);
-
-        List<RouletteSegment> rouletteSegmentList = new ArrayList<>();
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "짜장면"));
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "짬뽕"));
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "탕수육"));
-        rouletteSegmentList.add(RouletteSegment.createRouletteSegment(roulette, "깐풍기"));
-
-        roulette.setRouletteSegments(rouletteSegmentList);
-        roulette.setTitle("오늘의 점심은?");
-        roulette.setCreateDate(LocalDateTime.now());
-
-        return roulette;
-    }*/
 
     public static Roulette createInitRoulette(String title, RouletteSegment... rouletteSegments){
         Roulette roulette = new Roulette();
@@ -103,7 +85,6 @@ public class Roulette {
         for (RouletteSegment rouletteSegment : rouletteSegments) {
             roulette.addRouletteSegment(rouletteSegment);
         }
-        //roulette.setRouletteSegments(rouletteSegmentList);
         roulette.setMaxCount(8); // 초기 최대 갯수 8개
         roulette.setTitle(title);
         roulette.setFavoriteStatus(FavoriteStatus.UNFAVORED);
