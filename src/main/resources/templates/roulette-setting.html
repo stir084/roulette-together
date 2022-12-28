@@ -1,24 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<!--<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>룰렛 투게더 - 설정</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="/css/styles.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="/css/main.css" type="text/css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
-
-</head>-->
 <div th:replace="~{layout/header}"></div>
 <body class="sb-nav-fixed">
     <div th:replace="~{layout/navbar}"></div>
@@ -240,7 +221,6 @@ div.py-4.bg-light.mt-auto{
     },
     error : function(request, textStatus, errorThrown) {
         alert(request.responseJSON.message);
-        //location.href = "/roulette"
     }
 });
 
@@ -267,22 +247,6 @@ function deleteSegment(){
 }
 
 function saveRoulette(){
-    //세그먼트 아이디가 특별하지 않다..
-    //DTO로 List를 던지고 싶다(정제 해야함) {[]}와 같은 형태만 맞춰주면 된다.
-    //그래서 DTO안에 DTO도 정제할 수 있을거같은데.. 이렇게하면 Map인 경우에 알아서 걸러져서 들어간다.
-    //근데 어차피 중복은 없으니 상관은 없네.. 아니지 중복있지 새로 추가해서 짜장면 짜장면 이렇게 되어버리면..
-    //해결해야할건 세그먼트 아이디인데..
-    //하나씩 저장하면 id를 href=""에 줘서 url에 꽂아서 하면 되긴하는데
-
-    //한꺼번에 저장할라그러면 id를 식별자로 넘겨야하는데, 이렇게 되면 사용자가 우회적으로 id값을 정제해서 수정할 가능성이 있네..
-    //그럼 세그먼트 아이디에서 세그먼트를 조회해서 다시 현재 룰렛코드와 일치한지 확인을 해야되네..
-
-    //아니지 일단 Roulette조회하고 세그먼트 id 일치 시에 해당 segment는 set하고
-    //아닌건 신규 저장하고..
-    //Roulette Id도 -1 처리할 수 있으니 findByIdAndrouletteUID로 해야겠다
-
-    //ajax 요청시 한꺼번에 보낼 것이냐/ 단건으로 보낼것이냐가 문제인데
-    //$.ajax로 보내면 정제해야된다.
 
     let rouletteSettingObj = new Object();
     let segmentArray = new Array();
@@ -309,7 +273,6 @@ function saveRoulette(){
         },
         error : function(request, textStatus, errorThrown) {
             alert(request.responseJSON.message);
-            //location.href = "/roulette"
         }
     });
 }
