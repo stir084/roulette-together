@@ -1,34 +1,4 @@
-server:
-  port: 8080
-  servlet:
-    context-path: /
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-
 spring:
-  datasource:
-    # driver-class-name: com.mysql.cj.jdbc.Driver 이걸로 해야함
-    url: jdbc:mariadb://localhost:3306/roulette?serverTimezone=Asia/Seoul&characterEncoding=utf8
-    username: root
-    password: 1234
-    driver-class-name: org.mariadb.jdbc.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: create #create update none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
-    properties:
-      hibernate.default_batch_fetch_size: 100
-      hibernate.format_sql: true
-    #database: sql_server
-  #  output:
- #   ansi:
-  #    enabled: always
-
-#logging:
- # level:
-  #  org.hibernate.type: trace
+  profiles:
+    active:
+      - dev
