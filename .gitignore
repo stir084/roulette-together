@@ -2,4 +2,4 @@
 .idea
 out/
 build/
-src/main/webapp/uploadfile/
+src/main/resources/application.yml
