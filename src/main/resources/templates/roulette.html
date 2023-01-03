@@ -319,7 +319,7 @@
                 title: $("#title").text(),
                 description: '아이템을 등록 해주세요~',
                 //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
-                imageUrl: 'http://116.37.136.233:8080/loadImage.do?fileId=1&gameCode=' + rouletteUID + '&blockCache=' + generateRandomString(10),
+                imageUrl: $("#serverURI").val() + '/loadImage.do?fileId=1&gameCode=' + rouletteUID + '&blockCache=' + generateRandomString(10),
                 link: {
                     mobileWebUrl: 'https://developers.kakao.com',
                     webUrl: 'https://developers.kakao.com',
@@ -332,8 +332,8 @@
                 {
                     title: '등록하러 가기',
                     link: {
-                        mobileWebUrl: 'http://116.37.136.233:8080/roulette/share/' + rouletteUID,
-                        webUrl: 'http://116.37.136.233:8080/roulette/share/' + rouletteUID,
+                        mobileWebUrl: $("#serverURI").val() + '/roulette/share/' + rouletteUID,
+                        webUrl: $("#serverURI").val() + '/roulette/share/' + rouletteUID,
                     },
                 },
             ],
