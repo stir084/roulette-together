@@ -1,5 +1,0 @@
-spring:
-  profiles:
-    active:
-      - prod
-serverURI: http://116.37.136.233:5000
