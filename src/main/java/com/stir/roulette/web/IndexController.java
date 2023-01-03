@@ -37,24 +37,24 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/roulette";
+        return "redirect:roulette";
     }
 
     @GetMapping("/roulette")
     public String roulette() throws UnknownHostException {
-        return "/roulette";
+        return "roulette";
     }
 
     @GetMapping("/roulette/{rouletteUID}") //특정 룰렛 선택(ex. Favorite 에서 넘어온 룰렛)
     public String specificRoulette(@PathVariable UUID rouletteUID, Model model) {
         model.addAttribute("rouletteUID", rouletteUID);
-        return "/roulette";
+        return "roulette";
     }
 
     @GetMapping("/roulette/share/{rouletteUID}") //특정 룰렛 선택(ex. Favorite 에서 넘어온 룰렛)
     public String shareRoulette(@PathVariable UUID rouletteUID, Model model) {
         model.addAttribute("rouletteUID", rouletteUID);
-        return "/roulette-share";
+        return "roulette-share";
     }
 
     @GetMapping("/setting")

@@ -25,6 +25,6 @@ public class ThymeleafAjaxController {
     public String getRouletteHistory(@CookieValue String userUUID, Pageable pageable, Model model) {
         PageDTO<RouletteHistoryResponseDto> rouletteHistory = rouletteService.findRouletteHistory(userUUID, pageable);
         model.addAttribute("roulette", rouletteHistory.getContent());
-        return "/roulette-history :: #rouletteHistoryTable";
+        return "roulette-history :: #rouletteHistoryTable";
     }
 }
