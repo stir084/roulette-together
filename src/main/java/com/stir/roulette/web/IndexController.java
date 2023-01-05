@@ -125,9 +125,22 @@ public class IndexController {
     @ResponseBody
     @PostMapping("/saveRouletteImg")
     public String saveRouletteImg(HttpServletRequest request, String strImg, String gameCode) throws Throwable{
-        String uploadpath="uploadImage\\";
+        String uploadpath = null;
         //String folder=request.getServletContext().getRealPath("/") +uploadpath;
-        String folder = "C:\\" + uploadpath;
+        String folder = null;
+
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            uploadpath="uploadImage\\";
+            folder = "C:\\" + uploadpath;
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            // System.out.println("Unix");
+        } else if (os.contains("linux")) {
+            uploadpath = System.getProperty("user.home") + "/uploadImage/";
+            folder = uploadpath;
+        }
+
+
         String fullpath="";
         String[] strParts=strImg.split(",");
         String rstStrImg=strParts[1];  //,로 구분하여 뒷 부분 이미지 데이터를 임시저장
