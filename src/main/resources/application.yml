@@ -1,5 +1,5 @@
 spring:
   profiles:
     active:
-      - prod
+      - dev
 serverURI: http://116.37.136.233:8080
