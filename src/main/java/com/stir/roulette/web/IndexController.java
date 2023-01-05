@@ -168,11 +168,12 @@ public class IndexController {
         } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
            // System.out.println("Unix");
         } else if (os.contains("linux")) {
-            imgpath = "/uploadImage"+File.separator+gameCode+".png";
-            file = new File("/uploadImage/" + gameCode +".png");
+            imgpath = "//uploadImage"+File.separator+gameCode+".png";
+            file = new File("//uploadImage/" + gameCode +".png");
         }
 
-
+        System.out.println("ㅋㅋㅋㅋㅋ"+System.getProperty("user.dir"));
+        System.out.println(System.getProperty("user.home"));
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
         //파일의 경로
