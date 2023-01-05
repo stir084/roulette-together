@@ -16,6 +16,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
+    open-in-view: true
     hibernate:
       ddl-auto: none #create update none
       naming:
@@ -29,6 +30,8 @@ spring:
   #   ansi:
   #    enabled: always
 
-  #logging:
-  # level:
-  #  org.hibernate.type: trace
+logging:
+  level:
+    #org.hibernate.type: trace
+    #root: DEBUG
+    root: INFO

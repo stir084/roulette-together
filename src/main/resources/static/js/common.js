@@ -30,10 +30,11 @@ window.mobileCheck = function() {
  * PC일 경우 목록 버튼 비활성화
  */
 $(document).ready(function() {
+    $(".navbar-brand").css("padding-left", "0.5rem");
     if(window.mobileCheck()==false){
-        $("#sidebarToggle").hide();
+        //$("#sidebarToggle").hide();
     }else{
-        $(".navbar-brand").css("padding-left", "0.5rem");
+       // $(".navbar-brand").css("padding-left", "0.5rem");
     }
 })
 /**
