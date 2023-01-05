@@ -168,8 +168,8 @@ public class IndexController {
         } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
            // System.out.println("Unix");
         } else if (os.contains("linux")) {
-            imgpath = "//uploadImage"+File.separator+gameCode+".png";
-            file = new File("//uploadImage/" + gameCode +".png");
+            imgpath = System.getProperty("user.home") + "/uploadImage"+File.separator+gameCode+".png";
+            file = new File(System.getProperty("user.home") + "/uploadImage/" + gameCode +".png");
         }
 
         System.out.println("ㅋㅋㅋzzzㅋㅋ"+System.getProperty("user.dir"));
