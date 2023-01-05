@@ -158,10 +158,25 @@ public class IndexController {
     @RequestMapping(value="/loadImage.do")
     public String displayPhoto(@RequestParam(value="fileId") String fileId, @RequestParam(value="gameCode") String gameCode, HttpServletResponse response)throws Exception{
 
+        String os = System.getProperty("os.name").toLowerCase();
+
+        String imgpath = null;
+        File file = null;
+        if (os.contains("win")) {
+            imgpath = "C:\\uploadImage"+File.separator+gameCode+".png";
+            file = new File("C:\\uploadImage/" + gameCode +".png");
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+           // System.out.println("Unix");
+        } else if (os.contains("linux")) {
+            imgpath = "/uploadImage"+File.separator+gameCode+".png";
+            file = new File("/uploadImage/" + gameCode +".png");
+        }
+
+
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
         //파일의 경로
-        String imgpath = "C:\\uploadImage"+File.separator+gameCode+".png";
+        //String imgpath = "C:\\uploadImage"+File.separator+gameCode+".png";
         FileInputStream f = new FileInputStream(imgpath);
         int length;
         byte[] buffer = new byte[10];
@@ -171,7 +186,7 @@ public class IndexController {
         f.close();
 
 
-        File file = new File("C:\\uploadImage/" + gameCode +".png");
+        //file = new File("C:\\uploadImage/" + gameCode +".png");
         if( file.exists() ){
             if(file.delete()){
                 System.out.println("파일삭제 성공");
