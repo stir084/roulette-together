@@ -173,7 +173,7 @@ public class IndexController {
         }
 
         System.out.println("ㅋㅋㅋㅋㅋ"+System.getProperty("user.dir"));
-        System.out.println(System.getProperty("user.home"));
+        System.out.println("ㅎㅎㅎㅎ"+System.getProperty("user.home"));
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
         //파일의 경로
