@@ -27,4 +27,5 @@ spring:
 
 logging:
   level:
-    '[org.springframework.boot.web]': INFO
+   # '[org.springframework.boot.web]': INFO
+    root: INFO
