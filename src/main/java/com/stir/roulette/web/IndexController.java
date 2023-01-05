@@ -125,27 +125,15 @@ public class IndexController {
     @ResponseBody
     @PostMapping("/saveRouletteImg")
     public String saveRouletteImg(HttpServletRequest request, String strImg, String gameCode) throws Throwable{
-        String uploadpath = null;
+        String uploadpath="uploadImage" + File.separator;
         //String folder=request.getServletContext().getRealPath("/") +uploadpath;
-        String folder = null;
-
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            uploadpath="uploadImage\\";
-            folder = "C:\\" + uploadpath;
-        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-            // System.out.println("Unix");
-        } else if (os.contains("linux")) {
-            uploadpath = System.getProperty("user.home") + "/uploadImage/";
-            folder = uploadpath;
-        }
-
-
+        String folder = File.separator+gameCode + uploadpath;
+                //"C:\\" + uploadpath;
         String fullpath="";
         String[] strParts=strImg.split(",");
         String rstStrImg=strParts[1];  //,로 구분하여 뒷 부분 이미지 데이터를 임시저장
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_hhmmss");
-       // String filenm=sdf.format(new Date()).toString()+"_testimg2.png";
+        // String filenm=sdf.format(new Date()).toString()+"_testimg2.png";
         String filenm = gameCode + ".png";
         BufferedImage image=null;
         byte[] byteImg;
@@ -171,26 +159,14 @@ public class IndexController {
     @RequestMapping(value="/loadImage.do")
     public String displayPhoto(@RequestParam(value="fileId") String fileId, @RequestParam(value="gameCode") String gameCode, HttpServletResponse response)throws Exception{
 
-        String os = System.getProperty("os.name").toLowerCase();
+        System.out.println("짜자잔"+System.getProperty("user.home"));
 
-        String imgpath = null;
-        File file = null;
-        if (os.contains("win")) {
-            imgpath = "C:\\uploadImage"+File.separator+gameCode+".png";
-            file = new File("C:\\uploadImage/" + gameCode +".png");
-        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-           // System.out.println("Unix");
-        } else if (os.contains("linux")) {
-            imgpath = System.getProperty("user.home") + "/uploadImage"+File.separator+gameCode+".png";
-            file = new File(System.getProperty("user.home") + "/uploadImage/" + gameCode +".png");
-        }
-
-        System.out.println("ㅋㅋㅋzzzㅋㅋ"+System.getProperty("user.dir"));
-        System.out.println("ㅎdsdㅎㅎㅎ"+System.getProperty("user.home"));
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
         //파일의 경로
         //String imgpath = "C:\\uploadImage"+File.separator+gameCode+".png";
+        String imgpath = System.getProperty("user.home")+ "uploadImage"+File.separator+gameCode+".png";
+
         FileInputStream f = new FileInputStream(imgpath);
         int length;
         byte[] buffer = new byte[10];
@@ -200,7 +176,7 @@ public class IndexController {
         f.close();
 
 
-        //file = new File("C:\\uploadImage/" + gameCode +".png");
+        File file = new File(System.getProperty("user.home")+"uploadImage" + File.separator+gameCode + gameCode +".png");
         if( file.exists() ){
             if(file.delete()){
                 System.out.println("파일삭제 성공");
@@ -208,7 +184,7 @@ public class IndexController {
                 System.out.println("파일삭제 실패");
             }
         }else{
-            System.out.println("파일이 존재하지 않습니다.3");
+            System.out.println("파일이 존재하지 않습니다.");
         }
         return null;
     }
