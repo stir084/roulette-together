@@ -172,8 +172,8 @@ public class IndexController {
             file = new File("//uploadImage/" + gameCode +".png");
         }
 
-        System.out.println("ㅋㅋㅋㅋtestㅋ"+System.getProperty("user.dir"));
-        System.out.println("ㅎㅎㅎㅎ"+System.getProperty("user.home"));
+        System.out.println("ㅋㅋㅋzzzㅋㅋ"+System.getProperty("user.dir"));
+        System.out.println("ㅎdsdㅎㅎㅎ"+System.getProperty("user.home"));
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
         //파일의 경로
