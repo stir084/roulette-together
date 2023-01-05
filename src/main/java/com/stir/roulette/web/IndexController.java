@@ -172,7 +172,7 @@ public class IndexController {
             file = new File("//uploadImage/" + gameCode +".png");
         }
 
-        System.out.println("ㅋㅋㅋㅋㅋ"+System.getProperty("user.dir"));
+        System.out.println("ㅋㅋㅋzzzㅋㅋ"+System.getProperty("user.dir"));
         System.out.println("ㅎㅎㅎㅎ"+System.getProperty("user.home"));
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
