@@ -159,13 +159,13 @@ public class IndexController {
     @RequestMapping(value="/loadImage.do")
     public String displayPhoto(@RequestParam(value="fileId") String fileId, @RequestParam(value="gameCode") String gameCode, HttpServletResponse response)throws Exception{
 
-        System.out.println("짜자잔"+System.getProperty("user.home"));
 
         response.setContentType("image/jpg");
         ServletOutputStream bout = response.getOutputStream();
         //파일의 경로
         //String imgpath = "C:\\uploadImage"+File.separator+gameCode+".png";
-        String imgpath = System.getProperty("user.home")+ "uploadImage"+File.separator+gameCode+".png";
+        //System.getProperty("user.home"); //Root Directory가 아닌 Home Directory에 하고 싶을 경우 이 메소드를 경로 맨 앞에 설정
+        String imgpath = File.separator + "uploadImage" + File.separator + gameCode+".png";
 
         FileInputStream f = new FileInputStream(imgpath);
         int length;
