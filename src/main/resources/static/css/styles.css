@@ -11358,7 +11358,7 @@ body {
   opacity: 0.5;
   transition: opacity 0.3s ease-in-out;
   min-height: calc(100vh - 56px); /*아래두줄 임의 수정*/
-  top: -25px;
+  top: -4px;
 }
 
 @media (min-width: 992px) {
