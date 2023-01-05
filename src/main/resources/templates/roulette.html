@@ -255,6 +255,8 @@
                     $("#rouletteItem").attr("disabled", "disabled")
                     $("#spinIcon").addClass("fa-spin");
                     // $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
+
+                    kakaoShareBtnTitle = "결과보러 가기";
                 },
                 error: function (request, textStatus, errorThrown) {
                     alert(request.responseJSON.message);
