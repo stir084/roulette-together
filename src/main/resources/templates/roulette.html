@@ -321,8 +321,8 @@
                 //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
                 imageUrl: $("#serverURI").val() + '/loadImage.do?fileId=1&gameCode=' + rouletteUID + '&blockCache=' + generateRandomString(10),
                 link: {
-                    mobileWebUrl: 'https://developers.kakao.com',
-                    webUrl: 'https://developers.kakao.com',
+                    mobileWebUrl: $("#serverURI").val() + '/roulette/share/' + rouletteUID,
+                    webUrl: $("#serverURI").val() + '/roulette/share/' + rouletteUID,
                 },
             },
             /*social: {
