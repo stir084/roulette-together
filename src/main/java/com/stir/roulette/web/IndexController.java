@@ -5,6 +5,7 @@ import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.service.UserService;
 import com.stir.roulette.web.dto.RouletteFavoriteResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
+@Slf4j
 public class IndexController {
 
 
@@ -124,7 +126,7 @@ public class IndexController {
 
     @ResponseBody
     @PostMapping("/saveRouletteImg")
-    public String saveRouletteImg(HttpServletRequest request, String strImg, String gameCode) throws Throwable{
+    public String saveRouletteImg(String strImg, String gameCode) throws Throwable{
         String uploadpath="uploadImage" + File.separator;
         //String folder=request.getServletContext().getRealPath("/") +uploadpath;
         String folder = File.separator + uploadpath;
@@ -157,7 +159,7 @@ public class IndexController {
     }
 
     @RequestMapping(value="/loadImage.do")
-    public String displayPhoto(@RequestParam(value="fileId") String fileId, @RequestParam(value="gameCode") String gameCode, HttpServletResponse response)throws Exception{
+    public String displayPhoto(HttpServletRequest request, @RequestParam(value="fileId") String fileId, @RequestParam(value="gameCode") String gameCode, HttpServletResponse response)throws Exception{
 
 
         response.setContentType("image/jpg");
@@ -179,31 +181,13 @@ public class IndexController {
         File file = new File( File.separator + "uploadImage" + File.separator + gameCode +".png");
         if( file.exists() ){
             if(file.delete()){
-                System.out.println("파일삭제 성공");
+                log.debug("파일 삭제 성공");
             } else {
-                System.out.println("파일삭제 실패");
+                log.error("파일 삭제 실패 {}", configBean.getUserIp(request));
             }
         }else{
-            System.out.println("파일이 존재하지 않습니다.");
+            log.error("파일이 존재하지 않습니다. {}", configBean.getUserIp(request));
         }
         return null;
     }
-
-    @RequestMapping(value="/deleteImg.do")
-    @ResponseBody
-    public String deleteImg(@RequestParam(value="gameCode") String gameCode) throws Exception{
-
-     /*   File file = new File("C:\\uploadImage/" + gameCode +".png");
-        if( file.exists() ){
-            if(file.delete()){
-                System.out.println("파일삭제 성공");
-            } else {
-                System.out.println("파일삭제 실패");
-            }
-        }else{
-            System.out.println("파일이 존재하지 않습니다.");
-        }*/
-        return null;
-    }
-
 }
