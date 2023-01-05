@@ -176,7 +176,7 @@ public class IndexController {
         f.close();
 
 
-        File file = new File(System.getProperty("user.home")+"uploadImage" + File.separator+gameCode + gameCode +".png");
+        File file = new File( File.separator + "uploadImage" + File.separator + gameCode +".png");
         if( file.exists() ){
             if(file.delete()){
                 System.out.println("파일삭제 성공");
