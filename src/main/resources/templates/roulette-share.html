@@ -55,9 +55,12 @@
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
     $(document).ready(function() {
-        if(window.mobileCheck()==false){
+        /*if(window.mobileCheck()==false){
             $("#sidebarToggle").hide();
-        }
+        }*/
+        $("#sidebarToggle").hide();
+        $("#layoutSidenav_nav").remove();
+        $(".navbar-brand").css("padding-left", "-0.5rem");
     })
 
     // 이미지 파일이 로드되고 나서 룰렛 생성
