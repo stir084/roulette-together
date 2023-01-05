@@ -138,6 +138,9 @@
     startImg.src = '/assets/img/roulette-start.png';
     denyImg.src = '/assets/img/roulette-deny.png';
 
+
+    let kakaoShareBtnTitle = "등록하러 가기";
+    let kakaoShareSegmentCount;
     startImg.onload = function(){
         initRoulette();
     }
@@ -166,6 +169,8 @@
                     $("#rouletteItem").attr("disabled", "disabled")
                     $("#spinIcon").addClass("fa-spin")
                     img = denyImg;
+
+                    kakaoShareBtnTitle = "결과보러 가기";
                 }
 
                 if(favoriteStatus == "FAVORED"){
@@ -174,6 +179,8 @@
 
                 // 룰렛 세그먼트 초기화
                 setRouletteSegment(roulette.rouletteSegment);
+
+                kakaoShareSegmentCount = roulette.rouletteSegment.length;
 
                 // 룰렛 초기화
                 setRoulette(img, getRouletteFontSize(roulette.rouletteSegment.length));
@@ -317,7 +324,7 @@
             objectType: 'feed',
             content: {
                 title: $("#title").text(),
-                description: '아이템을 등록 해주세요~',
+               /* description: '아이템을 등록 해주세요~',*/
                 //imageUrl: 'https://webisfree.com/static/uploads/2020/6269_webisfree867.jpg',
                 imageUrl: $("#serverURI").val() + '/loadImage.do?fileId=1&gameCode=' + rouletteUID + '&blockCache=' + generateRandomString(10),
                 link: {
@@ -325,12 +332,12 @@
                     webUrl: $("#serverURI").val() + '/roulette/share/' + rouletteUID,
                 },
             },
-            /*social: {
-                commentCount: 30,
-            },*/
+            social: {
+                commentCount: kakaoShareSegmentCount,
+            },
             buttons: [
                 {
-                    title: '등록하러 가기',
+                    title: kakaoShareBtnTitle, // 등록하러 가기 or 결과보러 가기
                     link: {
                         mobileWebUrl: $("#serverURI").val() + '/roulette/share/' + rouletteUID,
                         webUrl: $("#serverURI").val() + '/roulette/share/' + rouletteUID,
