@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="60 seconds"> <!-- 1분 마다 변경 이력 감지(적어주지 않아도 Default) -->
 
     <!-- 로그 파일이 저장될 경로 -->
-    <property name="LOG_PATH" value="/LOGS/RouletteTogether/"/>
+    <property name="LOG_PATH" value="/LOGS/RouletteTogether"/>
 
     <!-- 로그 파일 이름 -->
     <property name="LOG_FILE_NAME" value="Roulette"/>
