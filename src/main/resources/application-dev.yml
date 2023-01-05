@@ -29,6 +29,7 @@ spring:
   #   ansi:
   #    enabled: always
 
-  #logging:
-  # level:
-  #  org.hibernate.type: trace
+logging:
+  level:
+    #org.hibernate.type: trace
+    root: INFO
