@@ -127,7 +127,7 @@ public class IndexController {
     public String saveRouletteImg(HttpServletRequest request, String strImg, String gameCode) throws Throwable{
         String uploadpath="uploadImage" + File.separator;
         //String folder=request.getServletContext().getRealPath("/") +uploadpath;
-        String folder = File.separator+gameCode + uploadpath;
+        String folder = File.separator + gameCode + File.separator + uploadpath;
                 //"C:\\" + uploadpath;
         String fullpath="";
         String[] strParts=strImg.split(",");
