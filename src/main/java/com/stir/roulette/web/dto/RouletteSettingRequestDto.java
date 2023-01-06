@@ -18,7 +18,7 @@ public class RouletteSettingRequestDto {
 
     private int maxCount;
 
-    public RouletteSettingRequestDto(Roulette entity) {
+    public RouletteSettingRequestDto(Roulette entity) { //필요 없을지도?
         this.title = entity.getTitle();
         this.rouletteUID = entity.getRouletteUID();
         this.rouletteSegmentList = entity.getRouletteSegments().stream()

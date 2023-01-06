@@ -52,6 +52,16 @@ public class RouletteApiController {
     @PutMapping("/api/v1/roulette")
     public UUID updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
         rouletteService.updateRoulette(rouletteRequestDto);
+
+       /* private List<RouletteSegmentSettingRequestDto> rouletteSegmentList;
+        private List<NewRouletteSegmentSettingRequestDto> newRouletteSegmentList;
+
+         public RouletteSettingRequestDto(Roulette entity) { //필요 없을지도?
+
+
+
+            byId.setElement(hhh.get(aLong)); 이 부분 좀 다시 클린하게 만들기..
+        */
         return rouletteRequestDto.getRouletteUID();
     }
 
