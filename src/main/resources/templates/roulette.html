@@ -299,8 +299,7 @@
     }
 
     function openKakaoLink(){
-        console.log(rouletteUID)
-        $("#linkText").val($("#linkText").val() + rouletteUID);
+        $("#linkText").text($("#serverURI").val() + "/roulette/share/" + rouletteUID);
         saveRouletteImg();
     }
     function saveRouletteImg(){

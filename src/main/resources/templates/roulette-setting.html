@@ -12,7 +12,7 @@
                     <div class="row mt-4">
                         <div class="col-xl-4">
                             <div class="card mb-4">
-                                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseItemList" aria-expanded="true" aria-controls="collapseItemList" style="display: flex;">
+                                <div id="card-header" class="card-header" data-bs-toggle="collapse" data-bs-target="#collapseItemList" aria-expanded="true" aria-controls="collapseItemList" style="display: flex;">
                                     <!-- <i class="fas fa-chart-area me-1"></i> Font Awesome fontawesome.com -->
                                     등록 아이템
                                     <div class="sb-sidenav-collapse-arrow" style="
@@ -185,6 +185,8 @@ div.py-4.bg-light.mt-auto{
         $("input").attr("disabled", "disabled");
         $(".trashClass").remove();
         $("#saveComp").remove();
+
+        $("#card-header").text($("#card-header").text() + "(완료된 게임)");
     }
 
 
