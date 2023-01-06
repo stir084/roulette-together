@@ -58,7 +58,7 @@ public class RouletteApiController {
 
          public RouletteSettingRequestDto(Roulette entity) { //필요 없을지도?
 
-
+        멱등성이 유지 되지 않으므로 Post로 수정하기
 
             byId.setElement(hhh.get(aLong)); 이 부분 좀 다시 클린하게 만들기..
         */
