@@ -76,7 +76,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body" style="text-align: center;">
-                    <textarea style="position: absolute; left: -999em;" id="linkText">http://116.37.136.233:8080/roulette/share/</textarea>
+                    <textarea style="position: absolute; left: -999em;" id="linkText"></textarea>
                     <button class="shareBtn" style="border-width: 0px; background-color: white" href="javascript:;" onclick="shareLink()" data-clipboard-target="#linkText"><div style="
                         background-color: #bfbdbd;
                         border-radius: 1.6rem;
@@ -157,7 +157,7 @@
                 rouletteUID = roulette.rouletteUID;
                 favoriteStatus = roulette.favoriteStatus;
 
-                $("#linkText").text($("#linkText").text() + rouletteUID);
+                $("#linkText").text($("#serverURI").val() + "/roulette/share/" + rouletteUID);
                 let img = startImg;
                 // 룰렛 타이틀 설정
                 $("#title").text(roulette.title);
