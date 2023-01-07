@@ -68,8 +68,8 @@
                                                     <td><input class="dataTable-input" placeholder="" maxlength="30" type="text" th:id="title" th:value="${roulette.getTitle()}"></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>아이템 개수</td>
-                                                    <td><input class="dataTable-input" max="100" placeholder="" type="number" th:id="maxCount" th:value="${roulette.getMaxCount()}"></td>
+                                                    <td>아이템 개수<br/>(1~100)</td>
+                                                    <td><input class="dataTable-input" oninput="maxNumberCheck(this)" min="1" max="100" placeholder="" type="number" th:id="maxCount" th:value="${roulette.getMaxCount()}"></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -286,5 +286,16 @@ function createSegmentBtn(){
     }
 }
 
+function maxNumberCheck(object){
+
+    if($(object).val() > 100){
+        $(object).val("100")
+    }else if($(object).val() < 1){
+        $(object).val("1")
+    }
+  /*  if (object.value.length > object.maxLength)
+        object.value = object.value.slice(0, object.maxLength)*/
+
+}
 </script>
 </html>
