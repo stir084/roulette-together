@@ -49,19 +49,10 @@ public class RouletteApiController {
         return rouletteService.startRoulette(rouletteUID, userUUID);
     }
 
-    @PutMapping("/api/v1/roulette")
+    @PutMapping("/api/v1/roulette") //멱등성 유지 안됨
     public UUID updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
         rouletteService.updateRoulette(rouletteRequestDto);
 
-       /* private List<RouletteSegmentSettingRequestDto> rouletteSegmentList;
-        private List<NewRouletteSegmentSettingRequestDto> newRouletteSegmentList;
-
-         public RouletteSettingRequestDto(Roulette entity) { //필요 없을지도?
-
-        멱등성이 유지 되지 않으므로 Post로 수정하기
-
-            byId.setElement(hhh.get(aLong)); 이 부분 좀 다시 클린하게 만들기..
-        */
         return rouletteRequestDto.getRouletteUID();
     }
 

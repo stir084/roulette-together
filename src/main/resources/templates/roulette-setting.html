@@ -23,33 +23,18 @@
                                         <div class="dataTable-container">
                                             <table id="datatablesSimple" class="dataTable-table">
                                                 <tbody>
-                                                <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}" th:id="${rouletteSegment.getSegmentUID()}">
-                                                    <td><input class="dataTable-input" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
-                                                    <td class="trashClass"><a href="javascript:;" class="btn btn-danger btn-md" th:segmentUID="${rouletteSegment.getSegmentUID()}" data-bs-toggle="modal" data-bs-target="#deleteModal" th:onclick="segmentUID=this.getAttribute('segmentUID')">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a></td>
-                                                </tr>
-                                                <!--<div th:each="comment:${commentList}">
-                                                    <form method="POST">
-                                                        <input type="hidden" id="commentNum" name="CommentNum" th:value="${comment.CO_NUM}">
-                                                        <div>
-                                                            <input type="button" class="btn p-0 btn-md" name="commentID" th:value="${comment.EMAIL}" />
-                                                            <small th:text="${#strings.substring(comment.TIME,0,19)}"></small>
-                                                        </div>
-                                                        <div th:text="${comment.CONTENT}"></div>
-                                                        <div class="text-right" th:if="${comment.EMAIL==userInform.userEmail}">
-                                                            <span><button type="submit" name="submit" value="update">수정</button></span>
-                                                            <span><button type="submit" name="submit" value="delete">삭제</button></span>
-                                                        </div>
-                                                    </form>
-                                                </div>-->
-
-
-
+                                                    <tr th:each="rouletteSegment:${roulette.getRouletteSegment()}" th:id="${rouletteSegment.getSegmentUID()}">
+                                                        <td><input class="dataTable-input existing" maxlength="30" placeholder="" type="text" th:name="${'segment_'+rouletteSegment.getSegmentUID()}" th:value="${rouletteSegment.getElement()}"></td>
+                                                        <td class="trashClass">
+                                                            <a href="javascript:;" class="btn btn-danger btn-md" th:segmentUID="${rouletteSegment.getSegmentUID()}" data-bs-toggle="modal" data-bs-target="#deleteModal" th:onclick="segmentUID=this.getAttribute('segmentUID')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                             <div id="addRowBtn" style="text-align: center; margin-bottom: 4px;">
-                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal" style="width: 10rem;">
+                                                <button class="btn btn-primary" onClick="createSegmentBtn()" style="width: 10rem;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -80,11 +65,11 @@
                                                 <tbody>
                                                 <tr>
                                                     <td>제목</td>
-                                                    <td><input class="dataTable-input" placeholder="" type="text" th:id="title" th:value="${roulette.getTitle()}"></td>
+                                                    <td><input class="dataTable-input" placeholder="" maxlength="30" type="text" th:id="title" th:value="${roulette.getTitle()}"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>아이템 개수</td>
-                                                    <td><input class="dataTable-input" placeholder="" type="text" th:id="maxCount" th:value="${roulette.getMaxCount()}"></td>
+                                                    <td><input class="dataTable-input" placeholder="" type="number" th:id="maxCount" th:value="${roulette.getMaxCount()}"></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -121,9 +106,6 @@
     <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
             <div class="modal-content">
-                <!--<div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                </div>-->
                 <div class="modal-body">
                     저장하시겠습니까?
                 </div>
@@ -139,9 +121,6 @@
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm" style="max-width: 260px" role="document">
             <div class="modal-content">
-                <!--<div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                </div>-->
                 <div class="modal-body">
                     삭제하시겠습니까?
                 </div>
@@ -155,6 +134,17 @@
     </div>
 </body>
 <div th:replace="~{layout/footer}"></div>
+
+<script id='newSegmentTmpl' type='text/tmpl'>
+<tr>
+    <td><input class="dataTable-input new" maxlength="30" type="text" value=""></td>
+    <td class="trashClass">
+        <a href="javascript:;" class="btn btn-danger btn-md" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="newSegment=this">
+        <i class="fas fa-trash"></i>
+        </a>
+    </td>
+</tr>
+</script>
 <style>
 .dataTable-table > tbody > tr > td {
      text-align: center;
@@ -172,13 +162,6 @@ div.py-4.bg-light.mt-auto{
     left: 0;
 }
 
-
-/*#toast-container > .customer-info {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=") !important;
-    background-color: dodgerblue;
-}
-
-#toast-container > .toast-success { background-color: #BDBDBD; }*/
 .toast-success {
     background-color: grey;
 }
@@ -187,9 +170,11 @@ div.py-4.bg-light.mt-auto{
     let rouletteUID = "[[${roulette.getRouletteUID()}]]";
     let rouletteStatus = "[[${roulette.getRouletteStatus()}]]";
 
-    let getRouletteUIDParam = "[[${rouletteUID}]]"; //roulette.html이랑 다르다 <script>가 달라서 그런가?
+    let getRouletteUIDParam = "[[${rouletteUID}]]";
 
     let segmentUID;
+
+    let newSegment;
     if(rouletteStatus == "FINISH"){
         $("input").attr("disabled", "disabled");
         $(".trashClass").remove();
@@ -219,16 +204,6 @@ div.py-4.bg-light.mt-auto{
         success : function(roulette) {
         rouletteUID = roulette.rouletteUID;
 
-        // 룰렛 타이틀 설정
-        //$("#title").text(roulette.title);
-
-        // 완료된 룰렛일 경우 각도 설정
-       /* if(roulette.rouletteStatus == "FINISH"){
-            setRouletteAngle(roulette, roulette.rouletteSegment);
-            $("#canvas").removeAttr("onclick");
-            $("#item").remove();
-            img = denyImg;
-        }*/
     },
     error : function(request, textStatus, errorThrown) {
         alert(request.responseJSON.message);
@@ -237,9 +212,12 @@ div.py-4.bg-light.mt-auto{
 
 
 function deleteSegment(){
-    var data = {
-        segmentUID: segmentUID
-    };
+    if(newSegment != null){
+        $(newSegment).parents("tr").remove();
+        newSegment = null;
+        return;
+    }
+
     $.ajax({
         url : '/api/v1/roulette/segment/'+segmentUID,
         type : 'DELETE',
@@ -265,13 +243,23 @@ function saveRoulette(){
     rouletteSettingObj.rouletteUID = rouletteUID;
     rouletteSettingObj.title = $("#title").val();
     rouletteSettingObj.maxCount = $("#maxCount").val();
-    $("#datatablesSimple .dataTable-input").each(function(i, v){
+    $("#datatablesSimple .dataTable-input.existing").each(function(i, v){
         let segmentObj = new Object();
         segmentObj.segmentUID = $(v).attr("name").replace("segment_", "");
         segmentObj.element = $(v).val();
         segmentArray.push(segmentObj);
     });
+
     rouletteSettingObj.rouletteSegmentList = segmentArray;
+
+    segmentArray = new Array();
+
+    $("#datatablesSimple .dataTable-input.new").each(function(i, v){
+        let segmentObj = new Object();
+        segmentObj.element = $(v).val();
+        segmentArray.push(segmentObj);
+    });
+    rouletteSettingObj.newRouletteSegmentList = segmentArray;
 
     $.ajax({
         url : '/api/v1/roulette',
@@ -281,11 +269,20 @@ function saveRoulette(){
         dataType : "json",
         success : function(roulette) {
             toastr.success("저장되었습니다.");
+            location.href = "/setting";
         },
         error : function(request, textStatus, errorThrown) {
             alert(request.responseJSON.message);
         }
     });
+}
+
+function createSegmentBtn(){
+    if($("#datatablesSimple").find("tr").length < Number($("#maxCount").val())){
+        $("#datatablesSimple > tbody").append($("#newSegmentTmpl").html());
+    } else {
+        alert("등록 아이템의 개수는 최대 아이템 개수보다 많아야 합니다.");
+    }
 }
 
 </script>
