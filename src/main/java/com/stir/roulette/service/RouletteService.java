@@ -56,10 +56,10 @@ public class RouletteService {
     }
 
 
-    public RouletteResponseDto getSpecificRoulette(String userIp, UUID rouletteUID) {
+    public RouletteResponseDto getSpecificRoulette(String userUUID, UUID rouletteUID) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
-        if(!roulette.getUser().getUserUUID().equals(userIp)){
+        if(!roulette.getUser().getUserUUID().equals(userUUID)){
             throw new RouletteException("올바른 접근이 아닙니다.");
         }
         return new RouletteResponseDto(roulette);

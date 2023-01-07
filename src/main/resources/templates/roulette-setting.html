@@ -270,7 +270,7 @@ function saveRoulette(){
         dataType : "json",
         success : function(roulette) {
             toastr.success("저장되었습니다.");
-            location.href = "/setting";
+            location.href = "/setting/" + rouletteUID;
         },
         error : function(request, textStatus, errorThrown) {
             alert(request.responseJSON.message);
