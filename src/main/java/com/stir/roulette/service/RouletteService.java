@@ -58,9 +58,9 @@ public class RouletteService {
 
     public RouletteResponseDto getSpecificRoulette(String userIp, UUID rouletteUID) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
         if(!roulette.getUser().getUserUUID().equals(userIp)){
-            throw new IllegalArgumentException("올바른 접근이 아닙니다.");
+            throw new RouletteException("올바른 접근이 아닙니다.");
         }
         return new RouletteResponseDto(roulette);
     }
@@ -73,13 +73,13 @@ public class RouletteService {
 
         // 현재 룰렛 조회
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
 
         if(roulette.getStatus() == RouletteStatus.FINISH) {
-            throw new IllegalArgumentException("이미 완료된 게임 입니다.");
+            throw new RouletteException("이미 완료된 게임 입니다.");
         }
         if(user != roulette.getUser()){
-            throw new IllegalArgumentException("해당 룰렛의 권한이 없습니다.");
+            throw new RouletteException("해당 룰렛의 권한이 없습니다.");
         }
 
         // 게임 시작 - 랜덤 prize 선정
@@ -133,13 +133,13 @@ public class RouletteService {
     public void saveRouletteSegment(String element, UUID rouletteUID) {
         // 현재 룰렛 조회
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
 
         if(roulette.getMaxCount() == roulette.getRouletteSegments().size()){
             throw new RouletteException("최대 아이템 개수는 " + roulette.getMaxCount() + "개 입니다.");
         }
         if(roulette.getStatus() == RouletteStatus.FINISH) {
-            throw new IllegalArgumentException("이미 완료된 게임 입니다.");
+            throw new RouletteException("이미 완료된 게임 입니다.");
         }
 
         // 세그먼트 생성
@@ -155,7 +155,7 @@ public class RouletteService {
     public RouletteResponseDto getSharedRoulette(UUID rouletteUID) {
         // 룰렛 조회
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
 
         return new RouletteResponseDto(roulette);
     }
@@ -163,17 +163,17 @@ public class RouletteService {
     @Transactional
     public void updateRoulette(RouletteSettingRequestDto rouletteRequestDto) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteRequestDto.getRouletteUID())
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
 
         int totalSegmentSize = roulette.getRouletteSegments().size() + rouletteRequestDto.getNewRouletteSegmentList().size();
         if(rouletteRequestDto.getMaxCount() < totalSegmentSize){
             throw new RouletteException("등록 아이템의 개수는 최대 아이템 개수보다 많아야 합니다.");
         }
         if(rouletteRequestDto.getMaxCount()>100){
-            throw new IllegalArgumentException("최대 아이템 개수는 100개 입니다.");
+            throw new RouletteException("최대 아이템 개수는 100개 입니다.");
         }
         if(roulette.getStatus()==RouletteStatus.FINISH){
-            throw new IllegalArgumentException("이미 종료된 게임입니다.");
+            throw new RouletteException("이미 종료된 게임입니다.");
         }
         roulette.setTitle(rouletteRequestDto.getTitle());
         roulette.setMaxCount(rouletteRequestDto.getMaxCount());
@@ -213,7 +213,7 @@ public class RouletteService {
 
         for (UUID aLong : hhh.keySet()) {
             RouletteSegment rouletteSegment = rouletteSegmentRepository.findBySegmentUID(aLong)
-                    .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                    .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
             rouletteSegment.setElement(hhh.get(aLong));
         }
 
@@ -237,14 +237,14 @@ public class RouletteService {
     @Transactional
     public void changeRouletteFavoriteStatus(UUID rouletteUID, String userUUID) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
 
         User user = userRepository.findByUserUUID(userUUID)
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
         if(roulette.getFavoriteStatus() == FavoriteStatus.UNFAVORED){
 
             if(user.getFavoriteCount() >= 5){
-                throw new IllegalArgumentException("즐겨찾기 개수는 최대 5개 입니다.");
+                throw new RouletteException("즐겨찾기 개수는 최대 5개 입니다.");
             }
             roulette.setFavoriteStatus(FavoriteStatus.FAVORED);
             user.setFavoriteCount(user.getFavoriteCount()+1);

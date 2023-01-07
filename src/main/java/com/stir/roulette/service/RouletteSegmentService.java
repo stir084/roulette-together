@@ -5,6 +5,7 @@ import com.stir.roulette.domain.Roulette;
 import com.stir.roulette.domain.RouletteSegment;
 import com.stir.roulette.domain.RouletteStatus;
 import com.stir.roulette.domain.User;
+import com.stir.roulette.exception.RouletteException;
 import com.stir.roulette.repository.RouletteRepository;
 import com.stir.roulette.repository.RouletteSegmentRepository;
 import com.stir.roulette.repository.UserRepository;
@@ -35,14 +36,14 @@ public class RouletteSegmentService {
     public void deleteSegment(UUID segmentUID) {
         //Roulette Status가 종료인경우 하면안됨.
         RouletteSegment rouletteSegment = rouletteSegmentRepository.findBySegmentUID(segmentUID)
-                .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
+                .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
 
         Roulette roulette = rouletteSegment.getRoulette();
         if(roulette.getStatus()==RouletteStatus.FINISH){
-            throw new IllegalArgumentException("이미 종료된 게임입니다.");
+            throw new RouletteException("이미 종료된 게임입니다.");
         }
         if(roulette.getRouletteSegments().size() <= 1){
-            throw new IllegalArgumentException("최소 1개의 아이템은 있어야 합니다.");
+            throw new RouletteException("최소 1개의 아이템은 있어야 합니다.");
         };
         //rouletteSegment.getRoulette().getRouletteSegments().remove(0); // 고아 객체 생성
         em.clear(); //Segement 리스트 1차 캐시 저장에 따른 delete 기능 동작 방해로 인해 1차 캐시 clear

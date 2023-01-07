@@ -29,7 +29,7 @@ public class ConfigBean {
             ip = "127.0.0.1";
         }
         if (ip == null){
-            throw new IllegalArgumentException("올바르지 않은 조회입니다.");
+            throw new RuntimeException("올바르지 않은 조회입니다.");
         }
         return ip;
     }
