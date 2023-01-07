@@ -156,7 +156,7 @@
                 rouletteUID = roulette.rouletteUID;
                 favoriteStatus = roulette.favoriteStatus;
 
-                $("#linkText").text($("#serverURI").val() + "/roulette/share/" + rouletteUID);
+                $("#linkText").text("http://www.roulettetogether.site" + "/roulette/share/" + rouletteUID);
                 let img = startImg;
                 // 룰렛 타이틀 설정
                 $("#title").text(roulette.title);
@@ -298,7 +298,7 @@
     }
 
     function openKakaoLink(){
-        $("#linkText").text($("#serverURI").val() + "/roulette/share/" + rouletteUID);
+        $("#linkText").text("http://www.roulettetogether.site" + "/roulette/share/" + rouletteUID);
         saveRouletteImg();
     }
     function saveRouletteImg(){
