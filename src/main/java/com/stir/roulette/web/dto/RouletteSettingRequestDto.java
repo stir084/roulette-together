@@ -15,14 +15,15 @@ public class RouletteSettingRequestDto {
     private String title;
     private UUID rouletteUID;
     private List<RouletteSegmentSettingRequestDto> rouletteSegmentList;
+    private List<RouletteSegmentSettingRequestDto> newRouletteSegmentList;
 
     private int maxCount;
 
-    public RouletteSettingRequestDto(Roulette entity) {
+    /*public RouletteSettingRequestDto(Roulette entity) { //필요 없을지도?
         this.title = entity.getTitle();
         this.rouletteUID = entity.getRouletteUID();
         this.rouletteSegmentList = entity.getRouletteSegments().stream()
                 .map(o -> new RouletteSegmentSettingRequestDto(o)).collect(Collectors.toList());
         this.maxCount = entity.getMaxCount();
-    }
+    }*/
 }

@@ -49,9 +49,10 @@ public class RouletteApiController {
         return rouletteService.startRoulette(rouletteUID, userUUID);
     }
 
-    @PutMapping("/api/v1/roulette")
+    @PutMapping("/api/v1/roulette") //멱등성 유지 안됨
     public UUID updateRoulette(@RequestBody RouletteSettingRequestDto rouletteRequestDto){
         rouletteService.updateRoulette(rouletteRequestDto);
+
         return rouletteRequestDto.getRouletteUID();
     }
 

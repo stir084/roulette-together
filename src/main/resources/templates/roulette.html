@@ -39,8 +39,7 @@
                                                 </div>
 
                                                 <div class="input-group" style="width:100%;">
-                                                    <input style="width: 150px; border-top-left-radius: 1.5rem; border-bottom-left-radius: 1.5rem;" type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요">
-                                                    <!--<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>-->
+                                                    <input maxlength="30" style="width: 150px; border-top-left-radius: 1.5rem; border-bottom-left-radius: 1.5rem;" type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요">
                                                     <button class="btn btn-secondary" onclick="saveSegment()">등록</button>
                                                 </div>
                                                 <style>
@@ -299,8 +298,7 @@
     }
 
     function openKakaoLink(){
-        console.log(rouletteUID)
-        $("#linkText").val($("#linkText").val() + rouletteUID);
+        $("#linkText").text($("#serverURI").val() + "/roulette/share/" + rouletteUID);
         saveRouletteImg();
     }
     function saveRouletteImg(){

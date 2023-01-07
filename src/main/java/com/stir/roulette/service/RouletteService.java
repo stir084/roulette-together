@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -163,11 +164,12 @@ public class RouletteService {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteRequestDto.getRouletteUID())
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
-        if(rouletteRequestDto.getMaxCount() < roulette.getRouletteSegments().size()){
-            throw new IllegalArgumentException("최대 아이템 개수가 너무 적습니다.");
+        int totalSegmentSize = roulette.getRouletteSegments().size() + rouletteRequestDto.getNewRouletteSegmentList().size();
+        if(rouletteRequestDto.getMaxCount() < totalSegmentSize){
+            throw new IllegalArgumentException("등록 아이템의 개수는 최대 아이템 개수보다 많아야 합니다.");
         }
         if(rouletteRequestDto.getMaxCount()>100){
-            throw new IllegalArgumentException("최대 아이템 개수는 30개 입니다.");
+            throw new IllegalArgumentException("최대 아이템 개수는 100개 입니다.");
         }
         if(roulette.getStatus()==RouletteStatus.FINISH){
             throw new IllegalArgumentException("이미 종료된 게임입니다.");
@@ -175,15 +177,19 @@ public class RouletteService {
         roulette.setTitle(rouletteRequestDto.getTitle());
         roulette.setMaxCount(rouletteRequestDto.getMaxCount());
 
-        /*List<RouletteSegmentSettingRequestDto> rouletteSegmentList = rouletteRequestDto.getRouletteSegmentList();
-        for (RouletteSegmentSettingRequestDto rouletteSegment : rouletteSegmentList) {
-            rouletteSegmentRepository.findByRouletteSegmentUID(rouletteSegment.getRouletteSegmentUID());
+        // new Roulette은 새로 저장
+        for(int i=0; i<rouletteRequestDto.getNewRouletteSegmentList().size(); i++) {
+            RouletteSegment rouletteSegment = new RouletteSegment();
+            rouletteSegment.addRoulette(roulette);
+            rouletteSegment.setCreateDate(LocalDateTime.now());
+            rouletteSegment.setElement(rouletteRequestDto.getNewRouletteSegmentList().get(i).getElement());
+            rouletteSegmentRepository.save(rouletteSegment);
+        }
 
 
-        }*/
-        //기존에 불러온 값이랑 가져온 값이랑 체크 / 조작된 값이 있는지 체크
 
 
+        //기존에 불러온 값이랑 가져온 값이랑 체크 / 조작된 값이 있는지 체크 / 정리해야함 필수
         // DB값 미리 넣기
         Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedRequestRoulette = new LinkedHashMap<>();
         List<RouletteSegment> rouletteSegmentList = roulette.getRouletteSegments(); // 지연로딩 List 하나라 1개만 가져옴 띠용 그럼 N+1인 언제 생기는거였지?
@@ -205,12 +211,9 @@ public class RouletteService {
         HashMap<UUID, String> hhh = SegmentUpdateChkVO.classify(rouletteRequestDto.getRouletteSegmentList(), classifiedRequestRoulette);
 
         for (UUID aLong : hhh.keySet()) {
-           /* RouletteSegment byId = rouletteSegmentRepository.findById(aLong)
-                    .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));;
-            byId.setElement(hhh.get(aLong));*/
-            RouletteSegment byId = rouletteSegmentRepository.findBySegmentUID(aLong)
+            RouletteSegment rouletteSegment = rouletteSegmentRepository.findBySegmentUID(aLong)
                     .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
-            byId.setElement(hhh.get(aLong));
+            rouletteSegment.setElement(hhh.get(aLong));
         }
 
     }
@@ -235,10 +238,8 @@ public class RouletteService {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
-
         User user = userRepository.findByUserUUID(userUUID)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
-        // roulette.get
         if(roulette.getFavoriteStatus() == FavoriteStatus.UNFAVORED){
 
             if(user.getFavoriteCount() >= 5){
@@ -284,27 +285,20 @@ public class RouletteService {
         public static HashMap<UUID, String> classify(List<RouletteSegmentSettingRequestDto> rouletteSegmentList
                 , Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedRequest){
             Map<SegmentUpdateChkVO, List<SegmentUpdateChkVO>> classifiedRequestRoulette = classifiedRequest;//new LinkedHashMap<>();
-
-
-            HashMap<UUID, String> test = new HashMap<>();
+            HashMap<UUID, String> classifiedSegmentMap = new HashMap<>();
 
             for(RouletteSegmentSettingRequestDto rouletteSegment : rouletteSegmentList){
                 SegmentUpdateChkVO dto = new SegmentUpdateChkVO(rouletteSegment);
                 List<SegmentUpdateChkVO> list = classifiedRequestRoulette.get(dto);
 
                 if(list == null){ // 비교 값이 없으면
-                    test.put(dto.getSegmentUID(), dto.getElement());
-               /* if(dto.getId()==null){ // 새로 추가된 Segment 용도
-                }*/
-
+                    classifiedSegmentMap.put(dto.getSegmentUID(), dto.getElement());
                     //classifiedPayment.put(dto, new ArrayList<>(Collections.singletonList(dto))); // 기존에 없으면 save하거나 throw
                 }
             }
-
-            // System.out.println("하하"+test);
             /*return classifiedPayment.entrySet().stream()
                     .map(Map.Entry::getValue);*/
-            return test;
+            return classifiedSegmentMap;
         }
     }
 
