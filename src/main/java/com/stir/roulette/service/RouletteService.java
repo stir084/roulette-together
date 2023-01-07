@@ -2,6 +2,7 @@ package com.stir.roulette.service;
 
 import com.stir.roulette.config.ConfigBean;
 import com.stir.roulette.domain.*;
+import com.stir.roulette.exception.RouletteException;
 import com.stir.roulette.repository.RouletteRepository;
 import com.stir.roulette.repository.RouletteSegmentRepository;
 import com.stir.roulette.repository.UserRepository;
@@ -135,7 +136,7 @@ public class RouletteService {
                 .orElseThrow(() -> new IllegalArgumentException("조회된 내역이 없습니다"));
 
         if(roulette.getMaxCount() == roulette.getRouletteSegments().size()){
-            throw new IllegalArgumentException("최대 아이템 개수는 " + roulette.getMaxCount() + "개 입니다.");
+            throw new RouletteException("최대 아이템 개수는 " + roulette.getMaxCount() + "개 입니다.");
         }
         if(roulette.getStatus() == RouletteStatus.FINISH) {
             throw new IllegalArgumentException("이미 완료된 게임 입니다.");
@@ -166,7 +167,7 @@ public class RouletteService {
 
         int totalSegmentSize = roulette.getRouletteSegments().size() + rouletteRequestDto.getNewRouletteSegmentList().size();
         if(rouletteRequestDto.getMaxCount() < totalSegmentSize){
-            throw new IllegalArgumentException("등록 아이템의 개수는 최대 아이템 개수보다 많아야 합니다.");
+            throw new RouletteException("등록 아이템의 개수는 최대 아이템 개수보다 많아야 합니다.");
         }
         if(rouletteRequestDto.getMaxCount()>100){
             throw new IllegalArgumentException("최대 아이템 개수는 100개 입니다.");
