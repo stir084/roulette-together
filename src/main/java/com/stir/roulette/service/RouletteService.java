@@ -179,16 +179,21 @@ public class RouletteService {
         roulette.setMaxCount(rouletteRequestDto.getMaxCount());
 
         // new Roulette은 새로 저장
-        for(int i=0; i<rouletteRequestDto.getNewRouletteSegmentList().size(); i++) {
-            RouletteSegment rouletteSegment = new RouletteSegment();
+        /*for(int i=0; i<rouletteRequestDto.getNewRouletteSegmentList().size(); i++) {
+            *//*RouletteSegment rouletteSegment = new RouletteSegment();
             rouletteSegment.addRoulette(roulette);
             rouletteSegment.setCreateDate(LocalDateTime.now());
-            rouletteSegment.setElement(rouletteRequestDto.getNewRouletteSegmentList().get(i).getElement());
+            rouletteSegment.setElement(rouletteRequestDto.getNewRouletteSegmentList().get(i).getElement());*//*
+
+            rouletteRequestDto.getNewRouletteSegmentList().get(i).toEntity().addRoulette(roulette);
+
+            //rouletteSegmentRepository.save(rouletteSegment);
+        } */
+        rouletteRequestDto.getNewRouletteSegmentList().stream().forEach(segmentDto -> {
+            RouletteSegment rouletteSegment = segmentDto.toEntity();
+            rouletteSegment.addRoulette(roulette);
             rouletteSegmentRepository.save(rouletteSegment);
-        }
-
-
-
+        });
 
         //기존에 불러온 값이랑 가져온 값이랑 체크 / 조작된 값이 있는지 체크 / 정리해야함 필수
         // DB값 미리 넣기

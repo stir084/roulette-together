@@ -1,8 +1,6 @@
 package com.stir.roulette.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -12,9 +10,12 @@ import java.util.UUID;
 
 import static javax.persistence.FetchType.LAZY;
 
+
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class RouletteSegment {
     @Id

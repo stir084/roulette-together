@@ -18,7 +18,7 @@
                             <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
                         </canvas>
                         <div>
-                            <h3 class="mt-4" id="result" style="font-weight: bold"></h3>
+                            <h3 id="result" style="font-weight: bold"></h3>
                         </div>
                         <div id="rouletteHistoryTable" style="margin-top: 20px;">
                             <div class="col-xl-12 col-md-12">
@@ -36,13 +36,7 @@
                                 </div>
                             </div>
                         </div>
-                            <!--<div id="item" class="input-group">
-                                <input type="text" id="rouletteItem" onkeyup="if(window.event.keyCode==13){saveSegment()}" class="form-control" placeholder="아이템을 입력하세요" style="width: 150px;">
-                                &lt;!&ndash;<button class="btn btn-primary" type="button" onclick="saveRouletteItem()">등록</button>&ndash;&gt;
-                                <button class="btn btn-primary" onclick="saveSegment()">등록</button>
-                            </div>-->
                     </td>
-
                 </tr>
             </table>
 
@@ -55,9 +49,6 @@
     Kakao.init('81b150637e9c592b9f563734c15df707');
 
     $(document).ready(function() {
-        /*if(window.mobileCheck()==false){
-            $("#sidebarToggle").hide();
-        }*/
         $("#sidebarToggle").hide();
         $("#layoutSidenav_nav").remove();
         $(".navbar-brand").css("padding-left", "1rem");
@@ -178,10 +169,5 @@
             serverCallbackArgs: '{"key":"value"}'
         })
     }
-
-
-
-
-
 </script>
 </html>
