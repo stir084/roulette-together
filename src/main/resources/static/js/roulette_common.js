@@ -7,11 +7,11 @@ let segmentArray; // 세그먼트 배열
 
 
 
+
 /**
  * 완료된 룰렛 각도 설정
  */
 function setRouletteAngle(roulette, rouletteSegment){
-
     $("#result").text("결과 : " + rouletteSegment[roulette.prize - 1].element);
 
     let angle = 360 / rouletteSegment.length;
@@ -194,6 +194,8 @@ function saveRouletteItem(){
 }*/
 function alertPrize(indicatedSegment)
 {
-    $("#result").text("결과 : "+indicatedSegment.text);
+    //$("#result").text("결과 : "+indicatedSegment.text);
+    $("#result").text("결과 : "+ prizeText);
+
     //alert("You have won " + indicatedSegment.text);
 }

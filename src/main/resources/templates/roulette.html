@@ -128,7 +128,7 @@
 
 
     let rouletteUID;
-
+    let prizeText;
     let getRouletteUIDParam = [[${rouletteUID}]];
     let favoriteStatus;
     // 이미지 파일이 로드되고 나서 룰렛 생성
@@ -254,6 +254,7 @@
                     $("#rouletteItem").attr("disabled", "disabled")
                     $("#spinIcon").addClass("fa-spin");
                     // $("#canvas").attr("onclick", "alert('이미 완료된 룰렛입니다.')");
+                    prizeText = roulette.rouletteSegment[roulette.prize-1].element
 
                     kakaoShareBtnTitle = "결과보러 가기";
                 },
