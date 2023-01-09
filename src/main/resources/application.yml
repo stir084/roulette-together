@@ -2,4 +2,4 @@ spring:
   profiles:
     active:
       - prod
-serverURI: http://116.37.136.233:8080
+serverURI: http://www.roulettetogether.site
