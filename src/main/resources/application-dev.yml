@@ -16,7 +16,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
-    open-in-view: true
+    open-in-view: false
     hibernate:
       ddl-auto: none #create update none
       naming:
