@@ -56,9 +56,13 @@ public class RouletteService {
     }
 
 
+
+    @Transactional
     public RouletteResponseDto getSpecificRoulette(String userUUID, UUID rouletteUID) {
         Roulette roulette = rouletteRepository.findByRouletteUID(rouletteUID)
                 .orElseThrow(() -> new RouletteException("조회된 내역이 없습니다"));
+        System.out.println(roulette);
+        System.out.println(roulette.getUser());
         if(!roulette.getUser().getUserUUID().equals(userUUID)){
             throw new RouletteException("올바른 접근이 아닙니다.");
         }
@@ -85,7 +89,7 @@ public class RouletteService {
         // 게임 시작 - 랜덤 prize 선정
         int prizeNum;
         int rouletteSegmentSize = roulette.getRouletteSegments().size();
-        prizeNum = (int) (Math.random() * (rouletteSegmentSize - 1)) + 1;
+        prizeNum = (int) (Math.random() * (rouletteSegmentSize)) + 1;
         roulette.setPrize(prizeNum);
         roulette.setStatus(RouletteStatus.FINISH);
 
