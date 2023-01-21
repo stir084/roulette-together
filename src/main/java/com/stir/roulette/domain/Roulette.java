@@ -70,14 +70,6 @@ public class Roulette {
         rouletteSegment.setRoulette(this);
     }
 
-
-    // 1쪽에 써주는 연관관계 메소드(updateGame같이 메소드가 하나 더 필요하다) //
-    /*public void addGameInfo(RouletteSegment rouletteSegment){
-        this.getRouletteSegments().add(rouletteSegment);
-        rouletteSegment.updateGame(this);
-    }*/
-
-
     public static Roulette createInitRoulette(String title, RouletteSegment... rouletteSegments){
         Roulette roulette = new Roulette();
 
