@@ -5,11 +5,9 @@ import com.stir.roulette.service.RouletteSegmentService;
 import com.stir.roulette.service.RouletteService;
 import com.stir.roulette.web.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -18,10 +16,9 @@ public class RouletteApiController {
 
     private final RouletteService rouletteService;
     private final RouletteSegmentService rouletteSegmentService;
-    private final ConfigBean configBean;
 
     @GetMapping("/api/v1/roulette/last")
-    public RouletteResponseDto getRoulette(@CookieValue String userUUID, HttpServletRequest request) {
+    public RouletteResponseDto getRoulette(@CookieValue String userUUID) {
         RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userUUID);
         return rouletteResponseDto; //responseEntity로 수정하기
     }
@@ -33,19 +30,19 @@ public class RouletteApiController {
     }
 
     @GetMapping("/api/v1/roulette/share/{rouletteUID}")
-    public RouletteResponseDto getSharedRoulette(@PathVariable UUID rouletteUID, HttpServletRequest request) {
+    public RouletteResponseDto getSharedRoulette(@PathVariable UUID rouletteUID) {
         RouletteResponseDto rouletteResponseDto = rouletteService.getSharedRoulette(rouletteUID);
         return rouletteResponseDto;
     }
 
     @DeleteMapping("/api/v1/roulette/segment/{segmentUID}")
-    public UUID deleteSegment(@PathVariable UUID segmentUID, HttpServletRequest request) {
+    public UUID deleteSegment(@PathVariable UUID segmentUID) {
         rouletteSegmentService.deleteSegment(segmentUID);
         return segmentUID;
     }
 
     @PostMapping("/api/v1/roulette")
-    public RouletteResponseDto startRoulette(@CookieValue String userUUID, @RequestParam UUID rouletteUID, HttpServletRequest request){
+    public RouletteResponseDto startRoulette(@CookieValue String userUUID, @RequestParam UUID rouletteUID){
         return rouletteService.startRoulette(rouletteUID, userUUID);
     }
 
@@ -57,7 +54,7 @@ public class RouletteApiController {
     }
 
     @PostMapping("/api/v1/roulette/new")
-    public RouletteResponseDto createNewRoulette(@CookieValue String userUUID, Model model, HttpServletRequest request){
+    public RouletteResponseDto createNewRoulette(@CookieValue String userUUID){
         return rouletteService.createNewRoulette(userUUID);
     }
 
@@ -67,8 +64,7 @@ public class RouletteApiController {
         return rouletteUID;
     }
     @PutMapping("/api/v1/roulette/favorite")
-    public UUID changeRouletteFavoriteStatus(@CookieValue String userUUID, @RequestParam("rouletteUID") UUID rouletteUID, HttpServletRequest request){
-        //String userIp = configBean.getUserIp(request);
+    public UUID changeRouletteFavoriteStatus(@CookieValue String userUUID, @RequestParam("rouletteUID") UUID rouletteUID){
         rouletteService.changeRouletteFavoriteStatus(rouletteUID, userUUID);
         return rouletteUID;
     }
