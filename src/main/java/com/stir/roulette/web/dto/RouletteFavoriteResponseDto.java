@@ -35,7 +35,6 @@ public class RouletteFavoriteResponseDto {
         }else{
             this.prizeName = "";
         }
-        //
         this.createDate = entity.getCreateDate().format(DateTimeFormatter.ofPattern("yy.MM.dd HH:mm"));
     }
 }

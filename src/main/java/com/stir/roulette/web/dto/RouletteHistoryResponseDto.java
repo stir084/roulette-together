@@ -20,6 +20,5 @@ public class RouletteHistoryResponseDto {
         this.rouletteUID = entity.getRouletteUID();
         this.createDate = entity.getCreateDate().format(DateTimeFormatter.ofPattern("yy.MM.dd HH:mm"));
         this.prize = entity.getRouletteSegments().get(entity.getPrize()-1).getElement();
-
     }
 }
