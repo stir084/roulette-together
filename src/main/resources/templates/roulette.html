@@ -6,7 +6,7 @@
 
     <div th:replace="~{layout/navbar}"></div>
 
-    <div id="layoutSidenav_content" style="min-height: unset; /*top: 36px*/">
+    <div id="layoutSidenav_content" style="min-height: unset;">
         <div align="center">
             <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
@@ -28,11 +28,7 @@
                                                     <a class="btn btn-secondary" onclick="saveFavorite()"><i id="favoriteIcon" class="fa-solid fa-star"></i></a>
 
                                                     <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-solid fa-share"></i> 공유</a>
-                                                    <!--<a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-chart-pie fa-spin"></i> 새 게임</a>-->
                                                     <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                    <!--<svg id="spinIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-browser-chrome" viewBox="0 0 16 18">
-                                                        <path fill-rule="evenodd" d="M16 8a8.001 8.001 0 0 1-7.022 7.94l1.902-7.098a2.995 2.995 0 0 0 .05-1.492A2.977 2.977 0 0 0 10.237 6h5.511A8 8 0 0 1 16 8ZM0 8a8 8 0 0 0 7.927 8l1.426-5.321a2.978 2.978 0 0 1-.723.255 2.979 2.979 0 0 1-1.743-.147 2.986 2.986 0 0 1-1.043-.7L.633 4.876A7.975 7.975 0 0 0 0 8Zm5.004-.167L1.108 3.936A8.003 8.003 0 0 1 15.418 5H8.066a2.979 2.979 0 0 0-1.252.243 2.987 2.987 0 0 0-1.81 2.59ZM8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-                                                    </svg> 새 게임</a>-->
                                                         <svg id="spinIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="svg-inline--fa bi bi-browser-chrome" viewBox="0 0 16 16">
                                                             <path fill-rule="evenodd" d="M16 8a8.001 8.001 0 0 1-7.022 7.94l1.902-7.098a2.995 2.995 0 0 0 .05-1.492A2.977 2.977 0 0 0 10.237 6h5.511A8 8 0 0 1 16 8ZM0 8a8 8 0 0 0 7.927 8l1.426-5.321a2.978 2.978 0 0 1-.723.255 2.979 2.979 0 0 1-1.743-.147 2.986 2.986 0 0 1-1.043-.7L.633 4.876A7.975 7.975 0 0 0 0 8Zm5.004-.167L1.108 3.936A8.003 8.003 0 0 1 15.418 5H8.066a2.979 2.979 0 0 0-1.252.243 2.987 2.987 0 0 0-1.81 2.59ZM8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"></path>
                                                         </svg> 새 게임</a>
@@ -107,7 +103,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
-                    <!--    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
                         <button id="newRouletteBtn" type="button" class="btn btn-primary" onclick="newRoulette()">예</button>
                     </div>
                 </div>
