@@ -56,16 +56,6 @@ function setRoulette(img, textFontSize) {
         'textFillStyle' : "white",
         'lineWidth': 3,
         'segments': segmentArray,     // Define segments including colour and text.
-        /*[
-            {'fillStyle': '#007BFF', 'text': 'Prize 2'},
-            {'fillStyle': '#DC3545', 'text': 'Prize 2'},
-            {'fillStyle': '#28A745', 'text': 'Prize 3'},
-            {'fillStyle': '#FFC107', 'text': 'Prize 4'},
-            {'fillStyle': '#007BFF', 'text': 'Prize 5'},
-            {'fillStyle': '#DC3545', 'text': 'Prize 6'},
-            {'fillStyle': '#28A745', 'text': 'Prize 7'},
-            {'fillStyle': '#FFC107', 'text': 'Prize 8'}
-        ],*/
         'animation':           // Specify the animation to use.
             {
                 'type': 'spinToStop',
