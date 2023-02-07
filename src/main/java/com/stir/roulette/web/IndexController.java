@@ -23,7 +23,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,8 +78,6 @@ public class IndexController {
 
     @GetMapping("/favorite")
     public String favorite(@CookieValue String userUUID, ModelMap model, HttpServletRequest request) {
-        //String userIp = configBean.getUserIp(request);
-        //RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
         List<RouletteFavoriteResponseDto> rouletteResponseDtoList = rouletteService.getRouletteFavorite(userUUID);
         if(rouletteResponseDtoList.size() == 0){
             model.addAttribute("isEmpty", "true");
@@ -89,36 +86,7 @@ public class IndexController {
         return "roulette-favorite";
     }
 
-    /*@GetMapping("/setting-ajax")
-    public String searchMembers(Model model, HttpServletRequest request) {
-        String userIp = configBean.getUserIp(request);
-        //RouletteResponseDto rouletteResponseDto = rouletteService.findLastGame(userIp);
-        //List<Member> findMembers = memberUseCase.findAll();
-        model.addAttribute("roulette", rouletteService.findLastGame(userIp));
 
-        return "/roulette-setting :: #commentTable";
-    }
-*/
-
-   /* @PostMapping("/roulette/segment")
-    public String createNewSegment(@Valid RouletteForm form, BindingResult result) {
-
-        if (result.hasErrors()) {
-            return "roulette";
-            //같은 링크 같은 페이지로 쏴줘야함.. 제약 조건 1 - 매핑 메소드가 같은 성질(member/new)일 때 가능 가능
-            //심지어 같은 Object(Roulette)도 담아야함.. 2 - 페이지에 있는 input 데이터가 Form 객체 모두 담겨져 넘어와야 제대로 된 리턴 가능
-        }
-
-        *//*Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
-
-        Member member = new Member();
-        member.setName(form.getName());
-        member.setAddress(address);
-
-        memberService.join(member);*//*
-        return "redirect:/roulette";
-    }
-*/
     @GetMapping("/FncUserData")
     public String FncUserData(ModelMap model, @RequestParam(value="key") String key) {
         return "roulette";
@@ -128,19 +96,14 @@ public class IndexController {
     @PostMapping("/saveRouletteImg")
     public String saveRouletteImg(String strImg, String gameCode) throws Throwable{
         String uploadpath="uploadImage" + File.separator;
-        //String folder=request.getServletContext().getRealPath("/") +uploadpath;
         String folder = File.separator + uploadpath;
-                //"C:\\" + uploadpath;
         String fullpath="";
         String[] strParts=strImg.split(",");
         String rstStrImg=strParts[1];  //,로 구분하여 뒷 부분 이미지 데이터를 임시저장
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_hhmmss");
-        // String filenm=sdf.format(new Date()).toString()+"_testimg2.png";
         String filenm = gameCode + ".png";
         BufferedImage image=null;
         byte[] byteImg;
-        //BASE64Decoder decoder = new BASE64Decoder();
-       // Base64.Encoder decoder = Base64.getDecoder();
 
         byteImg = Base64.getDecoder().decode(rstStrImg);//decoder.decode(rstStrImg);  //base64 디코더를 이용하여 byte 코드로 변환
         ByteArrayInputStream bis= new ByteArrayInputStream(byteImg);
