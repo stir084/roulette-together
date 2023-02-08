@@ -31,8 +31,6 @@ import java.util.UUID;
 @Slf4j
 public class IndexController {
 
-
-    private final UserService userService;
     private final ConfigBean configBean;
     private final RouletteService rouletteService;
 
